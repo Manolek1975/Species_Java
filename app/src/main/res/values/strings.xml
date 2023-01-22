@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Species</string>
+    <string name="start_button">Nuevo</string>
+    <string name="play_button">Jugar</string>
+    <string name="TODO">TODO</string>
+    <string name="string_todo" />
+    <string name="sector_i">SECTOR CENTAURI</string>
+</resources>

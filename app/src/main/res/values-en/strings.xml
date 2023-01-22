@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Species</string>
+    <string name="start_button">Start</string>
+    <string name="play_button">Play</string>
+    <string name="TODO">TODO</string>
+    <string name="string_todo" />
+    <string name="sector_i">SECTOR I</string>
+</resources>

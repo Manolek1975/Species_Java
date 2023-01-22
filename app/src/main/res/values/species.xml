@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="name_species">
+        <item>Chamariles</item>
+        <item>Galecis</item>
+        <item>Humanos</item>
+        <item>Karbaris</item>
+        <item>Mecas</item>
+        <item>Sílfides</item>
+        <item>Volerias</item>
+        <item>Wurfanos</item>
+    </string-array>
+
+    <string-array name="image_species">
+        <item>icon_chamaril</item>
+        <item>icon_galeci</item>
+        <item>icon_human</item>
+        <item>icon_karbari</item>
+        <item>icon_mecha</item>
+        <item>icon_silfide</item>
+        <item>icon_voleria</item>
+        <item>icon_wurfano</item>
+    </string-array>
+
+    <string-array name="star_species">
+        <item>0</item>
+        <item>0</item>
+        <item>1</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>19</item>
+        <item>0</item>
+    </string-array>
+
+</resources>

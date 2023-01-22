@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string-array name="name_stars">
+        <item>Alpha Centauri</item>
+        <item>Barnard</item>
+        <item>Luhman</item>
+        <item>Wise</item>
+        <item>Wolf</item>
+
+        <item>Lalande</item>
+        <item>Sirio</item>
+        <item>Luyten</item>
+        <item>Ross 128</item>
+        <item>Ross 154</item>
+
+        <item>Ross 248</item>
+        <item>Eridani</item>
+        <item>Lacaille</item>
+        <item>Aquari</item>
+        <item>Procyon</item>
+
+        <item>Cygni</item>
+        <item>Struve</item>
+        <item>Groombridge</item>
+        <item>Indi</item>
+        <item>Cancri</item>
+    </string-array>
+
+    <string-array name="image_stars">
+        <item>star2</item>
+        <item>star3</item>
+        <item>star4</item>
+        <item>star9</item>
+        <item>star6</item>
+        <item>star6</item>
+        <item>star7</item>
+        <item>star4</item>
+        <item>star6</item>
+        <item>star6</item>
+        <item>star6</item>
+        <item>star2</item>
+        <item>star12</item>
+        <item>star8</item>
+        <item>star5</item>
+        <item>star10</item>
+        <item>star5</item>
+        <item tools:ignore="Typos">star11</item>
+        <item tools:ignore="Typos">star1</item>
+        <item>star6</item>
+    </string-array>
+
+    <string-array name="coords_stars">
+        <item>420,1962</item>
+        <item>707,1833</item>
+        <item>965,1699</item>
+        <item>1107,1886</item>
+        <item>1004,2097</item>
+
+        <item>1084,1531</item>
+        <item>1266,1107</item>
+        <item>732,1130</item>
+        <item>550,742</item>
+        <item>441,582</item>
+
+        <item>719,895</item>
+        <item>449,1284</item>
+        <item>1067,673</item>
+        <item>1330,1739</item>
+        <item>964,1346</item>
+
+        <item>1583,1086</item>
+        <item>1443,850</item>
+        <item>894,345</item>
+        <item>367,363</item>
+        <item>1407,524</item>
+    </string-array>
+</resources>
