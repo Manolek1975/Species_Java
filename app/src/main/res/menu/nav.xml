@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".StarsActivity">
+
+    <item android:id="@+id/menu_stars"
+        android:title="@string/menu_stars" />
+
+    <item android:id="@+id/menu_planets"
+        android:title="@string/menu_planets" />
+
+    <item android:id="@+id/menu_ships"
+        android:title="@string/menu_ships" />
+
+    <item android:id="@+id/menu_science"
+        android:title="@string/menu_science" />
+
+    <item android:id="@+id/menu_diplomacy"
+        android:title="@string/menu_diplomacy" />
+
+<!--    <item android:id="@+id/menu_skill"
+        android:title="@string/menu_skill" />-->
+
+    <item android:id="@+id/menu_exit"
+        android:title="@string/menu_exit" />
+
+    <item
+        android:id="@+id/icon_menu_stars"
+        android:title="@string/menu_stars"
+        app:showAsAction="always"
+        android:icon="@drawable/icon_estrella"
+        tools:ignore="AlwaysShowAction" />
+
+    <item
+        android:id="@+id/icon_menu_planets"
+        android:title="@string/menu_planets"
+        app:showAsAction="always"
+        android:icon="@drawable/icon_planet" />
+
+    <item
+        android:id="@+id/icon_menu_ships"
+        android:title="@string/menu_ships"
+        app:showAsAction="always"
+        android:icon="@drawable/icon_nave" />
+
+    <item
+        android:id="@+id/icon_menu_science"
+        android:title="@string/menu_science"
+        app:showAsAction="always"
+        android:icon="@drawable/icon_ciencia" />
+
+    <item
+        android:id="@+id/icon_menu_diplomacy"
+        android:title="@string/menu_diplomacy"
+        app:showAsAction="always"
+        android:icon="@drawable/icon_diplo" />
+
+<!--    <item
+        android:id="@+id/icon_menu_skill"
+        android:title="@string/menu_skill"
+        app:showAsAction="always"
+        android:icon="@drawable/icon_rayo" />-->
+
+</menu>

@@ -37,6 +37,7 @@ public class Stars {
     public List<Stars> getStars (Context context) {
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
+        //Cursor c = db.rawQuery("SELECT * FROM stars WHERE explore=true", null);
         Cursor c = db.rawQuery("SELECT * FROM stars", null);
         List<Stars> starList = new ArrayList<>();
         while (c.moveToNext()) {
@@ -60,7 +61,12 @@ public class Stars {
     }
 
     public Stars getMainStar(Context context) {
-        return new Stars();
+        Stars star = new Stars();
+        return star;
+    }
+
+    public void setMainStar(Context context) {
+
     }
 
     public String getImage() {

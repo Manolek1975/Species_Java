@@ -5,5 +5,15 @@
     <string name="play_button">Play</string>
     <string name="TODO">TODO</string>
     <string name="string_todo" />
-    <string name="sector_i">SECTOR I</string>
+
+    <string name="sector_centauri">SECTOR CENTAURI</string>
+
+    <!-- MENU -->
+    <string name="menu_stars">Stars</string>
+    <string name="menu_ships">Ships</string>
+    <string name="menu_planets">Planets</string>
+    <string name="menu_science">Sciencie</string>
+    <string name="menu_diplomacy">Diplomacy</string>
+    <string name="menu_skill">Skill</string>
+    <string name="menu_exit">EXIT</string>
 </resources>

@@ -51,28 +51,28 @@
     </string-array>
 
     <string-array name="coords_stars">
-        <item>420,1962</item>
-        <item>707,1833</item>
-        <item>965,1699</item>
-        <item>1107,1886</item>
-        <item>1004,2097</item>
+        <item>150,1770</item>
+        <item>307,1633</item>
+        <item>665,1499</item>
+        <item>607,1686</item>
+        <item>504,1597</item>
 
-        <item>1084,1531</item>
-        <item>1266,1107</item>
-        <item>732,1130</item>
-        <item>550,742</item>
-        <item>441,582</item>
+        <item>484,1331</item>
+        <item>566,907</item>
+        <item>432,1130</item>
+        <item>150,542</item>
+        <item>141,382</item>
 
-        <item>719,895</item>
-        <item>449,1284</item>
-        <item>1067,673</item>
-        <item>1330,1739</item>
-        <item>964,1346</item>
+        <item>219,695</item>
+        <item>249,1284</item>
+        <item>767,673</item>
+        <item>830,1739</item>
+        <item>864,1346</item>
 
-        <item>1583,1086</item>
-        <item>1443,850</item>
-        <item>894,345</item>
-        <item>367,363</item>
-        <item>1407,524</item>
+        <item>783,1086</item>
+        <item>343,850</item>
+        <item>794,245</item>
+        <item>167,163</item>
+        <item>607,524</item>
     </string-array>
 </resources>

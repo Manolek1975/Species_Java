@@ -4,5 +4,17 @@
     <string name="play_button">Jugar</string>
     <string name="TODO">TODO</string>
     <string name="string_todo" />
-    <string name="sector_i">SECTOR CENTAURI</string>
+
+    <string name="sector_centauri">SECTOR CENTAURI</string>
+
+    <!-- MENU -->
+    <string name="menu_stars">Estrellas</string>
+    <string name="menu_ships">Naves</string>
+    <string name="menu_planets">Planetas</string>
+    <string name="menu_science">Ciencia</string>
+    <string name="menu_diplomacy">Diplomacia</string>
+    <string name="menu_skill">Habilidad</string>
+    <string name="menu_exit">SALIR</string>
+
+
 </resources>

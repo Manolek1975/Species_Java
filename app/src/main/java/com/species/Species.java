@@ -3,12 +3,14 @@ package com.species;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Species implements ISpecies, Serializable {
 
@@ -28,7 +30,6 @@ public class Species implements ISpecies, Serializable {
         this.skill = skill;
         this.type = type;
     }
-
 
     @Override
     public List<Species> getSpecies(Context context) {
@@ -59,6 +60,14 @@ public class Species implements ISpecies, Serializable {
         ContentValues newVal = new ContentValues();
         newVal.put("type", 1);
         db.update("species", newVal, "id=?", new String[] { String.valueOf(id) });
+
+        // Asigna un estrella aleatoria a la especie
+        Random rand = new Random();
+        ContentValues values = new ContentValues();
+        int count = (int) DatabaseUtils.queryNumEntries(db, "species");
+        int starId = rand.nextInt(count) + 1;
+        values.put(DBStars.COLUMN_EXPLORE, true);
+        db.update("stars", values,"id=" + starId, null);
         db.close();
     }
 

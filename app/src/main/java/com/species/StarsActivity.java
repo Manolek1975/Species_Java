@@ -1,5 +1,6 @@
 package com.species;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -8,16 +9,25 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.PointF;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import java.io.Serializable;
 import java.util.List;
@@ -40,48 +50,98 @@ public class StarsActivity extends AppCompatActivity implements Serializable {
         stars = stars.getMainStar(this);
         Log.i("specie", species.getName()+" - "+stars.getName());
         drawSector();
+
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        int x = (int)event.getRawX();
+        int y = (int)event.getRawY();
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                Log.i("XY","X:" + x + " | Y:" + y);
+        }
+        return false;
     }
 
     private void drawSector() {
-        ImageView img = findViewById(R.id.fondoView);
-        Bitmap fondo = BitmapFactory.decodeResource(getResources(), R.drawable.fondo2);
-        Bitmap resultingBitmap = Bitmap.createBitmap(fondo.getWidth(), fondo.getHeight(), fondo.getConfig());
-        Canvas canvas = new Canvas(resultingBitmap);
-        canvas.drawBitmap(fondo, new Matrix(), null);
+        ImageView image = findViewById(R.id.fondoView);
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay()
+                .getMetrics(metrics);
+        int width = metrics.widthPixels;
+        int height = metrics.heightPixels;
+
+        // Crear fondo con medidas
+        Bitmap fondo = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Bitmap bitmap = Bitmap.createBitmap(fondo.getWidth(), fondo.getHeight(), fondo.getConfig());
+        Canvas canvas = new Canvas(bitmap);
+        int resImageFondo = this.getResources().getIdentifier("fondo2", "drawable", this.getPackageName());
+        Bitmap planetCenter = BitmapFactory.decodeResource(getResources(), resImageFondo);
+        canvas.drawBitmap(planetCenter, new Matrix(), null);
+        image.setImageBitmap(bitmap);
+
+        Log.i("RES", "X: " + width + ", Y: " + height);
+        Log.i("FONDO", "X: " + fondo.getWidth() + ", Y: " + fondo.getHeight());
 
         List<Stars> starList = stars.getStars(this);
-        drawJumps(canvas, starList);
-        for(Stars val : starList){
+        //drawJumps(canvas, starList);
+        for(Stars star : starList){
             Paint paint = new Paint();
             paint.setColor(Color.WHITE);
             paint.setTextSize(48);
-            int resImage = this.getResources().getIdentifier(val.getImage(), "drawable", this.getPackageName());
+            int resImage = this.getResources().getIdentifier(star.getImage(), "drawable", this.getPackageName());
             Bitmap drawPlanet = BitmapFactory.decodeResource(getResources(), resImage);
-            Bitmap resizePlanet = Bitmap.createScaledBitmap(drawPlanet, 100 , 100, true);
-            canvas.drawBitmap(resizePlanet,
-                    (val.getX()),
-                    (val.getY()), new Paint());
+            Bitmap resizeStar = Bitmap.createScaledBitmap(drawPlanet, 100 , 100, true);
+            canvas.drawBitmap(resizeStar, (star.getX()), (star.getY()), new Paint());
+            canvas.drawText(star.getName(), star.getX() - star.getName().length(), star.getY() - 10, paint);
 
-            canvas.drawText(val.getName(), val.getX() - val.getName().length(), val.getY() - 10, paint);
 
             //Log.i("stars", val.getName() + ": " + val.getX() + "," + val.getY());
         }
         // Asociar el BitMap con el ImageView
-        img.setImageBitmap(resultingBitmap);
+        image.setImageBitmap(bitmap);
+
+
 
     }
+
+/*    private void drawStar(Bitmap fondo, Bitmap bitmap, Canvas canvas, int size) {
+        String imagePlanet = getImagePlanet(planet.getType());
+        int resImage = this.getResources().getIdentifier(imagePlanet, "drawable", this.getPackageName());
+        Bitmap planetCenter = BitmapFactory.decodeResource(getResources(), resImage);
+        Bitmap resizePlanet = Bitmap.createScaledBitmap(planetCenter, size*230, size*230, true);
+        // Draw Planet
+        canvas.drawBitmap(fondo, new Matrix(), null);
+        canvas.drawBitmap(resizePlanet,
+                (fondo.getWidth() - resizePlanet.getWidth()) >> 1,
+                (fondo.getHeight() - resizePlanet.getHeight()) >> 1, new Paint());
+        img.setImageBitmap(bitmap);
+
+    }*/
 
     private void drawJumps(Canvas canvas, List<Stars> starList){
         Paint line = new Paint();
         line.setColor(Color.CYAN);
         line.setStrokeWidth(5);
-        int x1 = starList.get(0).getX() + 50;
-        int y1 = starList.get(0).getY() + 50;
-        int x2 = starList.get(1).getX() + 50;
-        int y2 = starList.get(1).getY() + 50;
+        int x1 = starList.get(0).getX() + 75;
+        int y1 = starList.get(0).getY() + 75;
+        int x2 = starList.get(1).getX() + 75;
+        int y2 = starList.get(1).getY() + 75;
         canvas.drawLine(x1, y1, x2, y2, line);
-
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.nav, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+/*    public boolean onOptionsItemSelected(MenuItem option){
+        TopMenu menu = new TopMenu(StarsActivity.this, option);
+        menu.onOptionsItemSelected(option);
+        return false;
+    }*/
 
     private void hideView() {
         View decorView = getWindow().getDecorView();
@@ -90,7 +150,6 @@ public class StarsActivity extends AppCompatActivity implements Serializable {
                         | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION );
     }
 }
