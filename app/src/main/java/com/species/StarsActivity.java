@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.Range;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -59,16 +60,30 @@ public class StarsActivity extends AppCompatActivity implements Serializable {
         int y = (int)event.getRawY();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                Log.i("XY","X:" + x + " | Y:" + y);
+                Stars star = new Stars();
+                List<Stars> starList = star.getStars(this);
+                for(Stars val : starList) {
+                    Range<Integer> rangoX = Range.create(x, x+50);
+                    Range<Integer> rangoY = Range.create(y, y+50);
+                    if (rangoX.contains(val.getX()+80) && rangoY.contains(val.getY()+250)) {
+                        Log.i("StarName", val.getName());
+                        Log.i("Rango", rangoX + "," + rangoY);
+                        Log.i("starCOORD", "X:" + val.getX() + " | Y:" + val.getY());
+                    }
+
+                }
+
+                Log.i("XY", "X:" + x + " | Y:" + y);
+
         }
         return false;
     }
 
     private void drawSector() {
         ImageView image = findViewById(R.id.fondoView);
+        // Calcular medidas del smartphone
         DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay()
-                .getMetrics(metrics);
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int width = metrics.widthPixels;
         int height = metrics.heightPixels;
 
@@ -77,48 +92,27 @@ public class StarsActivity extends AppCompatActivity implements Serializable {
         Bitmap bitmap = Bitmap.createBitmap(fondo.getWidth(), fondo.getHeight(), fondo.getConfig());
         Canvas canvas = new Canvas(bitmap);
         int resImageFondo = this.getResources().getIdentifier("fondo2", "drawable", this.getPackageName());
-        Bitmap planetCenter = BitmapFactory.decodeResource(getResources(), resImageFondo);
-        canvas.drawBitmap(planetCenter, new Matrix(), null);
+        Bitmap fondoView = BitmapFactory.decodeResource(getResources(), resImageFondo);
+        canvas.drawBitmap(fondoView, new Matrix(), null);
         image.setImageBitmap(bitmap);
-
-        Log.i("RES", "X: " + width + ", Y: " + height);
-        Log.i("FONDO", "X: " + fondo.getWidth() + ", Y: " + fondo.getHeight());
 
         List<Stars> starList = stars.getStars(this);
         //drawJumps(canvas, starList);
         for(Stars star : starList){
             Paint paint = new Paint();
             paint.setColor(Color.WHITE);
-            paint.setTextSize(48);
+            paint.setTextSize(24);
             int resImage = this.getResources().getIdentifier(star.getImage(), "drawable", this.getPackageName());
             Bitmap drawPlanet = BitmapFactory.decodeResource(getResources(), resImage);
             Bitmap resizeStar = Bitmap.createScaledBitmap(drawPlanet, 100 , 100, true);
             canvas.drawBitmap(resizeStar, (star.getX()), (star.getY()), new Paint());
-            canvas.drawText(star.getName(), star.getX() - star.getName().length(), star.getY() - 10, paint);
-
+            canvas.drawText(star.getName(), star.getX() - star.getName().length(), star.getY(), paint);
 
             //Log.i("stars", val.getName() + ": " + val.getX() + "," + val.getY());
         }
         // Asociar el BitMap con el ImageView
         image.setImageBitmap(bitmap);
-
-
-
     }
-
-/*    private void drawStar(Bitmap fondo, Bitmap bitmap, Canvas canvas, int size) {
-        String imagePlanet = getImagePlanet(planet.getType());
-        int resImage = this.getResources().getIdentifier(imagePlanet, "drawable", this.getPackageName());
-        Bitmap planetCenter = BitmapFactory.decodeResource(getResources(), resImage);
-        Bitmap resizePlanet = Bitmap.createScaledBitmap(planetCenter, size*230, size*230, true);
-        // Draw Planet
-        canvas.drawBitmap(fondo, new Matrix(), null);
-        canvas.drawBitmap(resizePlanet,
-                (fondo.getWidth() - resizePlanet.getWidth()) >> 1,
-                (fondo.getHeight() - resizePlanet.getHeight()) >> 1, new Paint());
-        img.setImageBitmap(bitmap);
-
-    }*/
 
     private void drawJumps(Canvas canvas, List<Stars> starList){
         Paint line = new Paint();
@@ -137,11 +131,11 @@ public class StarsActivity extends AppCompatActivity implements Serializable {
         return super.onCreateOptionsMenu(menu);
     }
 
-/*    public boolean onOptionsItemSelected(MenuItem option){
-        TopMenu menu = new TopMenu(StarsActivity.this, option);
+    public boolean onOptionsItemSelected(MenuItem option){
+        TopMenu menu = new TopMenu(this);
         menu.onOptionsItemSelected(option);
         return false;
-    }*/
+    }
 
     private void hideView() {
         View decorView = getWindow().getDecorView();

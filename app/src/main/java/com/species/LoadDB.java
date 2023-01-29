@@ -4,11 +4,15 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.DisplayMetrics;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.Serializable;
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class LoadDB extends AppCompatActivity implements Serializable {
@@ -29,7 +33,7 @@ public class LoadDB extends AppCompatActivity implements Serializable {
 
     protected void insertDB() {
         insertSpecies();
-        insertStars();
+        //insertStars();
     }
 
     public void insertSpecies() {
@@ -55,18 +59,24 @@ public class LoadDB extends AppCompatActivity implements Serializable {
         db.close();
     }
 
-    private void insertStars() {
+    public void insertStars(int w, int h) {
         Resources res = context.getResources();
         String[] name = res.getStringArray(R.array.name_stars);
         String[] image = res.getStringArray(R.array.image_stars);
-        String[] coords = res.getStringArray(R.array.coords_stars);
+        //String[] coords = res.getStringArray(R.array.coords_stars);
 
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
         for (int i = 0; i < name.length; i++) {
             Random rand = new Random();
-            String[] split = coords[i].split(",");
+            int xC = rand.nextInt(w-200) + 50;
+            int yC = rand.nextInt(h-300) + 50;
+            List<String> coords = new ArrayList();
+            for(int j = 0; j < 20; j++)
+                coords.add(xC + "," + yC);
+
+            String[] split = coords.get(i).split(",");
             Integer x = Integer.parseInt(split[0]);
             Integer y = Integer.parseInt(split[1]);
             // Rellena la tabla Stars
@@ -81,6 +91,8 @@ public class LoadDB extends AppCompatActivity implements Serializable {
             values.put(DBStars.COLUMN_EXPLORE, 0);
             // Inserta una nueva fila con values
             db.insert(DBStars.TABLE_NAME, null, values);
+
+            //Log.i("COORDS", i + ":" + x + "," + y);
         }
         db.close();
     }

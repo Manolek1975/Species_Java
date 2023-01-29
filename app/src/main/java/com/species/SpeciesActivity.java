@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -58,6 +59,13 @@ public class SpeciesActivity extends AppCompatActivity {
                 .setMessage("Los humanos son una raza muy prolífica, investigadores incansables, no se arredran" +
                         " ante las dificultades, su capacidad les otorga un gran crecimiento y ventajas en la investigación")
                 .setPositiveButton("ACEPTAR", (dialogInterface, i) -> {
+                            DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay()
+                .getMetrics(metrics);
+        int width = metrics.widthPixels;
+        int height = metrics.heightPixels;
+                    LoadDB db = new LoadDB(this);
+                    db.insertStars(width, height);
                     val.setMainSpecie(SpeciesActivity.this, val.getId());
                     Intent intent = new Intent(SpeciesActivity.this, StarsActivity.class);
                     startActivity(intent);

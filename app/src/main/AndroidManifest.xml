@@ -22,6 +22,7 @@
 
         <activity android:name=".SpeciesActivity" android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
         <activity android:name=".StarsActivity" android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
+        <activity android:name=".PlanetsActivity" android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
 
     </application>
 
