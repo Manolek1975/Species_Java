@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void runSector(View view){
-        Intent i = new Intent(this, StarsActivity.class);
+        Intent i = new Intent(this, SectorActivity.class);
         startActivity(i);
     }
 

@@ -1,18 +1,14 @@
 package com.species;
 
-import android.content.DialogInterface;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -67,7 +63,7 @@ public class SpeciesActivity extends AppCompatActivity {
                     LoadDB db = new LoadDB(this);
                     db.insertStars(width, height);
                     val.setMainSpecie(SpeciesActivity.this, val.getId());
-                    Intent intent = new Intent(SpeciesActivity.this, StarsActivity.class);
+                    Intent intent = new Intent(SpeciesActivity.this, SectorActivity.class);
                     startActivity(intent);
                 })
                 .setNegativeButton("RECHAZAR", (dialogInterface, i) -> {
