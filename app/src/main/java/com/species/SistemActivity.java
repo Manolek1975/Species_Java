@@ -45,14 +45,17 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
         hideView();
 
         Intent i = getIntent();
-        specie = (Species)i.getSerializableExtra("specie");
-        star = (Stars)i.getSerializableExtra("star");
-        res = (Recursos)i.getSerializableExtra("recursos");
+        star = new Stars();
+        int starId = (int)i.getSerializableExtra("starId");
+        star = star.getStarById(this, starId);
+        //specie = (Species)i.getSerializableExtra("specie");
+        //star = (Stars)i.getSerializableExtra("star");
+        //res = (Recursos)i.getSerializableExtra("recursos");
 
-        TextView starName = findViewById(R.id.starName);
+        TextView starName = findViewById(R.id.systemName);
         sistemView = findViewById(R.id.sistemView);
-        starName.setText("Sistema " + star.getName());
-        Log.i("Sistem_Activity",star.getName() + " : " + specie.getName());
+        starName.setText(String.format("Sistema %s", star.getName()));
+        //Log.i("Sistem_Activity",star.getName() + " : " + specie.getName());
         drawSistem();
     }
 
@@ -60,34 +63,46 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
         int angle = 0;
         int radio = 600;
         int x, y;
-
-        Planets planets = new Planets();
-        List<Planets> planetList = planets.getPlanets(this, star);
-
-        //String starImage = imageStar(star.getMagnitud());
-        String starImage = star.getImage();
-        int resImage = this.getResources().getIdentifier(starImage, "drawable", this.getPackageName());
-        Bitmap fondo = BitmapFactory.decodeResource(getResources(), R.drawable.fondo);
-        Bitmap starCenter = BitmapFactory.decodeResource(getResources(), resImage);
+        // Draw fondo
+        Bitmap fondo = BitmapFactory.decodeResource(getResources(), R.drawable.fondo4);
         Bitmap resultingBitmap = Bitmap.createBitmap(fondo.getWidth(), fondo.getHeight(), fondo.getConfig());
         Canvas canvas = new Canvas(resultingBitmap);
         canvas.drawBitmap(fondo, new Matrix(), null);
-        canvas.drawBitmap(starCenter,
+        // Draw Star
+        String starImage = star.getImage();
+        int resImage = this.getResources().getIdentifier(starImage, "drawable", this.getPackageName());
+        Bitmap starCenter = BitmapFactory.decodeResource(getResources(), resImage);
+        Bitmap resizeStar = Bitmap.createScaledBitmap(starCenter, 200, 200, true);
+        canvas.drawBitmap(resizeStar,
                 (fondo.getWidth() - starCenter.getWidth()) >> 1,
-                (fondo.getHeight() - starCenter.getHeight()) >> 1, new Paint());
+                (fondo.getHeight() - starCenter.getHeight()) - 500 >> 1, new Paint());
 
+        // Draw Planets
+        Planets planets = new Planets();
+        List<Planets> planetList = planets.getPlanets(this, star);
         for(Planets planet: planetList){
             angle += 30;
             x = (int)(radio * cos(angle));
             y = (int)(radio * sin(angle));
             int size = planet.getSize();
-            //String imagePlanet = getImagePlanet(planet.getType());
-            //resImage = this.getResources().getIdentifier(imagePlanet, "drawable", this.getPackageName());
+
+            // Draw orbit
+            Paint p = new Paint();
+            p.setColor(Color.WHITE);
+            p.setStrokeWidth(2);
+            p.setStyle(Paint.Style.STROKE);
+            //float centerX = 160 + (fondo.getWidth() - starCenter.getWidth()) >> 1;
+            //float centerY = 200 + (fondo.getHeight() - starCenter.getHeight()) - 500 >> 1;
+            //canvas.drawOval(centerX - 500, centerY -300, centerX + 500, centerY + 300, p);
+            //canvas.drawLine(centerX, centerY, centerX+ x, centerY + y, p);
+
+            String imagePlanet = getImagePlanet(planet.getType());
+            resImage = this.getResources().getIdentifier(imagePlanet, "drawable", this.getPackageName());
             Bitmap drawPlanet = BitmapFactory.decodeResource(getResources(), resImage);
-            Bitmap resizePlanet = Bitmap.createScaledBitmap(drawPlanet, 50 + size*20, 50 + size*20, true);
+            Bitmap resizePlanet = Bitmap.createScaledBitmap(drawPlanet, 50+size*20, 50+size*20, true);
             canvas.drawBitmap(resizePlanet,
                     (fondo.getWidth() - starCenter.getWidth()) + x >> 1,
-                    (fondo.getHeight() - starCenter.getHeight()) + y >> 1, new Paint());
+                    (fondo.getHeight() - starCenter.getHeight()) + y - 500 >> 1, new Paint());
 
         }
         sistemView.setImageBitmap(resultingBitmap);
@@ -124,13 +139,13 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
 
     }
 
-/*    private String getImagePlanet(Integer type) {
+    private String getImagePlanet(Integer type) {
         Resources res = this.getResources();
         String[] imagePlanet = res.getStringArray(R.array.image_planet);
         return imagePlanet[type-1];
     }
 
-    private String getIconPlanet(Integer type) {
+/*    private String getIconPlanet(Integer type) {
         Resources res = this.getResources();
         String[] iconPlanet = res.getStringArray(R.array.icon_planet);
         return iconPlanet[type-1];

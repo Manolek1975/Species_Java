@@ -16,20 +16,20 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/starName"
+            android:id="@+id/systemName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/black"
+            android:layout_gravity="top"
             android:gravity="center_horizontal"
-            android:text=""
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:typeface="serif" />
 
         <ImageView
             android:id="@+id/sistemView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:contentDescription=""
+            android:contentDescription="TODO"
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/fondo"
             tools:ignore="ImageContrastCheck" />

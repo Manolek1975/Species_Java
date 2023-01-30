@@ -60,6 +60,31 @@ public class Stars implements IStars {
         return starList;
     }
 
+    @Override
+    public Stars getStarById(Context context, int id) {
+        DBHelper helper = new DBHelper(context);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM stars WHERE id=" + id, null);
+        c.moveToFirst();
+        Stars star = new Stars(
+                c.getInt(0),
+                c.getString(1),
+                c.getInt(2),
+                c.getString(3),
+                c.getInt(4),
+                c.getInt(5),
+                c.getInt(6),
+                c.getInt(7),
+                c.getInt(8),
+                c.getInt(9)
+        );
+
+        c.close();
+        db.close();
+
+        return star;
+    }
+
     public Stars getMainStar(Context context) {
         Stars star = new Stars();
         return star;

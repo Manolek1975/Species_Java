@@ -26,6 +26,7 @@ public class LoadDB extends AppCompatActivity implements Serializable {
         //DBHelper.deleteDatabase(context);
         db.execSQL("delete from "+ DBSpecies.TABLE_NAME);
         db.execSQL("delete from "+ DBStars.TABLE_NAME);
+        db.execSQL("delete from "+ DBPlanets.TABLE_NAME);
     }
 
     protected void insertDB() {

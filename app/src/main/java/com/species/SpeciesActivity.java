@@ -63,7 +63,7 @@ public class SpeciesActivity extends AppCompatActivity {
                     db.insertStars(width, height);
                     db.insertPlanets();
                     val.setMainSpecie(SpeciesActivity.this, val.getId());
-                    Intent intent = new Intent(SpeciesActivity.this, SectorActivity.class);
+                    Intent intent = new Intent(SpeciesActivity.this, StarsActivity.class);
                     startActivity(intent);
                 })
                 .setNegativeButton("RECHAZAR", (dialogInterface, i) -> {

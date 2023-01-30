@@ -67,7 +67,7 @@ public class TopMenu extends AppCompatActivity {
     }
 
     private void runGalaxyMenu() {
-        Intent i =  new Intent(context, SectorActivity.class);
+        Intent i =  new Intent(context, StarsActivity.class);
         //i.putExtra("specie", specie);
         //i.putExtra("recursos", res);
         context.startActivity(i);
