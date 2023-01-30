@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Species implements ISpecies, Serializable {
+public class Species implements ISpecies {
 
     private int id;
     private String name;

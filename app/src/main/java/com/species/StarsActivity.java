@@ -1,15 +1,21 @@
 package com.species;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class StarsActivity extends AppCompatActivity implements Serializable {
 
@@ -28,7 +34,6 @@ public class StarsActivity extends AppCompatActivity implements Serializable {
     }
 
 /*    private void drawPlanets() {
-        //Recursos res = new Recursos();
         Planets planets = new Planets();
         List<Planets> worlds = planets.getOwnPlanets(this, specie);
         // Add Planets

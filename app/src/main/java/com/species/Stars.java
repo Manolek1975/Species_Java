@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Stars {
+public class Stars implements IStars {
 
     private int id;
     private String name;
