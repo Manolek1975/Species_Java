@@ -31,7 +31,6 @@ public class SectorActivity extends AppCompatActivity implements Serializable {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sector_activity);
         hideView();
-
         //Intent i = getIntent();
         //species = (Species)i.getSerializableExtra("specie");
         Species species = new Species();
@@ -54,7 +53,7 @@ public class SectorActivity extends AppCompatActivity implements Serializable {
                 for(Stars val : starList) {
                     Range<Integer> rangoX = Range.create(x, x+50);
                     Range<Integer> rangoY = Range.create(y, y+50);
-                    if (rangoX.contains(val.getX()+80) && rangoY.contains(val.getY()+250)) {
+                    if (rangoX.contains(val.getX()+80) && rangoY.contains(val.getY()+300)) { //getY+250 AVD
                         Intent i = new Intent(this, StarsActivity.class);
                         i.putExtra("star", val.getName());
                         startActivity(i);
@@ -76,8 +75,10 @@ public class SectorActivity extends AppCompatActivity implements Serializable {
         int width = metrics.widthPixels;
         int height = metrics.heightPixels;
 
+        Log.i("Metrics", width + "," + height);
+
         // Crear fondo con medidas
-        Bitmap fondo = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Bitmap fondo = Bitmap.createBitmap(width, height+50, Bitmap.Config.ARGB_8888);
         Bitmap bitmap = Bitmap.createBitmap(fondo.getWidth(), fondo.getHeight(), fondo.getConfig());
         Canvas canvas = new Canvas(bitmap);
         int resImageFondo = this.getResources().getIdentifier("fondo2", "drawable", this.getPackageName());

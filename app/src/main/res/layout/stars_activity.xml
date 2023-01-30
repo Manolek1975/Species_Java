@@ -11,9 +11,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="90dp"
         android:gravity="center_horizontal"
-        android:text="ESTRELLA"
+        android:text=""
         android:textColor="@color/white"
-        android:textSize="48sp"
+        android:textSize="36sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

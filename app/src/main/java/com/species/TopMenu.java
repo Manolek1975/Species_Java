@@ -1,7 +1,6 @@
 package com.species;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.MenuItem;
 
@@ -68,7 +67,7 @@ public class TopMenu extends AppCompatActivity {
     }
 
     private void runGalaxyMenu() {
-        Intent i =  new Intent(context, StarsActivity.class);
+        Intent i =  new Intent(context, SectorActivity.class);
         //i.putExtra("specie", specie);
         //i.putExtra("recursos", res);
         context.startActivity(i);

@@ -55,13 +55,13 @@ public class SpeciesActivity extends AppCompatActivity {
                 .setMessage("Los humanos son una raza muy prolífica, investigadores incansables, no se arredran" +
                         " ante las dificultades, su capacidad les otorga un gran crecimiento y ventajas en la investigación")
                 .setPositiveButton("ACEPTAR", (dialogInterface, i) -> {
-                            DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay()
-                .getMetrics(metrics);
-        int width = metrics.widthPixels;
-        int height = metrics.heightPixels;
+                    DisplayMetrics metrics = new DisplayMetrics();
+                    getWindowManager().getDefaultDisplay().getMetrics(metrics);
+                    int width = metrics.widthPixels;
+                    int height = metrics.heightPixels;
                     LoadDB db = new LoadDB(this);
                     db.insertStars(width, height);
+                    db.insertPlanets();
                     val.setMainSpecie(SpeciesActivity.this, val.getId());
                     Intent intent = new Intent(SpeciesActivity.this, SectorActivity.class);
                     startActivity(intent);
