@@ -10,6 +10,8 @@ public class DBPlanets {
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_SIZE  = "size";
     public static final String COLUMN_TYPE  = "type";
+    public static final String COLUMN_X  = "x";
+    public static final String COLUMN_Y  = "y";
     public static final String COLUMN_POPULATION  = "population";
     public static final String COLUMN_OWNER  = "owner";
     public static final String COLUMN_EXPLORE  = "explore";
@@ -22,6 +24,8 @@ public class DBPlanets {
                     DBPlanets.COLUMN_NAME + " INTEGER," +
                     DBPlanets.COLUMN_SIZE + " INTEGER," +
                     DBPlanets.COLUMN_TYPE + " INTEGER," +
+                    DBPlanets.COLUMN_X + " INTEGER," +
+                    DBPlanets.COLUMN_Y + " INTEGER," +
                     DBPlanets.COLUMN_POPULATION + " INTEGER," +
                     DBPlanets.COLUMN_OWNER + " INTEGER," +
                     DBPlanets.COLUMN_EXPLORE + " INTEGER," +

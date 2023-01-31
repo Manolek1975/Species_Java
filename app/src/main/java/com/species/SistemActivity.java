@@ -11,11 +11,15 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.Range;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -36,6 +40,7 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
     private Planets planet;
     private Recursos res;
     private ImageView sistemView;
+    int width, height;
 
 
     @Override
@@ -43,6 +48,11 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sistem_activity);
         hideView();
+        // Calcular medidas del smartphone
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        width = metrics.widthPixels;
+        height = metrics.heightPixels;
 
         Intent i = getIntent();
         star = new Stars();
@@ -59,55 +69,95 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
         drawSistem();
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        int x = (int)event.getRawX();
+        int y = (int)event.getRawY();
+        int centerX = width - 200 >> 1;
+        int centerY = height - 200 >> 1;
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                Planets planet = new Planets();
+                List<Planets> planetsList = planet.getPlanets(this, star);
+                for(Planets val : planetsList) {
+                    Range<Integer> rangoX = Range.create(x, x+200);
+                    Range<Integer> rangoY = Range.create(y, y+200);
+                    if (rangoX.contains(centerX+150) && rangoY.contains(centerY+400)) {
+                        Intent i = new Intent(this, PlanetManager.class);
+                        i.putExtra("planetId", val.getId());
+                        startActivity(i);
+                    }
+                }
+                Log.i("XY", "X:" + x + " | Y:" + y);
+                Log.i("center", "X:" + centerX + " | Y:" + centerY);
+
+        }
+        return false;
+    }
+
     private void drawSistem() {
+        ImageView image = findViewById(R.id.sistemView);
         int angle = 0;
         int radio = 600;
-        int x, y;
-        // Draw fondo
-        Bitmap fondo = BitmapFactory.decodeResource(getResources(), R.drawable.fondo4);
-        Bitmap resultingBitmap = Bitmap.createBitmap(fondo.getWidth(), fondo.getHeight(), fondo.getConfig());
-        Canvas canvas = new Canvas(resultingBitmap);
-        canvas.drawBitmap(fondo, new Matrix(), null);
+
+        // Crear fondo con medidas
+        Bitmap fondo = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Bitmap bitmap = Bitmap.createBitmap(fondo.getWidth(), fondo.getHeight(), fondo.getConfig());
+        Canvas canvas = new Canvas(bitmap);
+        int resImageFondo = this.getResources().getIdentifier("fondo_sistema", "drawable", this.getPackageName());
+        Bitmap fondoView = BitmapFactory.decodeResource(getResources(), resImageFondo);
+        canvas.drawBitmap(fondoView, new Matrix(), null);
+        image.setImageBitmap(bitmap);
+
         // Draw Star
         String starImage = star.getImage();
         int resImage = this.getResources().getIdentifier(starImage, "drawable", this.getPackageName());
         Bitmap starCenter = BitmapFactory.decodeResource(getResources(), resImage);
         Bitmap resizeStar = Bitmap.createScaledBitmap(starCenter, 200, 200, true);
-        canvas.drawBitmap(resizeStar,
-                (fondo.getWidth() - starCenter.getWidth()) >> 1,
-                (fondo.getHeight() - starCenter.getHeight()) - 500 >> 1, new Paint());
+        int centerX = width - 200 >> 1;
+        int centerY = height - 200 >> 1;
+        canvas.drawBitmap(resizeStar, centerX, centerY, new Paint());
 
         // Draw Planets
+        int numPlanets = 0;
         Planets planets = new Planets();
+
         List<Planets> planetList = planets.getPlanets(this, star);
         for(Planets planet: planetList){
-            angle += 30;
-            x = (int)(radio * cos(angle));
-            y = (int)(radio * sin(angle));
+            numPlanets += 1;
             int size = planet.getSize();
-
             // Draw orbit
             Paint p = new Paint();
             p.setColor(Color.WHITE);
             p.setStrokeWidth(2);
             p.setStyle(Paint.Style.STROKE);
-            //float centerX = 160 + (fondo.getWidth() - starCenter.getWidth()) >> 1;
-            //float centerY = 200 + (fondo.getHeight() - starCenter.getHeight()) - 500 >> 1;
-            //canvas.drawOval(centerX - 500, centerY -300, centerX + 500, centerY + 300, p);
+            centerX = width >> 1;
+            centerY = height >> 1;
+            canvas.drawOval(centerX - 500, centerY - 200, centerX + 500, centerY + 200, p);
             //canvas.drawLine(centerX, centerY, centerX+ x, centerY + y, p);
+
+            if (planet.getX() == 0){
+                Planets xy = new Planets();
+                setPlanetCoord(planet.getId(), centerX, centerY, numPlanets);
+                xy = xy.getPlanetById(this, planet.getId());
+                planet.setX(xy.getX());
+                planet.setY(xy.getY());
+            }
 
             String imagePlanet = getImagePlanet(planet.getType());
             resImage = this.getResources().getIdentifier(imagePlanet, "drawable", this.getPackageName());
             Bitmap drawPlanet = BitmapFactory.decodeResource(getResources(), resImage);
             Bitmap resizePlanet = Bitmap.createScaledBitmap(drawPlanet, 50+size*20, 50+size*20, true);
-            canvas.drawBitmap(resizePlanet,
+            canvas.drawBitmap(resizePlanet, planet.getX(), planet.getY(), new Paint());
+            /*            canvas.drawBitmap(resizePlanet,
                     (fondo.getWidth() - starCenter.getWidth()) + x >> 1,
-                    (fondo.getHeight() - starCenter.getHeight()) + y - 500 >> 1, new Paint());
+                    (fondo.getHeight() - starCenter.getHeight()) + y - 500 >> 1, new Paint());*/
 
         }
-        sistemView.setImageBitmap(resultingBitmap);
+        sistemView.setImageBitmap(bitmap);
 
         // Add Buttons to scroll
+/*
         LinearLayout planetButtons = findViewById(R.id.planetButtonsSistem);
         for(Planets planet: planetList){
 
@@ -125,6 +175,7 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
             planetButton.setTextColor(Color.WHITE);
             planetButton.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
 
+*/
 /*            planetButton.setOnClickListener(v -> {
                 Intent i = new Intent(SistemActivity.this, PlanetManager.class);
                 i.putExtra("specie", specie);
@@ -133,10 +184,33 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
                 i.putExtra("recursos", res);
                 i.putExtra("canBuild", false);
                 startActivity(i);
-            });*/
+            });*//*
+
             planetButtons.addView(planetButton);
         }
+*/
 
+    }
+
+    private void setPlanetCoord(int id, int x, int y, int numPlanets) {
+        Planets planet = new Planets();
+            if (numPlanets == 1) {
+                x = x - 350;
+                y = y - 300;
+            }
+            if (numPlanets == 2) {
+                x = x + 300;
+                y = y + 350;
+            }
+            if (numPlanets == 3) {
+                x = x + 300;
+                y = y - 200;
+            }
+            if (numPlanets == 4) {
+                x = x - 400;
+                y = y + 300;
+            }
+        planet.setPlanetXY(id, x, y, this);
     }
 
     private String getImagePlanet(Integer type) {
@@ -156,6 +230,8 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
         String[] imageStars = res.getStringArray(R.array.image_stars);
         return imageStars[magnitud-1];
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

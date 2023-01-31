@@ -5,10 +5,13 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -65,26 +68,32 @@ public class LoadDB extends AppCompatActivity implements Serializable {
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
+
+        List<String> xy = new ArrayList<>();
+        for (int n=50; n < w-50; n+=200){
+            for (int m=100; m<h-200; m+=200){
+                xy.add(n + "," + m);
+            }
+        }
+        Collections.shuffle(xy);
+
         for (int i = 0; i < name.length; i++) {
             Random rand = new Random();
-            int xC = rand.nextInt(w-200) + 50;
-            int yC = rand.nextInt(h-300) + 80;
+            int xC = rand.nextInt(50) + 1;
+            int yC = rand.nextInt(100) + 1;
             int planets = rand.nextInt(4) + 1;
-            List<String> coords = new ArrayList<>();
-            for(int j = 0; j < 20; j++)
-                coords.add(xC + "," + yC);
 
-            String[] split = coords.get(i).split(",");
-            Integer x = Integer.parseInt(split[0]);
-            Integer y = Integer.parseInt(split[1]);
+            String[] split = xy.get(i).split(",");
+            int x = Integer.parseInt(split[0]);
+            int y = Integer.parseInt(split[1]);
             // Rellena la tabla Stars
             values.put(DBStars.COLUMN_NAME, name[i]);
             values.put(DBStars.COLUMN_SECTOR, 1);
             values.put(DBStars.COLUMN_IMAGE, image[i]);
             values.put(DBStars.COLUMN_PLANETS, planets);
             values.put(DBStars.COLUMN_JUMPS, 1);
-            values.put(DBStars.COLUMN_X, x);
-            values.put(DBStars.COLUMN_Y, y);
+            values.put(DBStars.COLUMN_X, x + xC);
+            values.put(DBStars.COLUMN_Y, y + yC);
             values.put(DBStars.COLUMN_TYPE, 0);
             values.put(DBStars.COLUMN_EXPLORE, 0);
             // Inserta una nueva fila con values

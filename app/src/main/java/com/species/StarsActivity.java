@@ -78,10 +78,10 @@ public class StarsActivity extends AppCompatActivity implements Serializable {
         Log.i("Metrics", width + "," + height);
 
         // Crear fondo con medidas
-        Bitmap fondo = Bitmap.createBitmap(width, height+50, Bitmap.Config.ARGB_8888);
+        Bitmap fondo = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Bitmap bitmap = Bitmap.createBitmap(fondo.getWidth(), fondo.getHeight(), fondo.getConfig());
         Canvas canvas = new Canvas(bitmap);
-        int resImageFondo = this.getResources().getIdentifier("fondo2", "drawable", this.getPackageName());
+        int resImageFondo = this.getResources().getIdentifier("fondo_sector", "drawable", this.getPackageName());
         Bitmap fondoView = BitmapFactory.decodeResource(getResources(), resImageFondo);
         canvas.drawBitmap(fondoView, new Matrix(), null);
         image.setImageBitmap(bitmap);

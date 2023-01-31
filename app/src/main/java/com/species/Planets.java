@@ -1,9 +1,11 @@
 package com.species;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Point;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,6 +20,8 @@ public class Planets implements IPlanets, Serializable {
     private String name;
     private Integer size;
     private Integer type;
+    private Integer x;
+    private Integer y;
     private int population;
     private String owner;
     private int explore;
@@ -27,12 +31,14 @@ public class Planets implements IPlanets, Serializable {
     public Planets(Integer id) { this.id = id; }
 
     public Planets(Integer id, String star, String name, Integer size, Integer type,
-                   int population, String owner, int explore, int origin) {
+                   Integer x, Integer y,int population, String owner, int explore, int origin) {
         this.id = id;
         this.star = star;
         this.name = name;
         this.size = size;
         this.type = type;
+        this.x = x;
+        this.y = y;
         this.population = population;
         this.owner = owner;
         this.explore = explore;
@@ -53,15 +59,41 @@ public class Planets implements IPlanets, Serializable {
                     c.getInt(3),
                     c.getInt(4),
                     c.getInt(5),
-                    c.getString(6),
+                    c.getInt(6),
                     c.getInt(7),
-                    c.getInt(8)
+                    c.getString(8),
+                    c.getInt(9),
+                    c.getInt(10)
             );
             planetsList.add(planet);
         }
         c.close();
         db.close();
         return planetsList;
+    }
+
+    @Override
+    public Planets getPlanetById(Context context, int id) {
+        DBHelper helper = new DBHelper(context);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM planets WHERE id=" + id, null);
+        c.moveToFirst();
+        Planets planet = new Planets(
+                c.getInt(0),
+                c.getString(1),
+                c.getString(2),
+                c.getInt(3),
+                c.getInt(4),
+                c.getInt(5),
+                c.getInt(6),
+                c.getInt(7),
+                c.getString(8),
+                c.getInt(9),
+                c.getInt(10)
+        );
+        c.close();
+        db.close();
+        return planet;
     }
 
     @Override
@@ -79,9 +111,11 @@ public class Planets implements IPlanets, Serializable {
                     c.getInt(3),
                     c.getInt(4),
                     c.getInt(5),
-                    c.getString(6),
+                    c.getInt(6),
                     c.getInt(7),
-                    c.getInt(8)
+                    c.getString(8),
+                    c.getInt(9),
+                    c.getInt(10)
             );
             planetsList.add(planet);
         }
@@ -104,15 +138,29 @@ public class Planets implements IPlanets, Serializable {
                     c.getInt(3),
                     c.getInt(4),
                     c.getInt(5),
-                    c.getString(6),
+                    c.getInt(6),
                     c.getInt(7),
-                    c.getInt(8)
+                    c.getString(8),
+                    c.getInt(9),
+                    c.getInt(10)
             );
             c.close();
             db.close();
             return planet;
         }
         return this;
+    }
+
+    @Override
+    public void setPlanetXY(int id, int x, int y, Context context) {
+        DBHelper helper = new DBHelper(context);
+        SQLiteDatabase db = helper.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DBPlanets.COLUMN_X, x);
+        values.put(DBPlanets.COLUMN_Y, y);
+
+        db.update("planets", values, "id=" + id, null);
+        db.close();
     }
 
 
@@ -211,6 +259,19 @@ public class Planets implements IPlanets, Serializable {
         this.owner = owner;
     }
 
+    public Integer getX() {
+        return x;
+    }
 
+    public Integer getY() {
+        return y;
+    }
 
+    public void setX(Integer x) {
+        this.x = x;
+    }
+
+    public void setY(Integer y) {
+        this.y = y;
+    }
 }

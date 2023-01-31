@@ -24,6 +24,7 @@
         <activity android:name=".StarsActivity" android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
         <activity android:name=".SistemActivity" android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
         <activity android:name=".PlanetsActivity" android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
+        <activity android:name=".PlanetManager" android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
 
     </application>
 

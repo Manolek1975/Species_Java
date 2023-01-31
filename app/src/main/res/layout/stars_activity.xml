@@ -23,7 +23,7 @@
             android:scaleType="centerCrop"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/fondo2"
+            app:srcCompat="@drawable/fondo_sector"
             tools:ignore="ImageContrastCheck" />
 
     </LinearLayout>

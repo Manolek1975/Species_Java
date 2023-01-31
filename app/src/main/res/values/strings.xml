@@ -16,5 +16,19 @@
     <string name="menu_skill">Habilidad</string>
     <string name="menu_exit">SALIR</string>
 
+    <!-- Planet Manager -->
+    <string name="planeta">Planeta</string>
+    <string name="text_producion">Producción: 0</string>
+    <string name="text_prosperidad">Prosperidad: 0</string>
+    <string name="text_investigación">Investigación: 0</string>
+    <string name="text_poblacion">Población: 0</string>
+    <string name="message_type_planet">Planeta Medio Rico</string>
+
+    <!-- MENSAJES -->
+    <string name="planets_mensaje">No tienes Planetas</string>
+    <string name="ship_mensaje">Aun no has construido ninguna nave</string>
+    <string name="sciencie_mensaje">Aun no has investigado ninguna ciencia</string>
+    <string name="diplomacy_mensaje">Aun no has contactado con ningún alien</string>
+
 
 </resources>
