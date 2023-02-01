@@ -1,6 +1,7 @@
 package com.species;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -8,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Range;
@@ -24,6 +26,7 @@ import java.util.List;
 
 public class StarsActivity extends AppCompatActivity implements Serializable {
 
+    private Species specie;
     private Stars stars;
 
     @Override
@@ -31,13 +34,8 @@ public class StarsActivity extends AppCompatActivity implements Serializable {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.stars_activity);
         hideView();
-        //Intent i = getIntent();
-        //species = (Species)i.getSerializableExtra("specie");
-        Species species = new Species();
-        species = species.getMainSpecie(this);
         stars = new Stars();
         stars = stars.getMainStar(this);
-        Log.i("specie", species.getName()+" - "+stars.getName());
         drawSector();
 
     }
@@ -62,7 +60,7 @@ public class StarsActivity extends AppCompatActivity implements Serializable {
                         Log.i("starCOORD", "X:" + val.getX() + " | Y:" + val.getY());
                     }
                 }
-                Log.i("XY", "X:" + x + " | Y:" + y);
+                Log.i("XY", "Specie: " + specie.getName() + " X:" + x + " | Y:" + y);
         }
         return false;
     }
@@ -113,6 +111,15 @@ public class StarsActivity extends AppCompatActivity implements Serializable {
         int x2 = starList.get(1).getX() + 75;
         int y2 = starList.get(1).getY() + 75;
         canvas.drawLine(x1, y1, x2, y2, line);
+    }
+
+    public void onResume(){
+        super.onResume();
+        specie = new Species();
+        SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
+        int specieId = data.getInt("specieId", 0);
+        specie = specie.getSpecieById(this, specieId);
+        Log.i("specieId", specie.getId()  + "");
     }
 
     @Override

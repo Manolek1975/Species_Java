@@ -12,4 +12,6 @@ public interface ISpecies {
 
     Species getMainSpecie(Context context);
 
+    Species getSpecieById(Context context, int id);
+
 }

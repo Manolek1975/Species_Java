@@ -1,9 +1,12 @@
 package com.species;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -16,19 +19,24 @@ import java.util.List;
 
 public class SpeciesActivity extends AppCompatActivity {
 
+    Species specie;
+    Stars star;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.species_activity);
         hideView();
 
+        specie = new Species();
+        star = new Stars();
+
         drawButtons();
     }
 
     private void drawButtons() {
         LinearLayout lin = findViewById(R.id.idSpeciesButtons);
-        Species species = new Species();
-        List<Species> speciesList = species.getSpecies(this);
+        //Species species = new Species();
+        List<Species> speciesList = specie.getSpecies(this);
 
         for(Species val : speciesList){
             int image = getResources().getIdentifier(val.getImage(), "drawable", this.getPackageName());
@@ -63,6 +71,8 @@ public class SpeciesActivity extends AppCompatActivity {
                     db.insertPlanets();
                     db.insertBuilds();
                     val.setMainSpecie(SpeciesActivity.this, val.getId());
+                    star.setMainStar(this);
+                    specie = val;
                     Intent intent = new Intent(SpeciesActivity.this, StarsActivity.class);
                     startActivity(intent);
                 })
@@ -72,6 +82,14 @@ public class SpeciesActivity extends AppCompatActivity {
                 })
 
                 .show();
+    }
+
+    public void onPause(){
+        super.onPause();
+        SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor edit = data.edit();
+        edit.putInt("specieId", specie.getId());
+        edit.apply();
     }
 
     private void hideView() {

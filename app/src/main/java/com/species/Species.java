@@ -61,6 +61,13 @@ public class Species implements ISpecies {
         newVal.put("type", 1);
         db.update("species", newVal, "id=?", new String[] { String.valueOf(id) });
 
+
+        // Busca planetas tipo congenial
+        // Recoge el primero del rawquery
+        // update owner y explore en planetas
+        // update explore en estrellas en la especie
+
+
         // Asigna un estrella aleatoria a la especie
         Random rand = new Random();
         ContentValues values = new ContentValues();
@@ -84,6 +91,24 @@ public class Species implements ISpecies {
             specie.setImage(c.getString(3));
             specie.setSkill(c.getString(4));
             specie.setType(c.getInt(5));
+        c.close();
+        db.close();
+        return specie;
+    }
+
+    @Override
+    public Species getSpecieById(Context context, int id) {
+        DBHelper helper = new DBHelper(context);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM species WHERE id=" + id, null);
+        c.moveToNext();
+        Species specie = new Species();
+        specie.setId(c.getInt(0));
+        specie.setName(c.getString(1));
+        specie.setDesc(c.getString(2));
+        specie.setImage(c.getString(3));
+        specie.setSkill(c.getString(4));
+        specie.setType(c.getInt(5));
         c.close();
         db.close();
         return specie;

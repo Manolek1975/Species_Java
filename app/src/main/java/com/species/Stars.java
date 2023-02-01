@@ -89,7 +89,9 @@ public class Stars implements IStars {
     }
 
     public void setMainStar(Context context) {
-
+        DBHelper helper = new DBHelper(context);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM stars WHERE id=" + id, null);
     }
 
     public String getImage() {

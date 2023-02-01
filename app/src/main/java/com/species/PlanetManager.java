@@ -78,12 +78,6 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
 
     }
 
-    public void onResume(){
-        super.onResume();
-        SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
-        turn = data.getInt("turn", 0);
-    }
-
     protected void play() {
         //super.onStart();
         MediaPlayer mp = MediaPlayer.create(this, R.raw.factory);
@@ -112,7 +106,7 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         boolean origin = surface.getOrigin(this); // Comprueba si hay Colonia Base
         String owner = planet.getOwner();
 
-explore = 1;
+
 
         if(explore == 0 || !owner.equals(specie.getName())){
             msg.setText("No has explorado este planeta\nConstruye una nave con un sensor\npara escanear la superficie");
@@ -372,12 +366,19 @@ explore = 1;
         return availables;
     }
 
+    public void onResume(){
+        super.onResume();
+        specie = new Species();
+        SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
+        int specieId = data.getInt("specieId", 0);
+        specie = specie.getSpecieById(this, specieId);
+        turn = data.getInt("turn", 0);
+        Log.i("specieId", specie.getId()  + "");
+    }
+
     public void runBuilds(View view) {
         Intent i =  new Intent(this, BuildsActivity.class);
-        //i.putExtra("specie", specie);
-        //i.putExtra("star", star);
         i.putExtra("planet", planet);
-        //i.putExtra("recursos", res);
         startActivity(i);
     }
     @Override
