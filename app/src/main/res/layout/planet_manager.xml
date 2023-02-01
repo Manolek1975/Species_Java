@@ -143,7 +143,6 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/TODO"
                 android:scaleType="centerCrop"
-                app:srcCompat="@drawable/fondo"
                 tools:ignore="ImageContrastCheck" />
 
         </LinearLayout>

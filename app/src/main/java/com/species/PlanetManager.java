@@ -32,6 +32,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class PlanetManager extends AppCompatActivity implements Serializable {
 
@@ -58,16 +59,16 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         setContentView(R.layout.planet_manager);
         hideView();
         Intent i = getIntent();
-        specie = (Species)i.getSerializableExtra("specie");
-        star = (Stars)i.getSerializableExtra("star");
+        //specie = (Species)i.getSerializableExtra("specie");
+        //star = (Stars)i.getSerializableExtra("star");
         //planet = (Planets)i.getSerializableExtra("planet");
         //build = (Builds)i.getSerializableExtra("build");
-        res = (Recursos)i.getSerializableExtra("recursos");
-        canBuild = (Boolean)i.getSerializableExtra("canBuild");
+        //res = (Recursos)i.getSerializableExtra("recursos");
+        //canBuild = (Boolean)i.getSerializableExtra("canBuild");
 
-        planet = new Planets();
-        int planetId = (int)i.getSerializableExtra("planetId");
-        planet = planet.getPlanetById(this, planetId);
+        //planet = new Planets();
+        planet = (Planets)i.getSerializableExtra("planet");
+        //planet = planet.getPlanetById(this, planet.getId());
 
         lin = findViewById(R.id.planetLayout);
         img = findViewById(R.id.planetView);
@@ -95,17 +96,16 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         TextView msg =  findViewById(R.id.textMessage);
         TextView textProyecto =  findViewById(R.id.textProyecto);
         Button proyecto = findViewById(R.id.buildButton);
-        name.setText(planet.getName());
 
-/*        String nameType = planet.getNameType(planet.getType());
+        String nameType = planet.getNameType(planet.getType());
         String nameSize = planet.getNameSize(planet.getSize());
         name.setText(planet.getName());
-        desc.setText("Planeta " + nameSize + " " + nameType);
+        desc.setText(String.format("Planeta %s %s", nameSize, nameType));
 
         Bitmap fondo = Bitmap.createBitmap(1200, 1200, Bitmap.Config.ARGB_8888);
         Bitmap bitmap = Bitmap.createBitmap(fondo.getWidth(), fondo.getHeight(), fondo.getConfig());
         Canvas canvas = new Canvas(bitmap);
-        drawPlanet(fondo, bitmap, canvas, planet.getSize());*/
+        drawPlanet(fondo, bitmap, canvas, planet.getSize());
 
 /*        surface = new Surfaces();
         int explore = planet.getExplore();
@@ -127,6 +127,26 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         }*/
     }
 
+    private void drawPlanet(Bitmap fondo, Bitmap bitmap, Canvas canvas, int size) {
+        String imagePlanet = getImagePlanet(planet.getType());
+        int resImage = this.getResources().getIdentifier(imagePlanet, "drawable", this.getPackageName());
+        Bitmap planetCenter = BitmapFactory.decodeResource(getResources(), resImage);
+        Bitmap resizePlanet = Bitmap.createScaledBitmap(planetCenter, size*230, size*230, true);
+        // Draw Planet
+        canvas.drawBitmap(fondo, new Matrix(), null);
+        canvas.drawBitmap(resizePlanet,
+                (fondo.getWidth() - resizePlanet.getWidth()) >> 1,
+                (fondo.getHeight() - resizePlanet.getHeight()) >> 1, new Paint());
+        img.setImageBitmap(bitmap);
+
+    }
+
+    // TODO Asignar imagen según el tipo de planeta
+    private String getImagePlanet(Integer type) {
+        Resources res = this.getResources();
+        String[] imagePlanet = res.getStringArray(R.array.image_planet);
+        return imagePlanet[type-1];
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.nav, menu);

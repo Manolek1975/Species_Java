@@ -82,9 +82,9 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
                 for(Planets val : planetsList) {
                     Range<Integer> rangoX = Range.create(x, x+200);
                     Range<Integer> rangoY = Range.create(y, y+200);
-                    if (rangoX.contains(centerX+150) && rangoY.contains(centerY+400)) {
+                    if (rangoX.contains(val.getX()+150) && rangoY.contains(val.getY()+300)) {
                         Intent i = new Intent(this, PlanetManager.class);
-                        i.putExtra("planetId", val.getId());
+                        i.putExtra("planet", val);
                         startActivity(i);
                     }
                 }
@@ -126,15 +126,15 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
         for(Planets planet: planetList){
             numPlanets += 1;
             int size = planet.getSize();
+            centerX = width >> 1;
+            centerY = height >> 1;
             // Draw orbit
-            Paint p = new Paint();
+/*            Paint p = new Paint();
             p.setColor(Color.WHITE);
             p.setStrokeWidth(2);
             p.setStyle(Paint.Style.STROKE);
-            centerX = width >> 1;
-            centerY = height >> 1;
             canvas.drawOval(centerX - 500, centerY - 200, centerX + 500, centerY + 200, p);
-            //canvas.drawLine(centerX, centerY, centerX+ x, centerY + y, p);
+            canvas.drawLine(centerX, centerY, centerX+ x, centerY + y, p);*/
 
             if (planet.getX() == 0){
                 Planets xy = new Planets();
@@ -149,10 +149,6 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
             Bitmap drawPlanet = BitmapFactory.decodeResource(getResources(), resImage);
             Bitmap resizePlanet = Bitmap.createScaledBitmap(drawPlanet, 50+size*20, 50+size*20, true);
             canvas.drawBitmap(resizePlanet, planet.getX(), planet.getY(), new Paint());
-            /*            canvas.drawBitmap(resizePlanet,
-                    (fondo.getWidth() - starCenter.getWidth()) + x >> 1,
-                    (fondo.getHeight() - starCenter.getHeight()) + y - 500 >> 1, new Paint());*/
-
         }
         sistemView.setImageBitmap(bitmap);
 
