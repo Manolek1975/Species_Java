@@ -19,8 +19,8 @@
     <!-- Planet Manager -->
     <string name="planeta">Planeta</string>
     <string name="text_producion">Producción: 0</string>
-    <string name="text_prosperidad">Prosperidad: 0</string>
-    <string name="text_investigación">Investigación: 0</string>
+    <string name="text_prosperidad">Alimentos: 0</string>
+    <string name="text_investigación">Ciencia: 0</string>
     <string name="text_poblacion">Población: 0</string>
     <string name="message_type_planet">Planeta Medio Rico</string>
 

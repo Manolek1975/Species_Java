@@ -42,7 +42,6 @@ public class SpeciesActivity extends AppCompatActivity {
             button.setOnClickListener(v -> runStars(val));
             button.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
             lin.addView(button);
-            //Log.i("species", val.getId() +":"+val.getName());
         }
     }
 
@@ -62,6 +61,7 @@ public class SpeciesActivity extends AppCompatActivity {
                     LoadDB db = new LoadDB(this);
                     db.insertStars(width, height);
                     db.insertPlanets();
+                    db.insertBuilds();
                     val.setMainSpecie(SpeciesActivity.this, val.getId());
                     Intent intent = new Intent(SpeciesActivity.this, StarsActivity.class);
                     startActivity(intent);

@@ -30,13 +30,14 @@ public class LoadDB extends AppCompatActivity implements Serializable {
         db.execSQL("delete from "+ DBSpecies.TABLE_NAME);
         db.execSQL("delete from "+ DBStars.TABLE_NAME);
         db.execSQL("delete from "+ DBPlanets.TABLE_NAME);
+        db.execSQL("delete from "+ DBBuilds.TABLE_NAME);
+        db.execSQL("delete from "+ DBSurfaces.TABLE_NAME);
+        db.execSQL("delete from "+ DBRecursos.TABLE_NAME);
     }
-
     protected void insertDB() {
         insertSpecies();
         //insertStars();
     }
-
     public void insertSpecies() {
         Resources res = context.getResources();
         String[] name = res.getStringArray(R.array.name_species);
@@ -151,5 +152,36 @@ public class LoadDB extends AppCompatActivity implements Serializable {
             default:
                 return null;
         }
+    }
+
+    public void insertBuilds() {
+        Resources res = context.getResources();
+        String[] name = res.getStringArray(R.array.builds_name);
+        String[] image = res.getStringArray(R.array.builds_image);
+        String[] tech = res.getStringArray(R.array.builds_technology);
+        String[] description = res.getStringArray(R.array.builds_description);
+        String[] cost = res.getStringArray(R.array.builds_cost);
+        String[] industry = res.getStringArray(R.array.builds_industry);
+        String[] prosperity = res.getStringArray(R.array.builds_prosperity);
+        String[] research = res.getStringArray(R.array.builds_research);
+        String[] population = res.getStringArray(R.array.builds_max_population);
+        DBHelper helper = new DBHelper(context);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        for (int i = 0; i < name.length; i++) {
+            values.put(DBBuilds.COLUMN_NAME, name[i]);
+            values.put(DBBuilds.COLUMN_IMAGE, image[i]);
+            values.put(DBBuilds.COLUMN_TECHNOLOGY, tech[i]);
+            values.put(DBBuilds.COLUMN_DESCRIPTION, description[i]);
+            values.put(DBBuilds.COLUMN_COST, cost[i]);
+            values.put(DBBuilds.COLUMN_INDUSTRY, industry[i]);
+            values.put(DBBuilds.COLUMN_PROSPERITY, prosperity[i]);
+            values.put(DBBuilds.COLUMN_RESEARCH, research[i]);
+            values.put(DBBuilds.COLUMN_POPULATION, population[i]);
+            // Inserta una nueva fila con los valores de la key
+            db.insert(DBBuilds.TABLE_NAME, null, values);
+        }
+        db.close();
     }
 }

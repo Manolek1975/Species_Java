@@ -20,7 +20,7 @@
     <!-- Planet Manager -->
     <string name="planeta">Planet</string>
     <string name="text_producion">Production: 0</string>
-    <string name="text_prosperidad">Prosperity: 0</string>
+    <string name="text_prosperidad">Foods: 0</string>
     <string name="text_investigación">Science: 0</string>
     <string name="text_poblacion">Population: 0</string>
     <string name="message_type_planet">Planet Medium Rich</string>
