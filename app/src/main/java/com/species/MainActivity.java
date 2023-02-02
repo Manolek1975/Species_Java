@@ -11,13 +11,15 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
     LoadDB db = new LoadDB(this);
+    Main main = new Main();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-        View decorView = getWindow().getDecorView();
-        db.hideview(decorView);
+        View view = getWindow().getDecorView();
+        main.hideview(view);
+
     }
 
     public void runSpecies(View view){
@@ -33,7 +35,5 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(this, StarsActivity.class);
         startActivity(i);
     }
-
-
 
 }

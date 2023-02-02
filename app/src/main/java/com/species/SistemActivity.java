@@ -35,6 +35,8 @@ import java.util.List;
 
 public class SistemActivity extends AppCompatActivity implements Serializable {
 
+    LoadDB db = new LoadDB(this);
+    Main main = new Main();
     private Species specie;
     private Stars star;
     private Planets planet;
@@ -47,7 +49,9 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sistem_activity);
-        hideView();
+        View view = getWindow().getDecorView();
+        main.hideViewMenu(view);
+
         // Calcular medidas del smartphone
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -237,14 +241,4 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
         return false;
     }
 
-    private void hideView() {
-        View decorView = getWindow().getDecorView();
-        decorView.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_IMMERSIVE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-        );
-    }
 }

@@ -25,22 +25,28 @@ import java.io.Serializable;
 import java.util.List;
 
 public class StarsActivity extends AppCompatActivity implements Serializable {
-    LoadDB db = new LoadDB(this);
+    Main main = new Main();
     private Species specie = new Species();
     private Stars star = new Stars();
+    int width, height;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.stars_activity);
-        View decorView = getWindow().getDecorView();
-        db.hideViewMenu(decorView);
+        View view = getWindow().getDecorView();
+        main.hideViewMenu(view);
+        // Calcular medidas del smartphone
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        width = metrics.widthPixels;
+        height = metrics.heightPixels;
 
         SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
         int specieId = data.getInt("specieId", 0);
         specie = specie.getSpecieById(this, specieId);
         star = star.getMainStar(this);
-        Log.i("CREATE StarActivity", specie.getName() + "," +star.getName());
+        Log.i("CREATE StarActivity", specie.getName() + ", " +star.getName());
         drawSector();
     }
 
@@ -63,7 +69,7 @@ public class StarsActivity extends AppCompatActivity implements Serializable {
                     Log.i("starCOORD", "X:" + val.getX() + " | Y:" + val.getY());
                 }
             }
-            Log.i("XY", "Specie: " + specie.getName() + " X:" + x + " | Y:" + y);
+            Log.i("XY", " X:" + x + " | Y:" + y);
         }
         return false;
     }
@@ -75,7 +81,7 @@ public class StarsActivity extends AppCompatActivity implements Serializable {
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int width = metrics.widthPixels;
         int height = metrics.heightPixels;
-        Log.i("Metrics", width + "," + height);
+        //Log.i("Metrics", width + "," + height);
 
         // Crear fondo con medidas
         Bitmap fondo = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);

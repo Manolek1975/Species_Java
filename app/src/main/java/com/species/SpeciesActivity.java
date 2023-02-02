@@ -18,15 +18,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.List;
 
 public class SpeciesActivity extends AppCompatActivity {
-    LoadDB db = new LoadDB(this);
     Species specie = new Species();
-    Stars star = new Stars();
+    Main main = new Main();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.species_activity);
-        View decorView = getWindow().getDecorView();
-        db.hideview(decorView);
+        View view = getWindow().getDecorView();
+        main.hideview(view);
 
         drawButtons();
     }
