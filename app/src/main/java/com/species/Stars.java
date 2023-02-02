@@ -84,14 +84,23 @@ public class Stars implements IStars {
     }
 
     public Stars getMainStar(Context context) {
-        Stars star = new Stars();
-        return star;
-    }
-
-    public void setMainStar(Context context) {
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM stars WHERE id=" + id, null);
+        Cursor c = db.rawQuery("SELECT * FROM stars WHERE type=" + 1, null);
+        c.moveToFirst();
+        Stars star = new Stars(
+                c.getInt(0),
+                c.getString(1),
+                c.getInt(2),
+                c.getString(3),
+                c.getInt(4),
+                c.getInt(5),
+                c.getInt(6),
+                c.getInt(7),
+                c.getInt(8),
+                c.getInt(9)
+        );
+        return star;
     }
 
     public String getImage() {

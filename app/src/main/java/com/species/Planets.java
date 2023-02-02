@@ -16,7 +16,7 @@ public class Planets implements IPlanets, Serializable {
 
     public static final int POPULATION_INIT = 50;
     private Integer id;
-    private String star;
+    private Integer star;
     private String name;
     private Integer size;
     private Integer type;
@@ -30,7 +30,7 @@ public class Planets implements IPlanets, Serializable {
     public Planets(){super();}
     public Planets(Integer id) { this.id = id; }
 
-    public Planets(Integer id, String star, String name, Integer size, Integer type,
+    public Planets(Integer id, Integer star, String name, Integer size, Integer type,
                    Integer x, Integer y,int population, String owner, int explore, int origin) {
         this.id = id;
         this.star = star;
@@ -49,12 +49,12 @@ public class Planets implements IPlanets, Serializable {
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getReadableDatabase();
 
-        Cursor c = db.rawQuery("SELECT * FROM planets WHERE star='" + star.getName() + "'", null);
+        Cursor c = db.rawQuery("SELECT * FROM planets WHERE star='" + star.getId() + "'", null);
         List<Planets> planetsList = new ArrayList<>();
         while (c.moveToNext()) {
             Planets planet = new Planets(
                     c.getInt(0),
-                    c.getString(1),
+                    c.getInt(1),
                     c.getString(2),
                     c.getInt(3),
                     c.getInt(4),
@@ -80,7 +80,7 @@ public class Planets implements IPlanets, Serializable {
         c.moveToFirst();
         Planets planet = new Planets(
                 c.getInt(0),
-                c.getString(1),
+                c.getInt(1),
                 c.getString(2),
                 c.getInt(3),
                 c.getInt(4),
@@ -106,7 +106,7 @@ public class Planets implements IPlanets, Serializable {
         while (c.moveToNext()) {
             Planets planet = new Planets(
                     c.getInt(0),
-                    c.getString(1),
+                    c.getInt(1),
                     c.getString(2),
                     c.getInt(3),
                     c.getInt(4),
@@ -133,7 +133,7 @@ public class Planets implements IPlanets, Serializable {
         if(c.getCount() > 0) {
             Planets planet = new Planets(
                     c.getInt(0),
-                    c.getString(1),
+                    c.getInt(1),
                     c.getString(2),
                     c.getInt(3),
                     c.getInt(4),
@@ -231,7 +231,7 @@ public class Planets implements IPlanets, Serializable {
     public String getName() {
         return name;
     }
-    public String getStar() {
+    public Integer getStar() {
         return star;
     }
     public Integer getSize() {
@@ -252,7 +252,7 @@ public class Planets implements IPlanets, Serializable {
     public void setName(String name) {
         this.name = name;
     }
-    public void setStar(String star) {
+    public void setStar(Integer star) {
         this.star = star;
     }
     public void setOwner(String owner) {

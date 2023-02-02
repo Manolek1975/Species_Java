@@ -23,15 +23,23 @@
         <item>icon_wurfano</item>
     </string-array>
 
-    <string-array name="star_species">
-        <item>0</item>
-        <item>0</item>
-        <item>0</item>
-        <item>0</item>
-        <item>0</item>
-        <item>0</item>
-        <item>0</item>
-        <item>0</item>
+    <string-array name="description_species">
+        <item>Los Chamariles son trabajadores incansables, construyen rápidamente grandes minas bajo tierra en
+            lugares innacesibles, no hay nadie que les iguale en su capacidad de producción.</item>
+        <item>Los Galecis son educados desde pequeños en las artes marciales, son un pueblo guerrero, grandes
+            "constructores de naves espaciales con los mejores adelantos técnicos."</item>
+        <item>Los humanos son una raza muy prolífica, investigadores incansables, no se arredran
+            ante las dificultades, su capacidad les otorga un gran crecimiento y ventajas en la investigación.</item>
+        <item>Los Karbaris son muy resistente, sus escudos y naves poseen las mejores defensas conocidas,
+            son amistosos hasta que se les provoca, lo que les hace sumamente peligrosos.</item>
+        <item>Los mecas son organismos cibernéticos con un gran desarrollo tecnológico, su tecnologia
+            es muy superior a ninguna conocida. Necesitan pocos alimentos para sobrevivir.</item>
+        <item>Las Silfides son una sociedad matriarcal que antepone la prosperidad de la población a
+            la construcción, sus encantos las convierten en grandes diplomáticas con grandes poderes mentales.</item>
+        <item>Las Volerias se han espcializado en una tecnología basada en la miniaturización, obtienen numerosos
+            recursos aprovechando al máximo los yacimientos, sus inventos son vendidos por toda la galaxia.</item>
+        <item>Los Wurfanos son reptiloides con grandes ansias de conquista, sus mortales armas ponen en jaque
+            a cualquier civilización que sea su objetivo, afortunadamente no son muy numerosos y dependen de los pueblos conquistados</item>
     </string-array>
 
 </resources>

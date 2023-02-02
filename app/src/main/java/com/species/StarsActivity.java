@@ -25,42 +25,45 @@ import java.io.Serializable;
 import java.util.List;
 
 public class StarsActivity extends AppCompatActivity implements Serializable {
-
-    private Species specie;
-    private Stars stars;
+    LoadDB db = new LoadDB(this);
+    private Species specie = new Species();
+    private Stars star = new Stars();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.stars_activity);
-        hideView();
-        stars = new Stars();
-        stars = stars.getMainStar(this);
-        drawSector();
+        View decorView = getWindow().getDecorView();
+        db.hideViewMenu(decorView);
 
+        SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
+        int specieId = data.getInt("specieId", 0);
+        specie = specie.getSpecieById(this, specieId);
+        star = star.getMainStar(this);
+        Log.i("CREATE StarActivity", specie.getName() + "," +star.getName());
+        drawSector();
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int x = (int)event.getRawX();
         int y = (int)event.getRawY();
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                Stars star = new Stars();
-                List<Stars> starList = star.getStars(this);
-                for(Stars val : starList) {
-                    Range<Integer> rangoX = Range.create(x, x+50);
-                    Range<Integer> rangoY = Range.create(y, y+50);
-                    if (rangoX.contains(val.getX()+80) && rangoY.contains(val.getY()+300)) { //getY+250 AVD
-                        Intent i = new Intent(this, SistemActivity.class);
-                        i.putExtra("starId", val.getId());
-                        startActivity(i);
-                        Log.i("StarName", val.getName());
-                        Log.i("Rango", rangoX + "," + rangoY);
-                        Log.i("starCOORD", "X:" + val.getX() + " | Y:" + val.getY());
-                    }
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            Stars star = new Stars();
+            List<Stars> starList = star.getStars(this);
+            for (Stars val : starList) {
+                Range<Integer> rangoX = Range.create(x, x + 50);
+                Range<Integer> rangoY = Range.create(y, y + 50);
+                if (rangoX.contains(val.getX() + 80) && rangoY.contains(val.getY() + 300)) { //getY+250 AVD
+                    Intent i = new Intent(this, SistemActivity.class);
+                    i.putExtra("starId", val.getId());
+                    startActivity(i);
+                    Log.i("StarName", val.getName());
+                    Log.i("Rango", rangoX + "," + rangoY);
+                    Log.i("starCOORD", "X:" + val.getX() + " | Y:" + val.getY());
                 }
-                Log.i("XY", "Specie: " + specie.getName() + " X:" + x + " | Y:" + y);
+            }
+            Log.i("XY", "Specie: " + specie.getName() + " X:" + x + " | Y:" + y);
         }
         return false;
     }
@@ -72,7 +75,6 @@ public class StarsActivity extends AppCompatActivity implements Serializable {
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int width = metrics.widthPixels;
         int height = metrics.heightPixels;
-
         Log.i("Metrics", width + "," + height);
 
         // Crear fondo con medidas
@@ -84,7 +86,8 @@ public class StarsActivity extends AppCompatActivity implements Serializable {
         canvas.drawBitmap(fondoView, new Matrix(), null);
         image.setImageBitmap(bitmap);
 
-        List<Stars> starList = stars.getStars(this);
+        // Draw Stars
+        List<Stars> starList = star.getStars(this);
         //drawJumps(canvas, starList);
         for(Stars star : starList){
             Paint paint = new Paint();
@@ -95,10 +98,7 @@ public class StarsActivity extends AppCompatActivity implements Serializable {
             Bitmap resizeStar = Bitmap.createScaledBitmap(drawPlanet, 100 , 100, true);
             canvas.drawBitmap(resizeStar, (star.getX()), (star.getY()), new Paint());
             canvas.drawText(star.getName(), star.getX() - star.getName().length(), star.getY(), paint);
-
-            //Log.i("stars", val.getName() + ": " + val.getX() + "," + val.getY());
         }
-        // Asociar el BitMap con el ImageView
         image.setImageBitmap(bitmap);
     }
 
@@ -113,15 +113,6 @@ public class StarsActivity extends AppCompatActivity implements Serializable {
         canvas.drawLine(x1, y1, x2, y2, line);
     }
 
-    public void onResume(){
-        super.onResume();
-        specie = new Species();
-        SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
-        int specieId = data.getInt("specieId", 0);
-        specie = specie.getSpecieById(this, specieId);
-        Log.i("specieId", specie.getId()  + "");
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.nav, menu);
@@ -134,13 +125,4 @@ public class StarsActivity extends AppCompatActivity implements Serializable {
         return false;
     }
 
-    private void hideView() {
-        View decorView = getWindow().getDecorView();
-        decorView.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_IMMERSIVE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION );
-    }
 }

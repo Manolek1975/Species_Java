@@ -58,13 +58,18 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.planet_manager);
         hideView();
+
+        res = new Recursos();
         Intent i = getIntent();
+        star = new Stars();
+        int starId = (int)i.getSerializableExtra("starId");
+        star = star.getStarById(this, starId);
         //specie = (Species)i.getSerializableExtra("specie");
         //star = (Stars)i.getSerializableExtra("star");
         //planet = (Planets)i.getSerializableExtra("planet");
-        //build = (Builds)i.getSerializableExtra("build");
+        build = (Builds)i.getSerializableExtra("build");
         //res = (Recursos)i.getSerializableExtra("recursos");
-        //canBuild = (Boolean)i.getSerializableExtra("canBuild");
+        canBuild = (Boolean)i.getSerializableExtra("canBuild");
 
         //planet = new Planets();
         planet = (Planets)i.getSerializableExtra("planet");
@@ -106,9 +111,7 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         boolean origin = surface.getOrigin(this); // Comprueba si hay Colonia Base
         String owner = planet.getOwner();
 
-
-
-        if(explore == 0 || !owner.equals(specie.getName())){
+        if(explore == 0){
             msg.setText("No has explorado este planeta\nConstruye una nave con un sensor\npara escanear la superficie");
             textProyecto.setEnabled(false);
             proyecto.setEnabled(false);
@@ -228,44 +231,44 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         }
 
         img.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN){
-                    int x = (int)event.getX();
-                    int y = (int)event.getY();
-                    for(Surfaces point : buildList){
-                        buildPoint = new Point(point.getX(), point.getY());
-                    }
-                    for(Surfaces surface : squares){
-                        Range<Integer> rangoX = Range.create(x - 80,x + 80);
-                        Range<Integer> rangoY = Range.create(y -40,y + 40);
-                        if(rangoX.contains(surface.getX()) && rangoY.contains(surface.getY())){
-                            buildX = surface.getX();
-                            buildY = surface.getY();
-                            List<Point> availables = setAvailables(buildPoint);
-                            for(Point val : availables){
-                                if(val.x == buildX && val.y == surface.getY() && canBuild){
-                                    if(surface.getColor() == Color.BLACK && build.getId() != 6) break;
-                                    if(surface.getBuild() != null) break;
-                                    int resImage = getResources().getIdentifier(build.getImage(), "drawable", getPackageName());
-                                    Bitmap buildCenter = BitmapFactory.decodeResource(getResources(), resImage);
-                                    canvas.drawBitmap(buildCenter,
-                                            buildX - (buildCenter.getWidth() >> 1),
-                                            buildY - (buildCenter.getHeight() >> 1) - IMAGE_TOP, new Paint());
-                                    // TODO Mostrar squares availables
-                                    //res.increaseRecursos(PlanetManager.this, planet, build, surface.getColor());
-                                    surface.setBuilding(PlanetManager.this, surface, build);
-                                    play();
-                                    canBuild = false;
-                                    showRecursos();
-                                    break;
-                                }
+        public boolean onTouch(View v, MotionEvent event) {
+            if (event.getAction() == MotionEvent.ACTION_DOWN){
+                int x = (int)event.getX();
+                int y = (int)event.getY();
+                for(Surfaces point : buildList){
+                    buildPoint = new Point(point.getX(), point.getY());
+                }
+                for(Surfaces surface : squares){
+                    Range<Integer> rangoX = Range.create(x - 80,x + 80);
+                    Range<Integer> rangoY = Range.create(y -40,y + 40);
+                    if(rangoX.contains(surface.getX()) && rangoY.contains(surface.getY())){
+                        buildX = surface.getX();
+                        buildY = surface.getY();
+                        List<Point> availables = setAvailables(buildPoint);
+                        for(Point val : availables){
+                            if(val.x == buildX && val.y == surface.getY() && canBuild){
+                                if(surface.getColor() == Color.BLACK && build.getId() != 6) break;
+                                if(surface.getBuild() != null) break;
+                                int resImage = getResources().getIdentifier(build.getImage(), "drawable", getPackageName());
+                                Bitmap buildCenter = BitmapFactory.decodeResource(getResources(), resImage);
+                                canvas.drawBitmap(buildCenter,
+                                        buildX - (buildCenter.getWidth() >> 1),
+                                        buildY - (buildCenter.getHeight() >> 1) - IMAGE_TOP, new Paint());
+                                // TODO Mostrar squares availables
+                                //res.increaseRecursos(PlanetManager.this, planet, build, surface.getColor());
+                                surface.setBuilding(PlanetManager.this, surface, build);
+                                play();
+                                canBuild = false;
+                                showRecursos();
+                                break;
                             }
                         }
                     }
                 }
-                img.setImageBitmap(bitmap);
-                return true;
             }
+            img.setImageBitmap(bitmap);
+            return true;
+        }
         });
         lin.addView(img);
 
@@ -327,9 +330,9 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
 
         int numWorkers = surface.countBuildings(this);
         int resWorker = getResources().getIdentifier("worker", "drawable", getPackageName());
-        Bitmap imageWorer = BitmapFactory.decodeResource(getResources(), resWorker);
+        Bitmap imageWorker = BitmapFactory.decodeResource(getResources(), resWorker);
         for (int i = 0; i < numWorkers; i++) {
-            canvas.drawBitmap(imageWorer,
+            canvas.drawBitmap(imageWorker,
                     (image.getWidth()) + 80*i >> 1,
                     (image.getHeight()) >> 1, new Paint());
         }
@@ -374,6 +377,12 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         specie = specie.getSpecieById(this, specieId);
         turn = data.getInt("turn", 0);
         Log.i("specieId", specie.getId()  + "");
+    }
+
+    public void runSistem(View view) {
+        Intent i =  new Intent(this, SistemActivity.class);
+        i.putExtra("starId", star.getId());
+        startActivity(i);
     }
 
     public void runBuilds(View view) {

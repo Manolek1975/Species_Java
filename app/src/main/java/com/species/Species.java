@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -20,15 +21,17 @@ public class Species implements ISpecies {
     private String image;
     private String skill;
     private int type;
+    private int star;
 
     public Species () { super(); }
-    public Species(int id, String name, String desc, String image, String skill, int type) {
+    public Species(int id, String name, String desc, String image, String skill, int type, int star) {
         this.id = id;
         this.name = name;
         this.desc = desc;
         this.image = image;
         this.skill = skill;
         this.type = type;
+        this.star = star;
     }
 
     @Override
@@ -44,7 +47,8 @@ public class Species implements ISpecies {
                     c.getString(2),
                     c.getString(3),
                     c.getString(4),
-                    c.getInt(5)
+                    c.getInt(5),
+                    c.getInt(6)
             );
             speciesList.add(specie);
         }
@@ -58,27 +62,38 @@ public class Species implements ISpecies {
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues newVal = new ContentValues();
-        newVal.put("type", 1);
-        db.update("species", newVal, "id=?", new String[] { String.valueOf(id) });
-
-
-        // Busca planetas tipo congenial
-        // Recoge el primero del rawquery
+        // Busca planetas tipo Agradable
+        Cursor c = db.rawQuery("SELECT * FROM planets WHERE type=? AND size>?", new String[] { "3", "2" });
+        c.moveToFirst();
+        // Recoge el primer planeta del rawquery
+        int idPlanet = c.getInt(0);
+        int starId = c.getInt(1);
         // update owner y explore en planetas
+        newVal = new ContentValues();
+        newVal.put("explore", 1);
+        newVal.put("owner", 1);
+        db.update("planets", newVal, "id=" + idPlanet, null);
         // update explore en estrellas en la especie
+        newVal = new ContentValues();
+        newVal.put("type", 1);
+        newVal.put("explore", 1);
+        db.update("stars", newVal, "id=" + starId, null);
+        // update species
+        newVal = new ContentValues();
+        newVal.put("type", 1);
+        newVal.put("star", starId);
+        db.update("species", newVal, "id=" + id, null);
 
-
-        // Asigna un estrella aleatoria a la especie
-        Random rand = new Random();
-        ContentValues values = new ContentValues();
-        int count = (int) DatabaseUtils.queryNumEntries(db, "species");
-        int starId = rand.nextInt(count) + 1;
-        values.put(DBStars.COLUMN_EXPLORE, true);
-        db.update("stars", values,"id=" + starId, null);
+        c.close();
         db.close();
     }
 
     @Override
+    public Species getMainSpecie(Context context) {
+        return null;
+    }
+
+/*    @Override
     public Species getMainSpecie(Context context) {
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
@@ -91,10 +106,11 @@ public class Species implements ISpecies {
             specie.setImage(c.getString(3));
             specie.setSkill(c.getString(4));
             specie.setType(c.getInt(5));
+
         c.close();
         db.close();
         return specie;
-    }
+    }*/
 
     @Override
     public Species getSpecieById(Context context, int id) {
@@ -180,5 +196,7 @@ public class Species implements ISpecies {
         this.type = type;
     }
 
-
+    public int getStar() {
+        return star;
+    }
 }

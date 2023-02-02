@@ -6,36 +6,33 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.List;
 
 public class SpeciesActivity extends AppCompatActivity {
-
-    Species specie;
-    Stars star;
+    LoadDB db = new LoadDB(this);
+    Species specie = new Species();
+    Stars star = new Stars();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.species_activity);
-        hideView();
-
-        specie = new Species();
-        star = new Stars();
+        View decorView = getWindow().getDecorView();
+        db.hideview(decorView);
 
         drawButtons();
     }
 
     private void drawButtons() {
         LinearLayout lin = findViewById(R.id.idSpeciesButtons);
-        //Species species = new Species();
         List<Species> speciesList = specie.getSpecies(this);
 
         for(Species val : speciesList){
@@ -57,31 +54,29 @@ public class SpeciesActivity extends AppCompatActivity {
         int res = getResources().getIdentifier(val.getImage(), "drawable", this.getPackageName());
 
         AlertDialog alertDialog = new AlertDialog.Builder(this, R.style.AlertDialogStyle)
-                .setIcon(res)
-                .setTitle(val.getName())
-                .setMessage("Los humanos son una raza muy prolífica, investigadores incansables, no se arredran" +
-                        " ante las dificultades, su capacidad les otorga un gran crecimiento y ventajas en la investigación")
-                .setPositiveButton("ACEPTAR", (dialogInterface, i) -> {
-                    DisplayMetrics metrics = new DisplayMetrics();
-                    getWindowManager().getDefaultDisplay().getMetrics(metrics);
-                    int width = metrics.widthPixels;
-                    int height = metrics.heightPixels;
-                    LoadDB db = new LoadDB(this);
-                    db.insertStars(width, height);
-                    db.insertPlanets();
-                    db.insertBuilds();
-                    val.setMainSpecie(SpeciesActivity.this, val.getId());
-                    star.setMainStar(this);
-                    specie = val;
-                    Intent intent = new Intent(SpeciesActivity.this, StarsActivity.class);
-                    startActivity(intent);
-                })
-                .setNegativeButton("RECHAZAR", (dialogInterface, i) -> {
-                    //set what should happen when negative button is clicked
-                    //Toast.makeText(getApplicationContext(),"Acción cancelada",Toast.LENGTH_LONG).show();
-                })
+            .setIcon(res)
+            .setTitle(val.getName())
+            .setMessage(val.getDesc())
+            .setPositiveButton("ACEPTAR", (dialogInterface, i) -> {
+                DisplayMetrics metrics = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(metrics);
+                int width = metrics.widthPixels;
+                int height = metrics.heightPixels;
+                LoadDB db = new LoadDB(this);
+                db.insertStars(width, height);
+                db.insertPlanets();
+                db.insertBuilds();
+                val.setMainSpecie(SpeciesActivity.this, val.getId());
+                specie = val;
+                Intent intent = new Intent(SpeciesActivity.this, StarsActivity.class);
+                startActivity(intent);
+            })
+            .setNegativeButton("RECHAZAR", (dialogInterface, i) -> {
+                Toast.makeText(getApplicationContext(),"Selecciona una specie",Toast.LENGTH_SHORT).show();
+            })
 
-                .show();
+            .show();
+            alertDialog.isShowing();
     }
 
     public void onPause(){
@@ -92,14 +87,4 @@ public class SpeciesActivity extends AppCompatActivity {
         edit.apply();
     }
 
-    private void hideView() {
-        View decorView = getWindow().getDecorView();
-        decorView.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_IMMERSIVE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
-    }
 }

@@ -5,12 +5,11 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -26,35 +25,33 @@ public class LoadDB extends AppCompatActivity implements Serializable {
     protected void deleteDB(){
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
-        //DBHelper.deleteDatabase(context);
-        db.execSQL("delete from "+ DBSpecies.TABLE_NAME);
-        db.execSQL("delete from "+ DBStars.TABLE_NAME);
-        db.execSQL("delete from "+ DBPlanets.TABLE_NAME);
-        db.execSQL("delete from "+ DBBuilds.TABLE_NAME);
-        db.execSQL("delete from "+ DBSurfaces.TABLE_NAME);
-        db.execSQL("delete from "+ DBRecursos.TABLE_NAME);
+        db.execSQL("delete from " + DBSpecies.TABLE_NAME);
+        db.execSQL("delete from " + DBStars.TABLE_NAME);
+        db.execSQL("delete from " + DBPlanets.TABLE_NAME);
+        db.execSQL("delete from " + DBBuilds.TABLE_NAME);
+        db.execSQL("delete from " + DBSurfaces.TABLE_NAME);
+        db.execSQL("delete from " + DBRecursos.TABLE_NAME);
     }
     protected void insertDB() {
         insertSpecies();
-        //insertStars();
     }
     public void insertSpecies() {
         Resources res = context.getResources();
         String[] name = res.getStringArray(R.array.name_species);
         String[] image = res.getStringArray(R.array.image_species);
-        String[] star = res.getStringArray(R.array.star_species);
+        String[] description = res.getStringArray(R.array.description_species);
 
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
         for (int i = 0; i < name.length; i++) {
             values.put(DBSpecies.COLUMN_NAME, name[i]);
-            //values.put(DBSpecies.COLUMN_DESC, description[i]);
+            values.put(DBSpecies.COLUMN_DESC, description[i]);
             values.put(DBSpecies.COLUMN_IMAGE, image[i]);
             //values.put(DBSpecies.COLUMN_SKILL, hability[i]);
             values.put(DBSpecies.COLUMN_TYPE, 0);
-            values.put(DBSpecies.COLUMN_STAR, star[i]);
-            // Inserta una nueva fila con los valores de la key
+            values.put(DBSpecies.COLUMN_STAR, 0);
+
             db.insert(DBSpecies.TABLE_NAME, null, values);
         }
         db.close();
@@ -64,7 +61,6 @@ public class LoadDB extends AppCompatActivity implements Serializable {
         Resources res = context.getResources();
         String[] name = res.getStringArray(R.array.name_stars);
         String[] image = res.getStringArray(R.array.image_stars);
-        //String[] coords = res.getStringArray(R.array.coords_stars);
 
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
@@ -87,7 +83,7 @@ public class LoadDB extends AppCompatActivity implements Serializable {
             String[] split = xy.get(i).split(",");
             int x = Integer.parseInt(split[0]);
             int y = Integer.parseInt(split[1]);
-            // Rellena la tabla Stars
+
             values.put(DBStars.COLUMN_NAME, name[i]);
             values.put(DBStars.COLUMN_SECTOR, 1);
             values.put(DBStars.COLUMN_IMAGE, image[i]);
@@ -97,10 +93,8 @@ public class LoadDB extends AppCompatActivity implements Serializable {
             values.put(DBStars.COLUMN_Y, y + yC);
             values.put(DBStars.COLUMN_TYPE, 0);
             values.put(DBStars.COLUMN_EXPLORE, 0);
-            // Inserta una nueva fila con values
-            db.insert(DBStars.TABLE_NAME, null, values);
 
-            //Log.i("COORDS", i + ":" + x + "," + y);
+            db.insert(DBStars.TABLE_NAME, null, values);
         }
         db.close();
     }
@@ -131,12 +125,12 @@ public class LoadDB extends AppCompatActivity implements Serializable {
         for(Stars star:starsList){
             for(int i=1; i<=star.getPlanets();i++) {
                 Random rand = new Random();
-                values.put(DBPlanets.COLUMN_STAR, star.getName());
+                values.put(DBPlanets.COLUMN_STAR, star.getId());
                 values.put(DBPlanets.COLUMN_NAME, star.getName() + " " + roman(i));
                 values.put(DBPlanets.COLUMN_SIZE, rand.nextInt(5) + 1);
                 values.put(DBPlanets.COLUMN_TYPE, rand.nextInt(11) + 1);
                 values.put(DBPlanets.COLUMN_OWNER, "");
-                // Inserta una nueva fila con los valores de la key
+
                 db.insert(DBPlanets.TABLE_NAME, null, values);
             }
         }
@@ -179,9 +173,36 @@ public class LoadDB extends AppCompatActivity implements Serializable {
             values.put(DBBuilds.COLUMN_PROSPERITY, prosperity[i]);
             values.put(DBBuilds.COLUMN_RESEARCH, research[i]);
             values.put(DBBuilds.COLUMN_POPULATION, population[i]);
-            // Inserta una nueva fila con los valores de la key
+
             db.insert(DBBuilds.TABLE_NAME, null, values);
         }
         db.close();
+    }
+
+    public void hideview(View view) {
+        // Hide both the navigation bar and the status bar.
+        // SYSTEM_UI_FLAG_FULLSCREEN is only available on Android 4.1 and higher, but as
+        // a general rule, you should design your app to hide the status bar whenever you
+        // hide the navigation bar.
+        view.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_IMMERSIVE
+                        // Set the content to appear under the system bars so that the
+                        // content doesn't resize when the system bars hide and show.
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        // Hide the nav bar and status bar
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
+    }
+
+    public void hideViewMenu(View view) {
+        view.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_IMMERSIVE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+        );
     }
 }

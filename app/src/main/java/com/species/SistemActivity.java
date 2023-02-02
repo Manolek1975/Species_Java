@@ -84,7 +84,9 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
                     Range<Integer> rangoY = Range.create(y, y+200);
                     if (rangoX.contains(val.getX()+150) && rangoY.contains(val.getY()+300)) {
                         Intent i = new Intent(this, PlanetManager.class);
+                        i.putExtra("starId", star.getId());
                         i.putExtra("planet", val);
+                        i.putExtra("canBuild", false);
                         startActivity(i);
                     }
                 }
@@ -97,9 +99,6 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
 
     private void drawSistem() {
         ImageView image = findViewById(R.id.sistemView);
-        int angle = 0;
-        int radio = 600;
-
         // Crear fondo con medidas
         Bitmap fondo = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Bitmap bitmap = Bitmap.createBitmap(fondo.getWidth(), fondo.getHeight(), fondo.getConfig());
@@ -121,7 +120,6 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
         // Draw Planets
         int numPlanets = 0;
         Planets planets = new Planets();
-
         List<Planets> planetList = planets.getPlanets(this, star);
         for(Planets planet: planetList){
             numPlanets += 1;
@@ -226,8 +224,6 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
         String[] imageStars = res.getStringArray(R.array.image_stars);
         return imageStars[magnitud-1];
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
