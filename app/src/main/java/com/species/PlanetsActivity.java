@@ -1,41 +1,60 @@
 package com.species;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class PlanetsActivity extends AppCompatActivity implements Serializable {
-
+    Main main = new Main();
+    Stars star = new Stars();
+    Planets planetList = new Planets();
+    int specieId, starId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.planets_activity);
-        hideView();
+        View view = getWindow().getDecorView();
+        main.hideViewMenu(view);
 
-        //drawPlanets();
+        SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
+        specieId = data.getInt("specieId", 0);
+
+        drawPlanets();
 
     }
 
-/*    private void drawPlanets() {
+    private void drawPlanets() {
         //Recursos res = new Recursos();
-        Planets planets = new Planets();
-        List<Planets> worlds = planets.getOwnPlanets(this, specie);
+        List<Planets> planets = planetList.getOwnPlanets(this, specieId);
         // Add Planets
         LinearLayout planetButtons = findViewById(R.id.planetButtons);
-        for(Planets planet: worlds) {
+        for(Planets planet: planets) {
             Button planetButton = new Button(this);
             String iconPlanet = getIconPlanet(planet.getType());
 
             int resImage = this.getResources().getIdentifier(iconPlanet, "drawable", this.getPackageName());
             planetButton.setLayoutParams(new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT));
             planetButton.setCompoundDrawablesWithIntrinsicBounds(resImage, 0, 0, 0);
+            planetButton.setCompoundDrawablePadding(50);
+
             planetButton.setPadding(50,20,0,20);
+
             planetButton.setAllCaps(false);
             planetButton.setText(planet.getName());
             planetButton.setBackgroundColor(Color.TRANSPARENT);
@@ -44,17 +63,24 @@ public class PlanetsActivity extends AppCompatActivity implements Serializable {
 
             planetButton.setOnClickListener(v -> {
                 Intent i = new Intent(PlanetsActivity.this, PlanetManager.class);
-                i.putExtra("specie", specie);
-                i.putExtra("star", star);
+                //i.putExtra("specie", specie);
+                //i.putExtra("star", star);
+                i.putExtra("starId", planet.getStar());
                 i.putExtra("planet", planet);
-                i.putExtra("recursos", res);
+                //i.putExtra("recursos", res);
                 i.putExtra("canBuild", false);
                 startActivity(i);
             });
 
             planetButtons.addView(planetButton);
         }
-    }*/
+    }
+
+    private String getIconPlanet(Integer type) {
+        Resources res = this.getResources();
+        String[] iconPlanet = res.getStringArray(R.array.icon_planet);
+        return iconPlanet[type-1];
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -68,13 +94,4 @@ public class PlanetsActivity extends AppCompatActivity implements Serializable {
         return false;
     }
 
-    private void hideView() {
-        View decorView = getWindow().getDecorView();
-        decorView.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_IMMERSIVE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION );
-    }
 }

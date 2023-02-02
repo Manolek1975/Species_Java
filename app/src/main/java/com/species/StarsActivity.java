@@ -46,7 +46,7 @@ public class StarsActivity extends AppCompatActivity implements Serializable {
         int specieId = data.getInt("specieId", 0);
         specie = specie.getSpecieById(this, specieId);
         star = star.getMainStar(this);
-        Log.i("CREATE StarActivity", specie.getName() + ", " +star.getName());
+        Log.i("StarActivity", specie.getName() + ", " +star.getName());
         drawSector();
     }
 
@@ -64,12 +64,8 @@ public class StarsActivity extends AppCompatActivity implements Serializable {
                     Intent i = new Intent(this, SistemActivity.class);
                     i.putExtra("starId", val.getId());
                     startActivity(i);
-                    Log.i("StarName", val.getName());
-                    Log.i("Rango", rangoX + "," + rangoY);
-                    Log.i("starCOORD", "X:" + val.getX() + " | Y:" + val.getY());
                 }
             }
-            Log.i("XY", " X:" + x + " | Y:" + y);
         }
         return false;
     }

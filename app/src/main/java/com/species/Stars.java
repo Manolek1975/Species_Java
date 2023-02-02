@@ -100,6 +100,8 @@ public class Stars implements IStars {
                 c.getInt(8),
                 c.getInt(9)
         );
+        c.close();
+        db.close();
         return star;
     }
 

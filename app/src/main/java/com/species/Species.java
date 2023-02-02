@@ -71,7 +71,7 @@ public class Species implements ISpecies {
         // update owner y explore en planetas
         newVal = new ContentValues();
         newVal.put("explore", 1);
-        newVal.put("owner", 1);
+        newVal.put("owner", id);
         db.update("planets", newVal, "id=" + idPlanet, null);
         // update explore en estrellas en la especie
         newVal = new ContentValues();

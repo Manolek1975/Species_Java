@@ -38,7 +38,7 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
 
     public static final int IMAGE_TOP = 20; // Distancia superior de la imagen
     private Species specie;
-    private Stars star;
+    private Stars star = new Stars();
     private Planets planet;
     private Builds build;
     private Surfaces surface;
@@ -61,12 +61,14 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
 
         res = new Recursos();
         Intent i = getIntent();
-        star = new Stars();
         int starId = (int)i.getSerializableExtra("starId");
         star = star.getStarById(this, starId);
+        //star = new Stars();
+        //int starId = (int)i.getSerializableExtra("starId");
+        //star = star.getStarById(this, starId);
         //specie = (Species)i.getSerializableExtra("specie");
         //star = (Stars)i.getSerializableExtra("star");
-        //planet = (Planets)i.getSerializableExtra("planet");
+        planet = (Planets)i.getSerializableExtra("planet");
         build = (Builds)i.getSerializableExtra("build");
         //res = (Recursos)i.getSerializableExtra("recursos");
         canBuild = (Boolean)i.getSerializableExtra("canBuild");

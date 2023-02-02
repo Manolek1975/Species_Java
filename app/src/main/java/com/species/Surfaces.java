@@ -274,7 +274,7 @@ public class Surfaces implements Serializable {
     public void setSquares(Context context, Surfaces surface) {
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE planet='" + surface.planet + "'", null);
+       // Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE planet='" + surface.planet + "'", null);
         ContentValues values = new ContentValues();
         values.put(DBSurfaces.COLUMN_PLANET, surface.planet );
         values.put(DBSurfaces.COLUMN_BUILD, surface.build );
@@ -283,6 +283,8 @@ public class Surfaces implements Serializable {
         values.put(DBSurfaces.COLUMN_COLOR, surface.color );
 
         db.insert(DBSurfaces.TABLE_NAME, null, values);
+        //c.close();
+        db.close();
     }
 
     public void setBuilding(Context context, Surfaces surface, Builds build) {
@@ -293,6 +295,7 @@ public class Surfaces implements Serializable {
         values.put(DBSurfaces.COLUMN_TURNS, build.getCost());
 
         db.update("surfaces", values,"id=" + surface.getId(), null);
+        db.close();
     }
 
     public int countBuildings(Context context){

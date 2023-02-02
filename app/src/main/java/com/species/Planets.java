@@ -48,7 +48,6 @@ public class Planets implements IPlanets, Serializable {
     public List<Planets> getPlanets(Context context, Stars star) {
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getReadableDatabase();
-
         Cursor c = db.rawQuery("SELECT * FROM planets WHERE star='" + star.getId() + "'", null);
         List<Planets> planetsList = new ArrayList<>();
         while (c.moveToNext()) {
@@ -97,11 +96,11 @@ public class Planets implements IPlanets, Serializable {
     }
 
     @Override
-    public List<Planets> getOwnPlanets(Context context, Species specie) {
+    public List<Planets> getOwnPlanets(Context context, int specieId) {
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getReadableDatabase();
 
-        Cursor c = db.rawQuery("SELECT * FROM planets WHERE owner='" + specie.getName() + "'", null);
+        Cursor c = db.rawQuery("SELECT * FROM planets WHERE owner=" + specieId, null);
         List<Planets> planetsList = new ArrayList<>();
         while (c.moveToNext()) {
             Planets planet = new Planets(

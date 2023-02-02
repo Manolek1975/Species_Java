@@ -10,7 +10,7 @@ public interface IPlanets {
     List<Planets> getPlanets(Context context, Stars star);
 
     Planets getPlanetById(Context context, int id);
-    List<Planets> getOwnPlanets(Context context, Species specie);
+    List<Planets> getOwnPlanets(Context context, int specieId);
 
     Planets getPlanetTarget(Context context, String planetName);
 

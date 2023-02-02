@@ -39,8 +39,8 @@ public class SpeciesActivity extends AppCompatActivity {
             Button button = new Button(this);
             button.setLayoutParams(new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT));
             button.setCompoundDrawablesWithIntrinsicBounds(image, 0, 0, 0);
-            button.setText(val.getName());
             button.setCompoundDrawablePadding(50);
+            button.setText(val.getName());
             button.setBackgroundColor(Color.TRANSPARENT);
             button.setTextColor(Color.WHITE);
             button.setOnClickListener(v -> runStars(val));

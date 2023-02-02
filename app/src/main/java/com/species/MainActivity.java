@@ -3,6 +3,7 @@ package com.species;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.view.View;
 
@@ -19,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.main_activity);
         View view = getWindow().getDecorView();
         main.hideview(view);
-
     }
 
     public void runSpecies(View view){

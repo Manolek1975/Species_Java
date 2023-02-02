@@ -63,7 +63,7 @@ public class BuildsActivity extends AppCompatActivity implements Serializable {
                 //Intent i = new Intent(this, PlanetManager.class);
                 Intent i = new Intent(this, PlanetManager.class);
                 //i.putExtra("specie", specie);
-                //i.putExtra("star", star);
+                i.putExtra("starId", planet.getStar());
                 i.putExtra("planet", planet);
                 i.putExtra("build", build);
                 //i.putExtra("recursos", res);

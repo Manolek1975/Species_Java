@@ -1,5 +1,7 @@
 package com.species;
 
+import android.graphics.Point;
+import android.util.DisplayMetrics;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;

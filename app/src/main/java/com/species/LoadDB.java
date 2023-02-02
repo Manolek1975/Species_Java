@@ -158,6 +158,7 @@ public class LoadDB extends AppCompatActivity implements Serializable {
         String[] prosperity = res.getStringArray(R.array.builds_prosperity);
         String[] research = res.getStringArray(R.array.builds_research);
         String[] population = res.getStringArray(R.array.builds_max_population);
+
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
