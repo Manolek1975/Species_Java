@@ -2,12 +2,14 @@ package com.species;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
@@ -20,6 +22,8 @@ import android.view.View;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 
 import java.io.Serializable;
 import java.util.List;
@@ -83,6 +87,7 @@ public class StarsActivity extends AppCompatActivity implements Serializable {
         Bitmap fondo = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Bitmap bitmap = Bitmap.createBitmap(fondo.getWidth(), fondo.getHeight(), fondo.getConfig());
         Canvas canvas = new Canvas(bitmap);
+
         int resImageFondo = this.getResources().getIdentifier("fondo_sector", "drawable", this.getPackageName());
         Bitmap fondoView = BitmapFactory.decodeResource(getResources(), resImageFondo);
         canvas.drawBitmap(fondoView, new Matrix(), null);
@@ -91,9 +96,15 @@ public class StarsActivity extends AppCompatActivity implements Serializable {
         // Draw Stars
         List<Stars> starList = star.getStars(this);
         //drawJumps(canvas, starList);
+        int starInit = specie.getStar();
         for(Stars star : starList){
             Paint paint = new Paint();
-            paint.setColor(Color.WHITE);
+            if (star.getId() == specie.getStar()){
+                paint.setColor(Color.GREEN);
+            } else {
+                paint.setColor(Color.WHITE);
+            }
+
             paint.setTextSize(24);
             int resImage = this.getResources().getIdentifier(star.getImage(), "drawable", this.getPackageName());
             Bitmap drawPlanet = BitmapFactory.decodeResource(getResources(), resImage);

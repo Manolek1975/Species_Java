@@ -7,12 +7,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Point;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class Planets implements IPlanets, Serializable {
+public class Planets extends AppCompatActivity implements IPlanets, Serializable {
 
     public static final int POPULATION_INIT = 50;
     private Integer id;
@@ -28,7 +30,6 @@ public class Planets implements IPlanets, Serializable {
     private int origin;
 
     public Planets(){super();}
-    public Planets(Integer id) { this.id = id; }
 
     public Planets(Integer id, Integer star, String name, Integer size, Integer type,
                    Integer x, Integer y,int population, String owner, int explore, int origin) {
@@ -162,7 +163,18 @@ public class Planets implements IPlanets, Serializable {
         db.close();
     }
 
+    //TODO Asignar imagen según el tipo de planeta
+    protected String getImagePlanet(Context context, Integer type) {
+        Resources res = context.getResources();
+        String[] imagePlanet = res.getStringArray(R.array.image_planet);
+        return imagePlanet[type-1];
+    }
 
+    public String getIconPlanet(Context context, Integer type) {
+        Resources res = context.getResources();
+        String[] iconPlanet = res.getStringArray(R.array.icon_planet);
+        return iconPlanet[type-1];
+    }
 
 /*    public void setPopulation(Context context, Planets planet, Recursos res) {
         DBHelper helper = new DBHelper(context);

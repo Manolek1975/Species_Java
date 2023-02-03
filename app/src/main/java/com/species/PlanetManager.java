@@ -26,18 +26,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class PlanetManager extends AppCompatActivity implements Serializable {
 
     public static final int IMAGE_TOP = 20; // Distancia superior de la imagen
-    private Species specie;
     private Stars star = new Stars();
     private Planets planet;
     private Builds build;
@@ -48,9 +45,6 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
     private Boolean canBuild;
     private LinearLayout lin;
     private ImageView img;
-    private Button proyecto;
-    private int turn;
-    private int cost;
 
 
     @Override
@@ -63,19 +57,10 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         Intent i = getIntent();
         int starId = (int)i.getSerializableExtra("starId");
         star = star.getStarById(this, starId);
-        //star = new Stars();
-        //int starId = (int)i.getSerializableExtra("starId");
-        //star = star.getStarById(this, starId);
-        //specie = (Species)i.getSerializableExtra("specie");
-        //star = (Stars)i.getSerializableExtra("star");
         planet = (Planets)i.getSerializableExtra("planet");
         build = (Builds)i.getSerializableExtra("build");
-        //res = (Recursos)i.getSerializableExtra("recursos");
         canBuild = (Boolean)i.getSerializableExtra("canBuild");
-
-        //planet = new Planets();
         planet = (Planets)i.getSerializableExtra("planet");
-        //planet = planet.getPlanetById(this, planet.getId());
 
         lin = findViewById(R.id.planetLayout);
         img = findViewById(R.id.planetView);
@@ -111,43 +96,20 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         surface = new Surfaces();
         int explore = planet.getExplore();
         boolean origin = surface.getOrigin(this); // Comprueba si hay Colonia Base
-        String owner = planet.getOwner();
 
         if(explore == 0){
-            msg.setText("No has explorado este planeta\nConstruye una nave con un sensor\npara escanear la superficie");
+            msg.setText(R.string.explore);
             textProyecto.setEnabled(false);
             proyecto.setEnabled(false);
             Log.i("NO_EXPLORADO", explore+"");
         } else if(origin){
-            msg.setText("Sin Proyecto");
+            msg.setText(R.string.proyecto);
             Log.i("ORIGEN", origin+"");
             drawSurface();
         } else {
-            msg.setText("Sin Proyecto");
+            msg.setText(R.string.proyecto);
             setNewSurface();
         }
-    }
-
-
-    private void drawPlanet(Bitmap fondo, Bitmap bitmap, Canvas canvas, int size) {
-        String imagePlanet = getImagePlanet(planet.getType());
-        int resImage = this.getResources().getIdentifier(imagePlanet, "drawable", this.getPackageName());
-        Bitmap planetCenter = BitmapFactory.decodeResource(getResources(), resImage);
-        Bitmap resizePlanet = Bitmap.createScaledBitmap(planetCenter, size*230, size*230, true);
-        // Draw Planet
-        canvas.drawBitmap(fondo, new Matrix(), null);
-        canvas.drawBitmap(resizePlanet,
-                (fondo.getWidth() - resizePlanet.getWidth()) >> 1,
-                (fondo.getHeight() - resizePlanet.getHeight()) >> 1, new Paint());
-        img.setImageBitmap(bitmap);
-
-    }
-
-    //TODO Asignar imagen según el tipo de planeta
-    private String getImagePlanet(Integer type) {
-        Resources res = this.getResources();
-        String[] imagePlanet = res.getStringArray(R.array.image_planet);
-        return imagePlanet[type-1];
     }
 
     private void setNewSurface() {
@@ -190,10 +152,11 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         }
         for(Surfaces surface : squares){
             int i = 1;
-            List<Point> availables = this.setAvailables(buildPoint);
+            List<Point> availables = this.setAvailables();
             for(Point val : availables){
-                if(val.x == surface.getX() && val.y == surface.getY()){
+                if (val.x == surface.getX() && val.y == surface.getY()) {
                     i = 5;
+                    break;
                 }
             }
             Path wallpath = new Path();
@@ -212,8 +175,6 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
             }
             canvas.drawPath(wallpath, color);
             color.setStyle(Paint.Style.STROKE);
-            // Log.i("last", surface.getX() + " - " + surface.getY());
-            //color.setAlpha(500);
         }
         img.setImageBitmap(bitmap);
 
@@ -232,8 +193,7 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
             ((ViewGroup) img.getParent()).removeView(img);
         }
 
-        img.setOnTouchListener(new View.OnTouchListener() {
-        public boolean onTouch(View v, MotionEvent event) {
+        img.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN){
                 int x = (int)event.getX();
                 int y = (int)event.getY();
@@ -246,7 +206,7 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
                     if(rangoX.contains(surface.getX()) && rangoY.contains(surface.getY())){
                         buildX = surface.getX();
                         buildY = surface.getY();
-                        List<Point> availables = setAvailables(buildPoint);
+                        List<Point> availables = setAvailables();
                         for(Point val : availables){
                             if(val.x == buildX && val.y == surface.getY() && canBuild){
                                 if(surface.getColor() == Color.BLACK && build.getId() != 6) break;
@@ -270,10 +230,22 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
             }
             img.setImageBitmap(bitmap);
             return true;
-        }
         });
         lin.addView(img);
 
+    }
+
+    private void drawPlanet(Bitmap fondo, Bitmap bitmap, Canvas canvas, int size) {
+        String imagePlanet = planet.getImagePlanet(this, planet.getType());
+        int resImage = this.getResources().getIdentifier(imagePlanet, "drawable", this.getPackageName());
+        Bitmap planetCenter = BitmapFactory.decodeResource(getResources(), resImage);
+        Bitmap resizePlanet = Bitmap.createScaledBitmap(planetCenter, size*230, size*230, true);
+        // Draw Planet
+        canvas.drawBitmap(fondo, new Matrix(), null);
+        canvas.drawBitmap(resizePlanet,
+                (fondo.getWidth() - resizePlanet.getWidth()) >> 1,
+                (fondo.getHeight() - resizePlanet.getHeight()) >> 1, new Paint());
+        img.setImageBitmap(bitmap);
     }
 
     private void showRecursos() {
@@ -290,10 +262,10 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
 
         List<Recursos> recursos = res.getRecursos(this, planet);
         for (Recursos val : recursos) {
-            industry.setText("Industria: " + String.valueOf(val.getIndustry()));
-            prosperity.setText("Alimentos: " + String.valueOf(val.getProsperity()));
-            research.setText("Ciencia: " + String.valueOf(val.getResearch()));
-            population.setText("Población: " + String.valueOf(val.getPopulation()));
+            industry.setText(String.format("Industria: %s", val.getIndustry()));
+            prosperity.setText(String.format("Alimentos: %s", val.getProsperity()));
+            research.setText(String.format("Ciencia: %s", val.getResearch()));
+            population.setText(String.format("Población: %s", val.getPopulation()));
             numPopulation = val.getPopulation();
         }
 
@@ -344,8 +316,8 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         List<Surfaces> surfaceList = surface.getTurns(this);
         for(Surfaces val : surfaceList){
             textProyecto.setText(val.getBuild());
-            textProyectoTurnos.setText(String.valueOf(val.getTurns()) + " turnos");
-            message.setText("Construyendo " + val.getBuild());
+            textProyectoTurnos.setText(String.format("%s turnos", val.getTurns()));
+            message.setText(String.format("Construyendo %s", val.getBuild()));
             message.setTextColor(Color.GREEN);
             Builds build = new Builds();
             String buildImage = build.getImageBuild(this, val.getBuild());
@@ -354,7 +326,7 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         }
     }
 
-    private List<Point> setAvailables(Point p) {
+    private List<Point> setAvailables() {
         List<Surfaces> builds = surface.getBuildings(this, planet.getName());
         List<Point> availables = new ArrayList<>();
         for(Surfaces val : builds) {
@@ -373,11 +345,10 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
 
     public void onResume(){
         super.onResume();
-        specie = new Species();
+        Species specie = new Species();
         SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
         int specieId = data.getInt("specieId", 0);
         specie = specie.getSpecieById(this, specieId);
-        turn = data.getInt("turn", 0);
         Log.i("specieId", specie.getId()  + "");
     }
 

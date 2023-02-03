@@ -238,15 +238,14 @@ public class Surfaces implements Serializable {
     }
 
     public boolean getOrigin(Context context) {
+        boolean origin;
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
         Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE build='Colonia Base'", null);
-        if (c.moveToFirst() && c.getCount() > 0) {
-            return true;
-        }
+        origin = c.moveToFirst() && c.getCount() > 0;
         c.close();
         db.close();
-        return false;
+        return origin;
     }
 
     public List<Surfaces> getSurfaces(Context context, String planet) {
@@ -336,7 +335,7 @@ public class Surfaces implements Serializable {
         SQLiteDatabase db = helper.getWritableDatabase();
         Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE turns > 0", null);
         c.moveToFirst();
-        if(c.getCount() == 0) { return null; };
+        if(c.getCount() == 0) { return null; }
         Surfaces surface = new Surfaces(
                 c.getInt(0),
                 c.getString(1),

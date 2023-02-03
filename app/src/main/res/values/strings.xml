@@ -23,12 +23,15 @@
     <string name="text_investigación">Ciencia: 0</string>
     <string name="text_poblacion">Población: 0</string>
     <string name="message_type_planet">Planeta Medio Rico</string>
+    <string name="proyecto">Sin Proyecto</string>
 
     <!-- MENSAJES -->
     <string name="planets_mensaje">No tienes Planetas</string>
     <string name="ship_mensaje">Aun no has construido ninguna nave</string>
     <string name="sciencie_mensaje">Aun no has investigado ninguna ciencia</string>
     <string name="diplomacy_mensaje">Aun no has contactado con ningún alien</string>
+    <string name="explore">No has explorado este planeta
+        Construye una nave con un sensor para escanear la superficie</string>
 
 
 </resources>

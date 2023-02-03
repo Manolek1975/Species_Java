@@ -3,15 +3,11 @@ package com.species;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+
 
 public class Species implements ISpecies {
 
@@ -66,20 +62,20 @@ public class Species implements ISpecies {
         Cursor c = db.rawQuery("SELECT * FROM planets WHERE type=? AND size>?", new String[] { "3", "2" });
         c.moveToFirst();
         // Recoge el primer planeta del rawquery
+        //TODO Recoger el primer planeta medio
         int idPlanet = c.getInt(0);
         int starId = c.getInt(1);
         // update owner y explore en planetas
-        newVal = new ContentValues();
         newVal.put("explore", 1);
         newVal.put("owner", id);
         db.update("planets", newVal, "id=" + idPlanet, null);
         // update explore en estrellas en la especie
-        newVal = new ContentValues();
+        newVal.clear();// = new ContentValues();
         newVal.put("type", 1);
         newVal.put("explore", 1);
         db.update("stars", newVal, "id=" + starId, null);
         // update species
-        newVal = new ContentValues();
+        newVal.clear();// = new ContentValues();
         newVal.put("type", 1);
         newVal.put("star", starId);
         db.update("species", newVal, "id=" + id, null);
@@ -125,6 +121,7 @@ public class Species implements ISpecies {
         specie.setImage(c.getString(3));
         specie.setSkill(c.getString(4));
         specie.setType(c.getInt(5));
+        specie.setStar(c.getInt(6));
         c.close();
         db.close();
         return specie;
@@ -143,6 +140,7 @@ public class Species implements ISpecies {
             specie.setImage(c.getString(3));
             specie.setSkill(c.getString(4));
             specie.setType(c.getInt(5));
+            specie.setStar(c.getInt(6));
         c.close();
         db.close();
         return specie;
@@ -198,5 +196,9 @@ public class Species implements ISpecies {
 
     public int getStar() {
         return star;
+    }
+
+    public void setStar(int star) {
+        this.star = star;
     }
 }

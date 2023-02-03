@@ -6,7 +6,6 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,9 +21,8 @@ import java.util.List;
 
 public class PlanetsActivity extends AppCompatActivity implements Serializable {
     Main main = new Main();
-    Stars star = new Stars();
     Planets planetList = new Planets();
-    int specieId, starId;
+    int specieId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +44,7 @@ public class PlanetsActivity extends AppCompatActivity implements Serializable {
         LinearLayout planetButtons = findViewById(R.id.planetButtons);
         for(Planets planet: planets) {
             Button planetButton = new Button(this);
-            String iconPlanet = getIconPlanet(planet.getType());
+            String iconPlanet = planet.getIconPlanet(this, planet.getType());
 
             int resImage = this.getResources().getIdentifier(iconPlanet, "drawable", this.getPackageName());
             planetButton.setLayoutParams(new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT));
@@ -74,12 +72,6 @@ public class PlanetsActivity extends AppCompatActivity implements Serializable {
 
             planetButtons.addView(planetButton);
         }
-    }
-
-    private String getIconPlanet(Integer type) {
-        Resources res = this.getResources();
-        String[] iconPlanet = res.getStringArray(R.array.icon_planet);
-        return iconPlanet[type-1];
     }
 
     @Override
