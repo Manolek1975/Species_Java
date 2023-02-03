@@ -21,11 +21,10 @@ public class Surfaces implements Serializable {
     private Integer id;
     private String planet;
     private String build;
-    private Integer turns = -1;
     private Integer x;
     private Integer y;
     private Integer color;
-    private int turn;
+    private int turns;
 
     public Surfaces(){ super();}
 
@@ -67,6 +66,159 @@ public class Surfaces implements Serializable {
             coords.add(point);
         }
         return coords;
+    }
+
+    public List<Surfaces> getBuildings(Context context, String planet){
+        DBHelper helper = new DBHelper(context);
+        SQLiteDatabase db = helper.getReadableDatabase();
+        //Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE planet='" + planet + "' AND turns=" + 0, null);
+        Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE planet=? AND build NOT NULL AND build<>0",
+                new String[] {planet});
+        List<Surfaces> buildList = new ArrayList<>();
+        while (c.moveToNext()) {
+            Surfaces surface = new Surfaces(
+                    c.getInt(0),
+                    c.getString(1),
+                    c.getString(2),
+                    c.getInt(3),
+                    c.getInt(4),
+                    c.getInt(5),
+                    c.getInt(6)
+            );
+            buildList.add(surface);
+        }
+        c.close();
+        db.close();
+
+        return buildList;
+    }
+
+    public boolean getOrigin(Context context) {
+        boolean origin;
+        DBHelper helper = new DBHelper(context);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE build='Colonia Base'", null);
+        origin = c.moveToFirst() && c.getCount() > 0;
+        c.close();
+        db.close();
+        return origin;
+    }
+
+    public List<Surfaces> getSurfaces(Context context, String planet) {
+        DBHelper helper = new DBHelper(context);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM surfaces WHERE planet='" + planet + "'", null);
+        List<Surfaces> surfaceList = new ArrayList<>();
+        while(cursor.moveToNext()) {
+            Surfaces surface = new Surfaces(
+                cursor.getInt(0),
+                cursor.getString(1),
+                cursor.getString(2),
+                cursor.getInt(3),
+                cursor.getInt(4),
+                cursor.getInt(5),
+                cursor.getInt(6)
+            );
+            surfaceList.add(surface);
+        }
+        cursor.close();
+        db.close();
+        return surfaceList;
+    }
+
+    public void setSquares(Context context, Surfaces surface) {
+        DBHelper helper = new DBHelper(context);
+        SQLiteDatabase db = helper.getWritableDatabase();
+       // Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE planet='" + surface.planet + "'", null);
+        ContentValues values = new ContentValues();
+        values.put(DBSurfaces.COLUMN_PLANET, surface.planet );
+        values.put(DBSurfaces.COLUMN_BUILD, surface.build );
+        values.put(DBSurfaces.COLUMN_TURNS, surface.turns );
+        values.put(DBSurfaces.COLUMN_X, surface.x );
+        values.put(DBSurfaces.COLUMN_Y, surface.y );
+        values.put(DBSurfaces.COLUMN_COLOR, surface.color );
+
+        db.insert(DBSurfaces.TABLE_NAME, null, values);
+        //c.close();
+        db.close();
+    }
+
+    public void setBuilding(Context context, Surfaces surface, Builds build) {
+        DBHelper helper = new DBHelper(context);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DBSurfaces.COLUMN_BUILD, build.getName());
+        values.put(DBSurfaces.COLUMN_TURNS, build.getCost());
+
+        db.update("surfaces", values,"id=" + surface.getId(), null);
+        db.close();
+    }
+
+    public int countBuildings(Context context){
+        DBHelper helper = new DBHelper(context);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        Cursor c = db.rawQuery("SELECT build FROM surfaces WHERE build NOT NULL", null);
+        c.moveToFirst();
+            int count = c.getCount();
+        c.close();
+        db.close();
+        return count;
+    }
+
+    public List<Surfaces> getTurns(Context context) {
+        DBHelper helper = new DBHelper(context);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE turns > 0", null);
+        List<Surfaces> surfaceList = new ArrayList<>();
+        while(c.moveToNext()) {
+                Surfaces surface = new Surfaces(
+                        c.getInt(0),
+                        c.getString(1),
+                        c.getString(2),
+                        c.getInt(3),
+                        c.getInt(4),
+                        c.getInt(5),
+                        c.getInt(6)
+                );
+            surfaceList.add(surface);
+        }
+        c.close();
+        db.close();
+        return surfaceList;
+    }
+
+    public Surfaces getSurfaceProyecto(Context context) {
+        DBHelper helper = new DBHelper(context);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE turns > 0", null);
+        c.moveToFirst();
+        if(c.getCount() == 0) { return null; }
+        Surfaces surface = new Surfaces(
+                c.getInt(0),
+                c.getString(1),
+                c.getString(2),
+                c.getInt(3),
+                c.getInt(4),
+                c.getInt(5),
+                c.getInt(6));
+        c.close();
+        db.close();
+        return surface;
+    }
+
+    public void setCost(Context context, Integer cost) {
+        DBHelper helper = new DBHelper(context);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        Cursor c = db.rawQuery("SELECT id FROM surfaces WHERE turns > 0", null);
+        c.moveToFirst();
+        if(c.getCount() > 0) {
+            id = c.getInt(0);
+            ContentValues values = new ContentValues();
+            values.put(DBSurfaces.COLUMN_TURNS, cost);
+            db.update("surfaces", values,"id=" + id, null);
+        }
+        c.close();
+        db.close();
     }
 
     public Paint setSquareColor(Paint color, int type){
@@ -214,170 +366,6 @@ public class Surfaces implements Serializable {
 
     }
 
-    public List<Surfaces> getBuildings(Context context, String planet){
-        DBHelper helper = new DBHelper(context);
-        SQLiteDatabase db = helper.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE planet='" + planet + "' AND build NOT NULL", null);
-        List<Surfaces> buildList = new ArrayList<>();
-        while (c.moveToNext()) {
-            Surfaces surface = new Surfaces(
-                    c.getInt(0),
-                    c.getString(1),
-                    c.getString(2),
-                    c.getInt(3),
-                    c.getInt(4),
-                    c.getInt(5),
-                    c.getInt(6)
-            );
-            buildList.add(surface);
-        }
-        c.close();
-        db.close();
-
-        return buildList;
-    }
-
-    public boolean getOrigin(Context context) {
-        boolean origin;
-        DBHelper helper = new DBHelper(context);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE build='Colonia Base'", null);
-        origin = c.moveToFirst() && c.getCount() > 0;
-        c.close();
-        db.close();
-        return origin;
-    }
-
-    public List<Surfaces> getSurfaces(Context context, String planet) {
-        DBHelper helper = new DBHelper(context);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM surfaces WHERE planet='" + planet + "'", null);
-        List<Surfaces> surfaceList = new ArrayList<>();
-        while(cursor.moveToNext()) {
-            Surfaces surface = new Surfaces(
-                cursor.getInt(0),
-                cursor.getString(1),
-                cursor.getString(2),
-                cursor.getInt(3),
-                cursor.getInt(4),
-                cursor.getInt(5),
-                cursor.getInt(6)
-            );
-            surfaceList.add(surface);
-        }
-        cursor.close();
-        db.close();
-        return surfaceList;
-    }
-
-    public void setSquares(Context context, Surfaces surface) {
-        DBHelper helper = new DBHelper(context);
-        SQLiteDatabase db = helper.getWritableDatabase();
-       // Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE planet='" + surface.planet + "'", null);
-        ContentValues values = new ContentValues();
-        values.put(DBSurfaces.COLUMN_PLANET, surface.planet );
-        values.put(DBSurfaces.COLUMN_BUILD, surface.build );
-        values.put(DBSurfaces.COLUMN_X, surface.x );
-        values.put(DBSurfaces.COLUMN_Y, surface.y );
-        values.put(DBSurfaces.COLUMN_COLOR, surface.color );
-
-        db.insert(DBSurfaces.TABLE_NAME, null, values);
-        //c.close();
-        db.close();
-    }
-
-    public void setBuilding(Context context, Surfaces surface, Builds build) {
-        DBHelper helper = new DBHelper(context);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(DBSurfaces.COLUMN_BUILD, build.getName());
-        values.put(DBSurfaces.COLUMN_TURNS, build.getCost());
-
-        db.update("surfaces", values,"id=" + surface.getId(), null);
-        db.close();
-    }
-
-    public int countBuildings(Context context){
-        DBHelper helper = new DBHelper(context);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        Cursor c = db.rawQuery("SELECT build FROM surfaces WHERE build NOT NULL", null);
-        c.moveToFirst();
-            int count = c.getCount();
-        c.close();
-        db.close();
-        return count;
-    }
-
-    public List<Surfaces> getTurns(Context context) {
-        DBHelper helper = new DBHelper(context);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE turns > 0", null);
-        List<Surfaces> surfaceList = new ArrayList<>();
-        while(c.moveToNext()) {
-                Surfaces surface = new Surfaces(
-                        c.getInt(0),
-                        c.getString(1),
-                        c.getString(2),
-                        c.getInt(3),
-                        c.getInt(4),
-                        c.getInt(5),
-                        c.getInt(6)
-                );
-            surfaceList.add(surface);
-        }
-        c.close();
-        db.close();
-        return surfaceList;
-    }
-
-    public Surfaces getSurfaceProyecto(Context context) {
-        DBHelper helper = new DBHelper(context);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE turns > 0", null);
-        c.moveToFirst();
-        if(c.getCount() == 0) { return null; }
-        Surfaces surface = new Surfaces(
-                c.getInt(0),
-                c.getString(1),
-                c.getString(2),
-                c.getInt(3),
-                c.getInt(4),
-                c.getInt(5),
-                c.getInt(6));
-        c.close();
-        db.close();
-        return surface;
-    }
-
-    public void setCost(Context context, Integer cost) {
-        DBHelper helper = new DBHelper(context);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        Cursor c = db.rawQuery("SELECT id FROM surfaces WHERE turns > 0", null);
-        c.moveToFirst();
-        if(c.getCount() > 0) {
-            id = c.getInt(0);
-            ContentValues values = new ContentValues();
-            values.put(DBSurfaces.COLUMN_TURNS, cost);
-            db.update("surfaces", values,"id=" + id, null);
-        }
-        c.close();
-        db.close();
-    }
-
-    public int incTurn() {
-        turn += 1;
-        return turn;
-    }
-
-    public int decTurns() {
-        turns -= 1;
-        return turns;
-    }
-
-    public void setTurn(int turn) { this.turn = turn; }
-    public int getTurn() { return turn; }
-    public void setTurns(int turns) { this.turns = turns; }
-    public Integer getTurns() { return turns; }
     public Integer getId() { return id; }
     public String getPlanet() { return planet; }
     public String getBuild() { return build; }
@@ -390,6 +378,11 @@ public class Surfaces implements Serializable {
     public void setY(Integer y) { this.y = y; }
     public void setColor(int color) { this.color = color; }
 
+    public int getTurns() {
+        return turns;
+    }
 
-
+    public void setTurns(int turns) {
+        this.turns = turns;
+    }
 }

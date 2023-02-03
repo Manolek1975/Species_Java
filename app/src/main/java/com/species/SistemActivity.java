@@ -6,7 +6,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -66,7 +65,7 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
             for (Planets val : planetsList) {
                 Range<Integer> rangoX = Range.create(x, x + 200);
                 Range<Integer> rangoY = Range.create(y, y + 200);
-                if (rangoX.contains(val.getX() + 150) && rangoY.contains(val.getY() + 300)) {
+                if (rangoX.contains(val.getX() + 150) && rangoY.contains(val.getY() + 400)) {
                     Intent i = new Intent(this, PlanetManager.class);
                     i.putExtra("starId", star.getId());
                     i.putExtra("planet", val);
@@ -108,14 +107,6 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
             int size = planet.getSize();
             centerX = width >> 1;
             centerY = height >> 1;
-/*
-            // Draw orbit
-            Paint p = new Paint();
-            p.setColor(Color.WHITE);
-            p.setStrokeWidth(2);
-            p.setStyle(Paint.Style.STROKE);
-            canvas.drawOval(centerX - 500, centerY - 200, centerX + 500, centerY + 200, p);
-*/
 
             if (planet.getX() == 0){
                 Planets xy = new Planets();

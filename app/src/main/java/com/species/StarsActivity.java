@@ -76,13 +76,6 @@ public class StarsActivity extends AppCompatActivity implements Serializable {
 
     private void drawSector() {
         ImageView image = findViewById(R.id.fondoView);
-        // Calcular medidas del smartphone
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        int width = metrics.widthPixels;
-        int height = metrics.heightPixels;
-        //Log.i("Metrics", width + "," + height);
-
         // Crear fondo con medidas
         Bitmap fondo = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Bitmap bitmap = Bitmap.createBitmap(fondo.getWidth(), fondo.getHeight(), fondo.getConfig());
@@ -96,7 +89,6 @@ public class StarsActivity extends AppCompatActivity implements Serializable {
         // Draw Stars
         List<Stars> starList = star.getStars(this);
         //drawJumps(canvas, starList);
-        int starInit = specie.getStar();
         for(Stars star : starList){
             Paint paint = new Paint();
             if (star.getId() == specie.getStar()){

@@ -17,33 +17,36 @@ import java.io.Serializable;
 import java.util.List;
 
 public class BuildsActivity extends AppCompatActivity implements Serializable {
-
-    private Species specie;
-    private Stars star;
+    Main main = new Main();
     private Planets planet;
-    private Recursos res;
-    private final Boolean canBuild = true;
+    IBuilds builds = new Builds();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.builds_activity);
-        hideView();
+        View view = getWindow().getDecorView();
+        main.hideViewMenu(view);
 
         Intent i = getIntent();
-        specie = (Species)i.getSerializableExtra("specie");
-        star = (Stars)i.getSerializableExtra("star");
+        Species specie = (Species) i.getSerializableExtra("specie");
+        Stars star = (Stars) i.getSerializableExtra("star");
         planet = (Planets)i.getSerializableExtra("planet");
-        res = (Recursos)i.getSerializableExtra("recursos");
+        Recursos res = (Recursos) i.getSerializableExtra("recursos");
 
+        builds.buildClear(this);
         drawBuilds();
+
+    }
+
+    private void buildClear() {
 
     }
 
     private void drawBuilds() {
         // Add Buttons to scroll
         LinearLayout buttonsLayout = findViewById(R.id.buildButtons);
-        IBuilds builds = new Builds();
+
         List<Builds> buildList = builds.getBuilds(this);
 
         for(Builds build: buildList){
@@ -54,6 +57,7 @@ public class BuildsActivity extends AppCompatActivity implements Serializable {
             btn.setPadding(50,20,0,20);
             btn.setCompoundDrawablePadding(50);
             btn.setAllCaps(false);
+            //TODO descontar turnos segun producción
             btn.setText(build.getName() + " (30 turnos)" + "\n" + build.getDescription());
             btn.setBackgroundColor(Color.TRANSPARENT);
             btn.setTextColor(Color.WHITE);
@@ -87,15 +91,4 @@ public class BuildsActivity extends AppCompatActivity implements Serializable {
         return false;
     }
 
-    private void hideView() {
-        View decorView = getWindow().getDecorView();
-        decorView.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_IMMERSIVE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                //| View.SYSTEM_UI_FLAG_FULLSCREEN
-        );
-    }
 }

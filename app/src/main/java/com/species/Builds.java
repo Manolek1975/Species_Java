@@ -1,8 +1,13 @@
 package com.species;
 
+import static java.sql.Types.NULL;
+
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import androidx.annotation.Nullable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -109,6 +114,24 @@ public class Builds implements Serializable, IBuilds {
         c.close();
         db.close();
         return build;
+    }
+
+    public void buildClear(Context context) {
+        int id = 0;
+        DBHelper helper = new DBHelper(context);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE turns>0", null);
+        if(c.getCount() > 0) {
+            c.moveToFirst();
+            id = c.getInt(0);
+        }
+
+        ContentValues val = new ContentValues();
+        val.put("build", NULL);
+        val.put("turns", 0);
+        db.update("surfaces", val, "id=" + id, null);
+        c.close();
+        db.close();
     }
 
     public String getName() {
