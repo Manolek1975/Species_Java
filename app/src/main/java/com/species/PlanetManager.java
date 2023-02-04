@@ -62,9 +62,6 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         View view = getWindow().getDecorView();
         Game.hideviewMenu(view);
 
-/*        SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
-        turn = data.getInt("turn", 0);*/
-
         res = new Recursos();
         Intent i = getIntent();
         int starId = (int)i.getSerializableExtra("starId");
@@ -133,7 +130,7 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
             surface.setPlanet(planet.getName());
             if(point.equals(550, 550)){
                 surface.setBuild("Colonia Base");
-                surface.setTurns(0);
+                surface.setTurns(-1);
             } else {
                 surface.setBuild(null);
             }
@@ -166,7 +163,7 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         }
         for(Surfaces surface : squares){
             int i = 1;
-            List<Point> availables = this.setAvailables();
+            List<Point> availables = Game.setAvailables(this, surface, planet);
             for(Point val : availables){
                 if (val.x == surface.getX() && val.y == surface.getY()) {
                     i = 5;
@@ -220,7 +217,7 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
                     if(rangoX.contains(surface.getX()) && rangoY.contains(surface.getY())){
                         buildX = surface.getX();
                         buildY = surface.getY();
-                        List<Point> availables = setAvailables();
+                        List<Point> availables = Game.setAvailables(this, surface, planet);
                         for(Point val : availables){
                             if(val.x == buildX && val.y == surface.getY() && canBuild ){
                                 if(surface.getColor() == Color.BLACK && build.getId() != 6) break;
@@ -262,6 +259,36 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         img.setImageBitmap(bitmap);
     }
 
+
+    public void advanceTurn(View view) {
+        TextView textTurn = findViewById(R.id.textTurn);
+        int turn = Game.advanceTurn(view);
+        textTurn.setText(String.valueOf(turn));
+        SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor edit = data.edit();
+        edit.putInt("turn", turn);
+        edit.apply();
+
+        Surfaces square = new Surfaces();
+        square.updateSquare(this);
+        showRecursos();
+
+        MutableLiveData<Integer> listen = new MutableLiveData<>();
+        listen.setValue(endTurn);
+        listen.observe(this, changedValue -> {
+            if(endTurn == 0){
+                Toast.makeText(getApplicationContext(), "Edificio construido", Toast.LENGTH_LONG).show();
+                //Log.i("RES", surface.getPlanet() + " , " + surface.getBuild() + " , " + surface.getColor());
+                //res.increaseRecursos(this, planet, build.getBuildByName(this, surface.getBuild()), surface.getColor());
+                //buildCompleted(view, surface);
+            }
+        });
+    }
+
+    public void advanceFast(View view) {
+
+    }
+
     private void showRecursos() {
         // Draw recursos
         int numPopulation = 0;
@@ -284,10 +311,10 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         }
 
         // Draw population
+        ImageView pop = findViewById(R.id.viewPopulation);
         Paint color = new Paint();
         int size = planet.getSize();
         int room = res.getRoom(size);
-        ImageView pop = findViewById(R.id.viewPopulation);
         int resImage = getResources().getIdentifier("human", "drawable", getPackageName());
         Bitmap fondo = BitmapFactory.decodeResource(getResources(), R.drawable.population_view);
         Bitmap image = BitmapFactory.decodeResource(getResources(), resImage);
@@ -330,7 +357,7 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         List<Surfaces> surfaceList = surface.getTurns(this);
         for(Surfaces val : surfaceList){
             textProyecto.setText(val.getBuild());
-            endTurn = val.getTurns() - turn;
+            endTurn = val.getTurns();
             textProyectoTurnos.setText(String.format("%s turnos", endTurn));
             message.setText(String.format("Construyendo %s", val.getBuild()));
             message.setTextColor(Color.GREEN);
@@ -339,52 +366,6 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
             resImage = getResources().getIdentifier(buildImage, "drawable", getPackageName());
             proyecto.setCompoundDrawablesWithIntrinsicBounds(0, resImage, 0, 0);
         }
-    }
-
-    private List<Point> setAvailables() {
-        List<Surfaces> builds = surface.getBuildings(this, planet.getName());
-        List<Point> availables = new ArrayList<>();
-        for(Surfaces val : builds) {
-            Point point = new Point(val.getX(), val.getY());
-            Point c1 = new Point(point.x - 100, point.y - 50);
-            Point c2 = new Point(point.x + 100, point.y - 50);
-            Point c3 = new Point(point.x - 100, point.y + 50);
-            Point c4 = new Point(point.x + 100, point.y + 50);
-            availables.add(c1);
-            availables.add(c2);
-            availables.add(c3);
-            availables.add(c4);
-        }
-        return availables;
-    }
-
-    public void advanceTurn(View view) {
-        TextView textTurn = findViewById(R.id.textTurn);
-        int turn = Game.advanceTurn(view);
-        textTurn.setText(String.valueOf(turn));
-        showRecursos();
-        SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor edit = data.edit();
-        edit.putInt("turn", turn);
-        edit.apply();
-
-        Surfaces square = new Surfaces();
-        square.updateSquare(this);
-
-        MutableLiveData<Integer> listen = new MutableLiveData<>();
-        listen.setValue(endTurn);
-        listen.observe(this, changedValue -> {
-            if(endTurn == 0){
-                Toast.makeText(getApplicationContext(), "Edificio construido", Toast.LENGTH_LONG).show();
-                //Log.i("RES", surface.getPlanet() + " , " + surface.getBuild() + " , " + surface.getColor());
-                //res.increaseRecursos(this, planet, build.getBuildByName(this, surface.getBuild()), surface.getColor());
-                //buildCompleted(view, surface);
-            }
-        });
-    }
-
-    public void advanceFast(View view) {
-
     }
 
     public void onPause(){

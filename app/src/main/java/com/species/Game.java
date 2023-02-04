@@ -1,6 +1,8 @@
 package com.species;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
@@ -8,6 +10,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Game extends AppCompatActivity {
 
@@ -30,6 +35,22 @@ public abstract class Game extends AppCompatActivity {
 
     }
 
+    public static List<Point> setAvailables(Context context, Surfaces surface, Planets planet) {
+        List<Surfaces> builds = surface.getBuildings(context, planet.getName());
+        List<Point> availables = new ArrayList<>();
+        for(Surfaces val : builds) {
+            Point point = new Point(val.getX(), val.getY());
+            Point c1 = new Point(point.x - 100, point.y - 50);
+            Point c2 = new Point(point.x + 100, point.y - 50);
+            Point c3 = new Point(point.x - 100, point.y + 50);
+            Point c4 = new Point(point.x + 100, point.y + 50);
+            availables.add(c1);
+            availables.add(c2);
+            availables.add(c3);
+            availables.add(c4);
+        }
+        return availables;
+    }
 
     public static void hideview(View view) {
         view.setSystemUiVisibility(
@@ -52,5 +73,9 @@ public abstract class Game extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
         );
     }
+
+
+
+
 
 }

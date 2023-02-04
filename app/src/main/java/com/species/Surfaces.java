@@ -28,6 +28,7 @@ public class Surfaces implements Serializable {
 
     public Surfaces(){ super();}
 
+    //TODO cambiar String planet y String build por id planets y id builds
     public Surfaces(int id, String planet, String build, int turns, int x, int y, int color) {
         this.id = id;
         this.planet = planet;
@@ -133,7 +134,7 @@ public class Surfaces implements Serializable {
         ContentValues values = new ContentValues();
         values.put(DBSurfaces.COLUMN_PLANET, surface.planet );
         values.put(DBSurfaces.COLUMN_BUILD, surface.build );
-        values.put(DBSurfaces.COLUMN_TURNS, surface.turns );
+        values.put(DBSurfaces.COLUMN_TURNS, -1 );
         values.put(DBSurfaces.COLUMN_X, surface.x );
         values.put(DBSurfaces.COLUMN_Y, surface.y );
         values.put(DBSurfaces.COLUMN_COLOR, surface.color );
@@ -168,7 +169,7 @@ public class Surfaces implements Serializable {
     public List<Surfaces> getTurns(Context context) {
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE turns > 0", null);
+        Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE turns > -1", null);
         List<Surfaces> surfaceList = new ArrayList<>();
         while(c.moveToNext()) {
                 Surfaces surface = new Surfaces(
@@ -188,7 +189,17 @@ public class Surfaces implements Serializable {
     }
 
     public void updateSquare(Context context){
-
+        DBHelper helper = new DBHelper(context);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE turns > 0", null);
+        c.moveToFirst();
+        if(c.getCount() != 0) {
+            ContentValues values = new ContentValues();
+            values.put(DBSurfaces.COLUMN_TURNS, c.getInt(3) - 1);
+            db.update("surfaces", values,"id=" + c.getInt(0), null);
+        }
+        c.close();
+        db.close();
     }
 
     public Surfaces getSurfaceProyecto(Context context) {
@@ -204,7 +215,8 @@ public class Surfaces implements Serializable {
                 c.getInt(3),
                 c.getInt(4),
                 c.getInt(5),
-                c.getInt(6));
+                c.getInt(6)
+        );
         c.close();
         db.close();
         return surface;
