@@ -25,6 +25,10 @@
     <string name="text_poblacion">Population: 0</string>
     <string name="message_type_planet">Planet Medium Rich</string>
     <string name="proyecto">Without Project</string>
+    <string name="turno">Turn</string>
+    <string name="turno_normal">Turno</string>
+    <string name="turno_rapido">Turno</string>
+    <string name="test">TEST</string>
 
     <!-- MENSAJES -->
     <string name="planets_mensaje">You have no planets</string>

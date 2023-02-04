@@ -7,13 +7,57 @@
     android:layout_height="match_parent" >
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
-        android:background="@color/black"
+        android:id="@+id/idGalaxyLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="80dp"
         android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textTurn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:paddingStart="50dp"
+                android:paddingEnd="50dp"
+                android:text="@string/turno"
+                android:textColor="#4CAF50"
+                android:textSize="24sp" />
+
+            <Button
+                android:id="@+id/advanceTurn"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:background="@color/black"
+                android:contentDescription="@string/app_name"
+                android:foreground="@drawable/turno_normal"
+                android:foregroundGravity="center|right"
+                android:onClick="advanceTurn"
+                app:layout_constraintLeft_toLeftOf="@id/textTurn" />
+
+            <Button
+                android:id="@+id/advanceFast"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:background="@color/black"
+                android:contentDescription="@string/app_name"
+                android:foreground="@drawable/turno_rapido"
+                android:foregroundGravity="center"
+                android:onClick="advanceFast"
+                app:layout_constraintLeft_toLeftOf="@id/textTurn" />
+        </LinearLayout>
 
         <Button
             android:id="@+id/planetName"
@@ -29,8 +73,9 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:baselineAligned="false"
             android:weightSum="4">
 
             <LinearLayout
@@ -43,37 +88,37 @@
                     android:id="@+id/textIndustry"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:text="@string/text_producion"
                     android:layout_marginBottom="10dp"
-                    android:textColor="@color/white" />
+                    android:text="@string/text_producion"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/textProsperity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:text="@string/text_prosperidad"
                     android:layout_marginBottom="10dp"
-                    android:textColor="@color/white" />
+                    android:text="@string/text_prosperidad"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/textResearch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:text="@string/text_investigación"
                     android:layout_marginBottom="10dp"
-                    android:textColor="@color/white" />
+                    android:text="@string/text_investigación"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/textPopulation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:text="@string/text_poblacion"
                     android:layout_marginBottom="10dp"
-                    android:textColor="@color/white" />
+                    android:text="@string/text_poblacion"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -88,7 +133,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:scaleType="centerCrop"
+                    android:contentDescription="@string/TODO"
                     android:src="@drawable/population_view" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -104,7 +151,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:onClick="runBuilds"
-                    android:text="Sin proyecto"
+                    android:text="@string/proyecto"
                     android:textColor="@color/white" />
 
                 <Button
@@ -120,12 +167,12 @@
                     android:textColor="@color/white" />
 
                 <TextView
-                    android:id="@+id/textProyectoTurnos"
+                    android:id="@+id/textEndTurn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:textColor="@color/white"
-                    android:text="" />
+                    android:text=""
+                    android:textColor="@color/white" />
 
             </LinearLayout>
 
@@ -134,7 +181,7 @@
         <LinearLayout
             android:id="@+id/planetLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <ImageView
@@ -147,26 +194,32 @@
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/planetDesc"
+        <LinearLayout
+            android:id="@+id/messageLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Planeta medio rico"
-            android:textColor="@color/teal_700"
-            android:textSize="24dp" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textMessage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@color/design_default_color_error"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/planetView" />
+            <TextView
+                android:id="@+id/planetDesc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/test"
+                android:textColor="@color/teal_700"
+                android:textSize="24sp" />
 
+            <TextView
+                android:id="@+id/textMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/design_default_color_error"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/planetView" />
 
+        </LinearLayout>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

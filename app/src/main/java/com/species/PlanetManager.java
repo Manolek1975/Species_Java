@@ -2,6 +2,8 @@ package com.species;
 
 import static android.icu.text.ListFormatter.Type.OR;
 
+import static com.species.Game.turn;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,13 +24,17 @@ import android.util.Range;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.MutableLiveData;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -46,7 +52,7 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
     private Boolean canBuild;
     private LinearLayout lin;
     private ImageView img;
-    private int turn;
+    int endTurn;
 
 
     @Override
@@ -56,6 +62,8 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         View view = getWindow().getDecorView();
         Game.hideviewMenu(view);
 
+/*        SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
+        turn = data.getInt("turn", 0);*/
 
         res = new Recursos();
         Intent i = getIntent();
@@ -68,6 +76,7 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
 
         lin = findViewById(R.id.planetLayout);
         img = findViewById(R.id.planetView);
+
         //Log.i("PlanetManager", "Star: " + planet.getStar() + " Planet: " + planet.getName());
 
         setPlanet();
@@ -75,7 +84,7 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
     }
 
     protected void play() {
-        //super.onStart();
+        super.onStart();
         MediaPlayer mp = MediaPlayer.create(this, R.raw.factory);
         mp.start();
     }
@@ -261,7 +270,7 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         TextView research = findViewById(R.id.textResearch);
         TextView population = findViewById(R.id.textPopulation);
         TextView textProyecto = findViewById(R.id.textProyecto);
-        TextView textProyectoTurnos = findViewById(R.id.textProyectoTurnos);
+        TextView textProyectoTurnos = findViewById(R.id.textEndTurn);
         TextView message = findViewById(R.id.textMessage);
         Button proyecto = findViewById(R.id.buildButton);
 
@@ -321,7 +330,8 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         List<Surfaces> surfaceList = surface.getTurns(this);
         for(Surfaces val : surfaceList){
             textProyecto.setText(val.getBuild());
-            textProyectoTurnos.setText(String.format("%s turnos", val.getTurns()));
+            endTurn = val.getTurns() - turn;
+            textProyectoTurnos.setText(String.format("%s turnos", endTurn));
             message.setText(String.format("Construyendo %s", val.getBuild()));
             message.setTextColor(Color.GREEN);
             Builds build = new Builds();
@@ -348,13 +358,50 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         return availables;
     }
 
+    public void advanceTurn(View view) {
+        TextView textTurn = findViewById(R.id.textTurn);
+        int turn = Game.advanceTurn(view);
+        textTurn.setText(String.valueOf(turn));
+        showRecursos();
+        SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor edit = data.edit();
+        edit.putInt("turn", turn);
+        edit.apply();
+
+        Surfaces square = new Surfaces();
+        square.updateSquare(this);
+
+        MutableLiveData<Integer> listen = new MutableLiveData<>();
+        listen.setValue(endTurn);
+        listen.observe(this, changedValue -> {
+            if(endTurn == 0){
+                Toast.makeText(getApplicationContext(), "Edificio construido", Toast.LENGTH_LONG).show();
+                //Log.i("RES", surface.getPlanet() + " , " + surface.getBuild() + " , " + surface.getColor());
+                //res.increaseRecursos(this, planet, build.getBuildByName(this, surface.getBuild()), surface.getColor());
+                //buildCompleted(view, surface);
+            }
+        });
+    }
+
+    public void advanceFast(View view) {
+
+    }
+
+    public void onPause(){
+        super.onPause();
+        SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor edit = data.edit();
+        edit.putInt("turn", turn);
+        edit.apply();
+    }
+
     public void onResume(){
         super.onResume();
         Species specie = new Species();
         SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
-        int specieId = data.getInt("specieId", 0);
-        specie = specie.getSpecieById(this, specieId);
-        Log.i("specieId", specie.getId()  + "");
+        turn  = data.getInt("turn", 0);
+        TextView textTurn = findViewById(R.id.textTurn);
+        textTurn.setText(String.valueOf(turn));
     }
 
     public void runSistem(View view) {

@@ -82,6 +82,7 @@ public class SpeciesActivity extends AppCompatActivity {
         SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor edit = data.edit();
         edit.putInt("specieId", specie.getId());
+        edit.putInt("turn", 0);
         edit.apply();
     }
 

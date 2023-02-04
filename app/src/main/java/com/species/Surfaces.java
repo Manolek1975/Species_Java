@@ -187,6 +187,10 @@ public class Surfaces implements Serializable {
         return surfaceList;
     }
 
+    public void updateSquare(Context context){
+
+    }
+
     public Surfaces getSurfaceProyecto(Context context) {
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();

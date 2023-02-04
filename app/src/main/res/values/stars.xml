@@ -33,21 +33,24 @@
         <item>star4</item>
         <item>star9</item>
         <item>star6</item>
-        <item>star6</item>
+
+        <item>star8</item>
         <item>star7</item>
         <item>star4</item>
         <item>star6</item>
         <item>star6</item>
+
         <item>star6</item>
         <item>star2</item>
         <item>star12</item>
         <item>star8</item>
         <item>star5</item>
+
         <item>star10</item>
         <item>star5</item>
         <item tools:ignore="Typos">star11</item>
         <item tools:ignore="Typos">star1</item>
-        <item>star6</item>
+        <item>star4</item>
     </string-array>
 
     <string-array name="coords_stars">

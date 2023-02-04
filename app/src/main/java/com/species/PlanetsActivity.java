@@ -19,7 +19,6 @@ import java.io.Serializable;
 import java.util.List;
 
 public class PlanetsActivity extends AppCompatActivity implements Serializable {
-    Main main = new Main();
     Planets planetList = new Planets();
     int specieId;
     @Override
@@ -27,7 +26,7 @@ public class PlanetsActivity extends AppCompatActivity implements Serializable {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.planets_activity);
         View view = getWindow().getDecorView();
-        main.hideViewMenu(view);
+        Game.hideviewMenu(view);
 
         SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
         specieId = data.getInt("specieId", 0);

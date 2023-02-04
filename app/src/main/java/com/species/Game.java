@@ -1,13 +1,33 @@
 package com.species;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
-public abstract class Game{
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.MutableLiveData;
 
-    int turn;
+public abstract class Game extends AppCompatActivity {
 
-    public void addTurn(int turn) {
+    static int turn;
+
+    public static int advanceTurn(View view){
+        //TODO Insertar en Species Detalle el surface y los recursos -- setNewSquares()
+        //surface.incTurn();
+        //turn = surface.getTurn();
+        //surface.decTurns();
+        //int turns = surface.getTurns();
+        //surface.setCost(this, turns);
+
+        //planet = planet.getPlanetTarget(this, surface.getPlanet());
+        //res = res.getRecursosByPlanet(this, planet);
+        //planet.setPopulation(this, planet, res);
+
         turn += 1;
+        return turn;
+
     }
 
 
