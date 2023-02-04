@@ -25,7 +25,6 @@ import java.util.List;
 
 
 public class SistemActivity extends AppCompatActivity implements Serializable {
-    Main main = new Main();
     private Stars star = new Stars();
     private ImageView sistemView;
     int width, height;
@@ -36,7 +35,7 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sistem_activity);
         View view = getWindow().getDecorView();
-        main.hideViewMenu(view);
+        Game.hideviewMenu(view);
 
         // Calcular medidas del smartphone
         DisplayMetrics metrics = new DisplayMetrics();

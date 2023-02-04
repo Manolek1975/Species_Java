@@ -29,7 +29,6 @@ import java.io.Serializable;
 import java.util.List;
 
 public class StarsActivity extends AppCompatActivity implements Serializable {
-    Main main = new Main();
     private Species specie = new Species();
     private Stars star = new Stars();
     int width, height;
@@ -39,7 +38,7 @@ public class StarsActivity extends AppCompatActivity implements Serializable {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.stars_activity);
         View view = getWindow().getDecorView();
-        main.hideViewMenu(view);
+        Game.hideviewMenu(view);
         // Calcular medidas del smartphone
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);

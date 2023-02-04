@@ -17,7 +17,6 @@ import java.io.Serializable;
 import java.util.List;
 
 public class BuildsActivity extends AppCompatActivity implements Serializable {
-    Main main = new Main();
     private Planets planet;
     IBuilds builds = new Builds();
 
@@ -26,7 +25,7 @@ public class BuildsActivity extends AppCompatActivity implements Serializable {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.builds_activity);
         View view = getWindow().getDecorView();
-        main.hideViewMenu(view);
+        Game.hideviewMenu(view);
 
         Intent i = getIntent();
         Species specie = (Species) i.getSerializableExtra("specie");

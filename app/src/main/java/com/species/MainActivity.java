@@ -11,14 +11,13 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
     LoadDB db = new LoadDB(this);
-    Main main = new Main();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
         View view = getWindow().getDecorView();
-        main.hideview(view);
+        Game.hideview(view);
     }
 
     public void runSpecies(View view){

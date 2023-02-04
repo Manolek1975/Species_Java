@@ -19,13 +19,13 @@ import java.util.List;
 
 public class SpeciesActivity extends AppCompatActivity {
     Species specie = new Species();
-    Main main = new Main();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.species_activity);
         View view = getWindow().getDecorView();
-        main.hideview(view);
+        Game.hideview(view);
 
         drawButtons();
     }
@@ -70,9 +70,8 @@ public class SpeciesActivity extends AppCompatActivity {
                 Intent intent = new Intent(SpeciesActivity.this, StarsActivity.class);
                 startActivity(intent);
             })
-            .setNegativeButton("RECHAZAR", (dialogInterface, i) -> {
-                Toast.makeText(getApplicationContext(),"Selecciona una specie",Toast.LENGTH_SHORT).show();
-            })
+            .setNegativeButton("RECHAZAR", (dialogInterface, i) ->
+                    Toast.makeText(getApplicationContext(),"Selecciona una specie",Toast.LENGTH_SHORT).show())
 
             .show();
             alertDialog.isShowing();

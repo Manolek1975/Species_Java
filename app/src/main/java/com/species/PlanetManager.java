@@ -35,8 +35,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlanetManager extends AppCompatActivity implements Serializable {
-
-    Main main = new Main();
     public static final int IMAGE_TOP = 20; // Distancia superior de la imagen
     private Stars star = new Stars();
     private Planets planet;
@@ -48,6 +46,7 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
     private Boolean canBuild;
     private LinearLayout lin;
     private ImageView img;
+    private int turn;
 
 
     @Override
@@ -55,7 +54,8 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.planet_manager);
         View view = getWindow().getDecorView();
-        main.hideViewMenu(view);
+        Game.hideviewMenu(view);
+
 
         res = new Recursos();
         Intent i = getIntent();
@@ -244,7 +244,7 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         String imagePlanet = planet.getImagePlanet(this, planet.getType());
         int resImage = this.getResources().getIdentifier(imagePlanet, "drawable", this.getPackageName());
         Bitmap planetCenter = BitmapFactory.decodeResource(getResources(), resImage);
-        Bitmap resizePlanet = Bitmap.createScaledBitmap(planetCenter, size*230, size*230, true);
+        Bitmap resizePlanet = Bitmap.createScaledBitmap(planetCenter, size*200, size*200, true);
         // Draw Planet
         canvas.drawBitmap(fondo, new Matrix(), null);
         canvas.drawBitmap(resizePlanet,
