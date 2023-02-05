@@ -5,6 +5,7 @@ import static android.icu.text.ListFormatter.Type.OR;
 import static com.species.Game.turn;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -33,6 +34,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 
@@ -262,6 +264,8 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
 
     public void advanceTurn(View view) {
         TextView textTurn = findViewById(R.id.textTurn);
+        TextView textProyecto = findViewById(R.id.textProyecto);
+        TextView textProyectoTurnos = findViewById(R.id.textEndTurn);
         int turn = Game.advanceTurn(view);
         textTurn.setText(String.valueOf(turn));
         SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
@@ -271,18 +275,44 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
 
         Surfaces square = new Surfaces();
         square.updateSquare(this);
-        showRecursos();
+        //showRecursos();
+        List<Surfaces> surfaceList = surface.getTurns(this);
+        for(Surfaces val : surfaceList) {
+            endTurn = val.getTurns();
+            textProyectoTurnos.setText(String.format("%s turnos", endTurn));
+            surface = val;
+        }
 
         MutableLiveData<Integer> listen = new MutableLiveData<>();
         listen.setValue(endTurn);
         listen.observe(this, changedValue -> {
             if(endTurn == 0){
-                Toast.makeText(getApplicationContext(), "Edificio construido", Toast.LENGTH_LONG).show();
-                //Log.i("RES", surface.getPlanet() + " , " + surface.getBuild() + " , " + surface.getColor());
-                //res.increaseRecursos(this, planet, build.getBuildByName(this, surface.getBuild()), surface.getColor());
-                //buildCompleted(view, surface);
+                //Toast.makeText(getApplicationContext(), "Edificio construido", Toast.LENGTH_LONG).show();
+                Log.i("RES", surface.getPlanet() + " , " + surface.getBuild() + " , " + surface.getColor());
+                textProyectoTurnos.setText("");
+                textProyecto.setText(R.string.proyecto);
+                res.increaseRecursos(this, planet, build.getBuildByName(this, surface.getBuild()), surface.getColor());
+                buildCompleted(view, surface);
             }
         });
+    }
+
+    public void buildCompleted(View view, Surfaces surface){
+        AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.presence_audio_online)
+                .setTitle(R.string.dialog_build)
+                .setMessage("La construcción de " + surface.getBuild() +" se ha completado en " + surface.getPlanet())
+                .setNegativeButton("Ignorar", (dialogInterface, i) -> {
+                    //set what should happen when negative button is clicked
+                    //Toast.makeText(getApplicationContext(),"Acción cancelada",Toast.LENGTH_LONG).show();
+                })
+                .setPositiveButton("Ir a Planeta", (dialogInterface, i) -> {
+                    Intent intent =  new Intent(this, PlanetManager.class);
+                    intent.putExtra("starId", planet.getStar());
+                    intent.putExtra("planet", planet);
+                    startActivity(intent);
+                })
+                .show();
     }
 
     public void advanceFast(View view) {

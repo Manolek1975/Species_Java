@@ -1,6 +1,8 @@
 package com.species;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.preference.PreferenceManager;
@@ -8,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 
@@ -17,6 +20,7 @@ import java.util.List;
 public abstract class Game extends AppCompatActivity {
 
     static int turn;
+    Surfaces surface;
 
     public static int advanceTurn(View view){
         //TODO Insertar en Species Detalle el surface y los recursos -- setNewSquares()
