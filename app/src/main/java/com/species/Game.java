@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Point;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -48,12 +50,31 @@ public abstract class Game extends AppCompatActivity {
             Point c2 = new Point(point.x + 100, point.y - 50);
             Point c3 = new Point(point.x - 100, point.y + 50);
             Point c4 = new Point(point.x + 100, point.y + 50);
-            availables.add(c1);
-            availables.add(c2);
-            availables.add(c3);
-            availables.add(c4);
+            boolean fill1 = Game.getFill(context, c1.x, c1.y);
+            boolean fill2 = Game.getFill(context, c2.x, c2.y);
+            boolean fill3 = Game.getFill(context, c3.x, c3.y);
+            boolean fill4 = Game.getFill(context, c4.x, c4.y);
+            if (!fill1) availables.add(c1);
+            if (!fill2) availables.add(c2);
+            if (!fill3) availables.add(c3);
+            if (!fill4) availables.add(c4);
         }
         return availables;
+    }
+
+    public static boolean getFill(Context context, int x, int y){
+        String build = null;
+        DBHelper helper = new DBHelper(context);
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE x=? AND y=?",
+                new String[] { String.valueOf(x), String.valueOf(y) });
+        c.moveToFirst();
+        if(c.getCount() > 0){
+            build = c.getString(2);
+        }
+        c.close();
+        db.close();
+        return build != null;
     }
 
     public static void hideview(View view) {

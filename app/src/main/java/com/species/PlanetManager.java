@@ -311,7 +311,7 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
 
         AlertDialog alertDialog = new AlertDialog.Builder(this, R.style.AlertDialogStyle)
                 .setIcon(res)
-                .setTitle(R.string.dialog_build)
+                .setTitle(surface.getBuild())
                 .setMessage("La construcción de " + surface.getBuild() +" se ha completado en " + surface.getPlanet())
                 .setNegativeButton("Ignorar", (dialogInterface, i) -> {
                     //set what should happen when negative button is clicked
@@ -323,7 +323,6 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
                     intent.putExtra("planet", planet);
                     startActivity(intent);*/
                 })
-
                 .show();
     }
 

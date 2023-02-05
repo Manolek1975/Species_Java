@@ -154,7 +154,7 @@ public class Recursos implements Serializable, IRecursos{
             case 2: room = 12; break;
             case 3: room = 25; break;
             case 4: room = 45; break;
-            case 5: room = 73; break;
+            case 5: room = 72; break;
         }
         return room;
     }

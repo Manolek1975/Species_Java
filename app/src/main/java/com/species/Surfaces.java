@@ -202,6 +202,9 @@ public class Surfaces implements Serializable {
         db.close();
     }
 
+
+
+
     public Surfaces getSurfaceProyecto(Context context) {
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
