@@ -269,7 +269,6 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         TextView textProyecto = findViewById(R.id.textProyecto);
         TextView textProyectoTurnos = findViewById(R.id.textEndTurn);
 
-
         int turn = Game.advanceTurn(view);
         textTurn.setText(String.valueOf(turn));
         SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
@@ -292,19 +291,17 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         listen.setValue(endTurn);
         listen.observe(this, changedValue -> {
             if(endTurn == 0){
-
-                //Toast.makeText(getApplicationContext(), "Edificio construido", Toast.LENGTH_LONG).show();
                 Log.i("RES", surface.getPlanet() + " , " + surface.getBuild() + " , " + surface.getColor());
                 buildButton.setImageDrawable(null);
                 textProyectoTurnos.setText("");
                 textProyecto.setText(R.string.proyecto);
                 res.increaseRecursos(this, planet, build.getBuildByName(this, surface.getBuild()), surface.getColor());
-                buildCompleted(view, surface);
+                Game.buildCompleted(this, surface);
             }
         });
     }
 
-    public void buildCompleted(View view, Surfaces surface){
+/*    public void buildCompleted(View view, Surfaces surface){
         Builds build = new Builds();
         String buildImage = build.getImageBuild(this, surface.getBuild());
         int res = getResources().getIdentifier(buildImage, "drawable", this.getPackageName());
@@ -318,13 +315,13 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
                     //Toast.makeText(getApplicationContext(),"Acción cancelada",Toast.LENGTH_LONG).show();
                 })
                 .setPositiveButton("Ir a Planeta", (dialogInterface, i) -> {
-/*                    Intent intent =  new Intent(this, PlanetManager.class);
+*//*                    Intent intent =  new Intent(this, PlanetManager.class);
                     intent.putExtra("starId", planet.getStar());
                     intent.putExtra("planet", planet);
-                    startActivity(intent);*/
+                    startActivity(intent);*//*
                 })
                 .show();
-    }
+    }*/
 
     public void advanceFast(View view) {
 

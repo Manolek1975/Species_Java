@@ -22,7 +22,6 @@ import java.util.List;
 public abstract class Game extends AppCompatActivity {
 
     static int turn;
-    Surfaces surface;
 
     public static int advanceTurn(View view){
         //TODO Insertar en Species Detalle el surface y los recursos -- setNewSquares()
@@ -39,6 +38,32 @@ public abstract class Game extends AppCompatActivity {
         turn += 1;
         return turn;
 
+    }
+
+    public static void buildCompleted(Context context, Surfaces surface){
+        Planets planet = new Planets();
+
+        Builds build = new Builds();
+        String buildImage = build.getImageBuild(context, surface.getBuild());
+        int res = context.getResources().getIdentifier(buildImage, "drawable", context.getPackageName());
+
+        AlertDialog alertDialog = new AlertDialog.Builder(context, R.style.AlertDialogStyle)
+                .setIcon(res)
+                .setTitle(surface.getBuild())
+                .setMessage("La construcción de " + surface.getBuild() +" se ha completado en " + surface.getPlanet())
+                .setNegativeButton("Ignorar", (dialogInterface, i) -> {
+                    //set what should happen when negative button is clicked
+                    //Toast.makeText(getApplicationContext(),"Acción cancelada",Toast.LENGTH_LONG).show();
+                })
+                .setPositiveButton("Ir a Planeta", (dialogInterface, i) -> {
+                    Log.i("SURFACE", surface.getBuild());
+                    //surface = new Surfaces();
+/*                    Intent intent =  new Intent(this, PlanetManager.class);
+                    intent.putExtra("starId", planet.getStar());
+                    intent.putExtra("planet", planet);
+                    startActivity(intent);*/
+                })
+                .show();
     }
 
     public static List<Point> setAvailables(Context context, Surfaces surface, Planets planet) {

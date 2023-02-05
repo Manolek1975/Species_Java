@@ -191,7 +191,7 @@ public class Surfaces implements Serializable {
     public void updateSquare(Context context){
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE turns > 0", null);
+        Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE turns >= 0", null);
         c.moveToFirst();
         if(c.getCount() != 0) {
             ContentValues values = new ContentValues();
@@ -201,9 +201,6 @@ public class Surfaces implements Serializable {
         c.close();
         db.close();
     }
-
-
-
 
     public Surfaces getSurfaceProyecto(Context context) {
         DBHelper helper = new DBHelper(context);
