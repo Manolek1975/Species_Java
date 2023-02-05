@@ -18,6 +18,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -29,6 +30,7 @@ import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -93,7 +95,7 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         TextView desc = findViewById(R.id.planetDesc);
         TextView msg =  findViewById(R.id.textMessage);
         TextView textProyecto =  findViewById(R.id.textProyecto);
-        Button proyecto = findViewById(R.id.buildButton);
+        ImageButton proyecto = findViewById(R.id.buildButton);
 
         String nameType = planet.getNameType(planet.getType());
         String nameSize = planet.getNameSize(planet.getSize());
@@ -266,6 +268,8 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         TextView textTurn = findViewById(R.id.textTurn);
         TextView textProyecto = findViewById(R.id.textProyecto);
         TextView textProyectoTurnos = findViewById(R.id.textEndTurn);
+
+
         int turn = Game.advanceTurn(view);
         textTurn.setText(String.valueOf(turn));
         SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
@@ -275,7 +279,7 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
 
         Surfaces square = new Surfaces();
         square.updateSquare(this);
-        //showRecursos();
+
         List<Surfaces> surfaceList = surface.getTurns(this);
         for(Surfaces val : surfaceList) {
             endTurn = val.getTurns();
@@ -283,12 +287,15 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
             surface = val;
         }
 
+        ImageButton buildButton = findViewById(R.id.buildButton);
         MutableLiveData<Integer> listen = new MutableLiveData<>();
         listen.setValue(endTurn);
         listen.observe(this, changedValue -> {
             if(endTurn == 0){
+
                 //Toast.makeText(getApplicationContext(), "Edificio construido", Toast.LENGTH_LONG).show();
                 Log.i("RES", surface.getPlanet() + " , " + surface.getBuild() + " , " + surface.getColor());
+                buildButton.setImageDrawable(null);
                 textProyectoTurnos.setText("");
                 textProyecto.setText(R.string.proyecto);
                 res.increaseRecursos(this, planet, build.getBuildByName(this, surface.getBuild()), surface.getColor());
@@ -298,8 +305,12 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
     }
 
     public void buildCompleted(View view, Surfaces surface){
-        AlertDialog alertDialog = new AlertDialog.Builder(this)
-                .setIcon(android.R.drawable.presence_audio_online)
+        Builds build = new Builds();
+        String buildImage = build.getImageBuild(this, surface.getBuild());
+        int res = getResources().getIdentifier(buildImage, "drawable", this.getPackageName());
+
+        AlertDialog alertDialog = new AlertDialog.Builder(this, R.style.AlertDialogStyle)
+                .setIcon(res)
                 .setTitle(R.string.dialog_build)
                 .setMessage("La construcción de " + surface.getBuild() +" se ha completado en " + surface.getPlanet())
                 .setNegativeButton("Ignorar", (dialogInterface, i) -> {
@@ -307,11 +318,12 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
                     //Toast.makeText(getApplicationContext(),"Acción cancelada",Toast.LENGTH_LONG).show();
                 })
                 .setPositiveButton("Ir a Planeta", (dialogInterface, i) -> {
-                    Intent intent =  new Intent(this, PlanetManager.class);
+/*                    Intent intent =  new Intent(this, PlanetManager.class);
                     intent.putExtra("starId", planet.getStar());
                     intent.putExtra("planet", planet);
-                    startActivity(intent);
+                    startActivity(intent);*/
                 })
+
                 .show();
     }
 
@@ -329,7 +341,7 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         TextView textProyecto = findViewById(R.id.textProyecto);
         TextView textProyectoTurnos = findViewById(R.id.textEndTurn);
         TextView message = findViewById(R.id.textMessage);
-        Button proyecto = findViewById(R.id.buildButton);
+        ImageButton proyecto = findViewById(R.id.buildButton);
 
         List<Recursos> recursos = res.getRecursos(this, planet);
         for (Recursos val : recursos) {
@@ -394,7 +406,8 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
             Builds build = new Builds();
             String buildImage = build.getImageBuild(this, val.getBuild());
             resImage = getResources().getIdentifier(buildImage, "drawable", getPackageName());
-            proyecto.setCompoundDrawablesWithIntrinsicBounds(0, resImage, 0, 0);
+            proyecto.setImageResource(resImage);
+            //proyecto.setCompoundDrawablesWithIntrinsicBounds(0, resImage, 0, 0);
         }
     }
 
