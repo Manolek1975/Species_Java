@@ -1,14 +1,9 @@
 package com.species;
 
-import static android.icu.text.ListFormatter.Type.OR;
-
 import static com.species.Game.turn;
-
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -18,7 +13,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.media.MediaPlayer;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -26,22 +20,16 @@ import android.util.Range;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class PlanetManager extends AppCompatActivity implements Serializable {
@@ -131,9 +119,9 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         res.insertRecursos(this, planet);
         List<Point> coords = surface.getSquares(this, planet.getSize());
         for(Point point : coords){
-            surface.setPlanet(planet.getName());
+            surface.setPlanet(planet.getId());
             if(point.equals(550, 550)){
-                surface.setBuild("Colonia Base");
+                surface.setBuild(1);
                 surface.setTurns(-1);
             } else {
                 surface.setBuild(null);
@@ -196,7 +184,7 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         for(Surfaces val : buildList) {
             // Draw Builds
             Builds newBuild = new Builds();
-            String imageBuild = newBuild.getImageBuild(this, val.getBuild());
+            String imageBuild = newBuild.getImageBuild(this, val.getId());
             int resBuild = this.getResources().getIdentifier(imageBuild, "drawable", this.getPackageName());
             Bitmap buildCenter = BitmapFactory.decodeResource(getResources(), resBuild);
             canvas.drawBitmap(buildCenter,
@@ -295,7 +283,7 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
                 buildButton.setImageDrawable(null);
                 textProyectoTurnos.setText("");
                 textProyecto.setText(R.string.proyecto);
-                res.increaseRecursos(this, planet, build.getBuildByName(this, surface.getBuild()), surface.getColor());
+                res.increaseRecursos(this, planet, build.getBuildById(this, surface.getBuild()), surface.getColor());
                 Game.buildCompleted(this, surface);
             }
         });
@@ -417,7 +405,6 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
 
     public void onResume(){
         super.onResume();
-        Species specie = new Species();
         SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
         turn  = data.getInt("turn", 0);
         TextView textTurn = findViewById(R.id.textTurn);

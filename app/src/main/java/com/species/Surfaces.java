@@ -19,8 +19,8 @@ import java.util.Random;
 public class Surfaces implements Serializable {
 
     private Integer id;
-    private String planet;
-    private String build;
+    private Integer planet;
+    private Integer build;
     private Integer x;
     private Integer y;
     private Integer color;
@@ -29,7 +29,7 @@ public class Surfaces implements Serializable {
     public Surfaces(){ super();}
 
     //TODO cambiar String planet y String build por id planets y id builds
-    public Surfaces(int id, String planet, String build, int turns, int x, int y, int color) {
+    public Surfaces(int id, int planet, int build, int turns, int x, int y, int color) {
         this.id = id;
         this.planet = planet;
         this.build = build;
@@ -79,8 +79,8 @@ public class Surfaces implements Serializable {
         while (c.moveToNext()) {
             Surfaces surface = new Surfaces(
                     c.getInt(0),
-                    c.getString(1),
-                    c.getString(2),
+                    c.getInt(1),
+                    c.getInt(2),
                     c.getInt(3),
                     c.getInt(4),
                     c.getInt(5),
@@ -113,8 +113,8 @@ public class Surfaces implements Serializable {
         while(cursor.moveToNext()) {
             Surfaces surface = new Surfaces(
                 cursor.getInt(0),
-                cursor.getString(1),
-                cursor.getString(2),
+                cursor.getInt(1),
+                cursor.getInt(2),
                 cursor.getInt(3),
                 cursor.getInt(4),
                 cursor.getInt(5),
@@ -174,8 +174,8 @@ public class Surfaces implements Serializable {
         while(c.moveToNext()) {
                 Surfaces surface = new Surfaces(
                         c.getInt(0),
-                        c.getString(1),
-                        c.getString(2),
+                        c.getInt(1),
+                        c.getInt(2),
                         c.getInt(3),
                         c.getInt(4),
                         c.getInt(5),
@@ -197,41 +197,6 @@ public class Surfaces implements Serializable {
             ContentValues values = new ContentValues();
             values.put(DBSurfaces.COLUMN_TURNS, c.getInt(3) - 1);
             db.update("surfaces", values,"id=" + c.getInt(0), null);
-        }
-        c.close();
-        db.close();
-    }
-
-    public Surfaces getSurfaceProyecto(Context context) {
-        DBHelper helper = new DBHelper(context);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE turns > 0", null);
-        c.moveToFirst();
-        if(c.getCount() == 0) { return null; }
-        Surfaces surface = new Surfaces(
-                c.getInt(0),
-                c.getString(1),
-                c.getString(2),
-                c.getInt(3),
-                c.getInt(4),
-                c.getInt(5),
-                c.getInt(6)
-        );
-        c.close();
-        db.close();
-        return surface;
-    }
-
-    public void setCost(Context context, Integer cost) {
-        DBHelper helper = new DBHelper(context);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        Cursor c = db.rawQuery("SELECT id FROM surfaces WHERE turns > 0", null);
-        c.moveToFirst();
-        if(c.getCount() > 0) {
-            id = c.getInt(0);
-            ContentValues values = new ContentValues();
-            values.put(DBSurfaces.COLUMN_TURNS, cost);
-            db.update("surfaces", values,"id=" + id, null);
         }
         c.close();
         db.close();
@@ -383,13 +348,13 @@ public class Surfaces implements Serializable {
     }
 
     public Integer getId() { return id; }
-    public String getPlanet() { return planet; }
-    public String getBuild() { return build; }
+    public Integer getPlanet() { return planet; }
+    public Integer getBuild() { return build; }
     public Integer getX() { return x; }
     public Integer getY() { return y; }
     public Integer getColor() { return color; }
-    public void setPlanet(String planet) { this.planet = planet; }
-    public void setBuild(String build) { this.build = build; }
+    public void setPlanet(int planet) { this.planet = planet; }
+    public void setBuild(Integer build) { this.build = build; }
     public void setX(Integer x) { this.x = x; }
     public void setY(Integer y) { this.y = y; }
     public void setColor(int color) { this.color = color; }

@@ -5,9 +5,9 @@ import android.content.Context;
 import java.util.List;
 
 public interface IBuilds {
-    String getImageBuild(Context context, String name);
-    List<Builds> getBuilds(Context context);
 
+    List<Builds> getBuilds(Context context);
     void buildClear(Context context);
-    Builds getBuildByName(Context context, String name);
+    Builds getBuildById(Context context, int id);
+    String getImageBuild(Context context, int id);
 }

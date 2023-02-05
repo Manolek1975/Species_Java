@@ -56,7 +56,6 @@ public abstract class Game extends AppCompatActivity {
                     //Toast.makeText(getApplicationContext(),"Acción cancelada",Toast.LENGTH_LONG).show();
                 })
                 .setPositiveButton("Ir a Planeta", (dialogInterface, i) -> {
-                    Log.i("SURFACE", surface.getBuild());
                     //surface = new Surfaces();
 /*                    Intent intent =  new Intent(this, PlanetManager.class);
                     intent.putExtra("starId", planet.getStar());

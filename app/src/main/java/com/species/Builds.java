@@ -49,11 +49,11 @@ public class Builds implements Serializable, IBuilds {
         this.offense = offense;
     }
 
-    public String getImageBuild(Context context, String name){
+    public String getImageBuild(Context context, int id){
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getReadableDatabase();
         String buildName;
-        Cursor c = db.rawQuery("SELECT * FROM builds WHERE name='" + name +  "'", null);
+        Cursor c = db.rawQuery("SELECT * FROM builds WHERE id=" + id, null);
         c.moveToFirst();
              buildName = c.getString(2);
         c.close();
@@ -90,11 +90,10 @@ public class Builds implements Serializable, IBuilds {
         return buildList;
     }
 
-    public Builds getBuildByName(Context context, String name){
+    public Builds getBuildById(Context context, int id){
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
-        Cursor c= db.rawQuery("SELECT * FROM builds WHERE name=?",
-                new String[] { name });
+        Cursor c= db.rawQuery("SELECT * FROM builds WHERE id=" + id,null);
         c.moveToFirst();
         Builds build = new Builds(
                 c.getInt(0),
