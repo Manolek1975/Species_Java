@@ -73,7 +73,7 @@ public class Planets extends AppCompatActivity implements IPlanets, Serializable
     }
 
     @Override
-    public Planets getPlanetById(Context context, int id) {
+    public Planets getPlanetById(Context context, Integer id) {
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
         Cursor c = db.rawQuery("SELECT * FROM planets WHERE id=" + id, null);

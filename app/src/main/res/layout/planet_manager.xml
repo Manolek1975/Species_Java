@@ -59,18 +59,6 @@
                 app:layout_constraintLeft_toLeftOf="@id/textTurn" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/planetName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/roundedbutton"
-            android:backgroundTint="#0C2030"
-            android:onClick="runSistem"
-            android:text="@string/planeta"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="24sp" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -88,7 +76,7 @@
                     android:id="@+id/textIndustry"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="5dp"
                     android:text="@string/text_producion"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
@@ -97,7 +85,7 @@
                     android:id="@+id/textProsperity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="5dp"
                     android:text="@string/text_prosperidad"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
@@ -106,7 +94,7 @@
                     android:id="@+id/textResearch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="5dp"
                     android:text="@string/text_investigación"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
@@ -115,7 +103,7 @@
                     android:id="@+id/textPopulation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="5dp"
                     android:text="@string/text_poblacion"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
@@ -150,6 +138,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
+                    android:paddingBottom="40dp"
                     android:onClick="runBuilds"
                     android:text="@string/proyecto"
                     android:textColor="@color/white" />
@@ -188,6 +177,7 @@
                 android:id="@+id/planetView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@color/black"
                 android:contentDescription="@string/TODO"
                 android:scaleType="centerCrop"
                 tools:ignore="ImageContrastCheck" />
@@ -199,6 +189,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <Button
+                android:id="@+id/planetName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/roundedbutton"
+                android:layout_gravity="center"
+                android:paddingHorizontal="20dp"
+                android:backgroundTint="#0C2030"
+                android:onClick="runSistem"
+                android:text="@string/planeta"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/planetDesc"

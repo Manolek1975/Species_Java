@@ -1,14 +1,9 @@
 package com.species;
 
-import static android.icu.text.ListFormatter.Type.OR;
-
 import static com.species.Game.turn;
-
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -18,7 +13,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.media.MediaPlayer;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -26,22 +20,16 @@ import android.util.Range;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class PlanetManager extends AppCompatActivity implements Serializable {
@@ -131,9 +119,9 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         res.insertRecursos(this, planet);
         List<Point> coords = surface.getSquares(this, planet.getSize());
         for(Point point : coords){
-            surface.setPlanet(planet.getName());
+            surface.setPlanet(planet.getId());
             if(point.equals(550, 550)){
-                surface.setBuild("Colonia Base");
+                surface.setBuild(1);
                 surface.setTurns(-1);
             } else {
                 surface.setBuild(null);
@@ -160,8 +148,8 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         drawPlanet(fondo, bitmap, canvas, planet.getSize());
 
         // Draw squares
-        List<Surfaces> squares = surface.getSurfaces(this, planet.getName());
-        List<Surfaces> buildList = surface.getBuildings(this, planet.getName());
+        List<Surfaces> squares = surface.getSurfaces(this, planet.getId());
+        List<Surfaces> buildList = surface.getBuildings(this, planet.getId());
         for(Surfaces point : buildList){
             buildPoint = new Point(point.getX(), point.getY());
         }
@@ -232,7 +220,6 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
                                         buildX - (buildCenter.getWidth() >> 1),
                                         buildY - (buildCenter.getHeight() >> 1) - IMAGE_TOP, new Paint());
                                 // TODO Mostrar squares availables
-                                //res.increaseRecursos(PlanetManager.this, planet, build, surface.getColor());
                                 surface.setBuilding(PlanetManager.this, surface, build);
                                 play();
                                 canBuild = false;
@@ -254,7 +241,7 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         String imagePlanet = planet.getImagePlanet(this, planet.getType());
         int resImage = this.getResources().getIdentifier(imagePlanet, "drawable", this.getPackageName());
         Bitmap planetCenter = BitmapFactory.decodeResource(getResources(), resImage);
-        Bitmap resizePlanet = Bitmap.createScaledBitmap(planetCenter, size*200, size*200, true);
+        Bitmap resizePlanet = Bitmap.createScaledBitmap(planetCenter, size*210, size*210, true);
         // Draw Planet
         canvas.drawBitmap(fondo, new Matrix(), null);
         canvas.drawBitmap(resizePlanet,
@@ -269,7 +256,6 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         TextView textProyecto = findViewById(R.id.textProyecto);
         TextView textProyectoTurnos = findViewById(R.id.textEndTurn);
 
-
         int turn = Game.advanceTurn(view);
         textTurn.setText(String.valueOf(turn));
         SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
@@ -281,6 +267,7 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         square.updateSquare(this);
 
         List<Surfaces> surfaceList = surface.getTurns(this);
+        if(surfaceList.isEmpty()) return;
         for(Surfaces val : surfaceList) {
             endTurn = val.getTurns();
             textProyectoTurnos.setText(String.format("%s turnos", endTurn));
@@ -292,42 +279,55 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         listen.setValue(endTurn);
         listen.observe(this, changedValue -> {
             if(endTurn == 0){
-
-                //Toast.makeText(getApplicationContext(), "Edificio construido", Toast.LENGTH_LONG).show();
+                square.updateSquare(this);
                 Log.i("RES", surface.getPlanet() + " , " + surface.getBuild() + " , " + surface.getColor());
                 buildButton.setImageDrawable(null);
                 textProyectoTurnos.setText("");
                 textProyecto.setText(R.string.proyecto);
-                res.increaseRecursos(this, planet, build.getBuildByName(this, surface.getBuild()), surface.getColor());
-                buildCompleted(view, surface);
+                res.increaseRecursos(this, planet, build.getBuildById(this, surface.getBuild()), surface.getColor());
+                Game.buildCompleted(this, surface);
             }
         });
     }
 
-    public void buildCompleted(View view, Surfaces surface){
-        Builds build = new Builds();
-        String buildImage = build.getImageBuild(this, surface.getBuild());
-        int res = getResources().getIdentifier(buildImage, "drawable", this.getPackageName());
-
-        AlertDialog alertDialog = new AlertDialog.Builder(this, R.style.AlertDialogStyle)
-                .setIcon(res)
-                .setTitle(surface.getBuild())
-                .setMessage("La construcción de " + surface.getBuild() +" se ha completado en " + surface.getPlanet())
-                .setNegativeButton("Ignorar", (dialogInterface, i) -> {
-                    //set what should happen when negative button is clicked
-                    //Toast.makeText(getApplicationContext(),"Acción cancelada",Toast.LENGTH_LONG).show();
-                })
-                .setPositiveButton("Ir a Planeta", (dialogInterface, i) -> {
-/*                    Intent intent =  new Intent(this, PlanetManager.class);
-                    intent.putExtra("starId", planet.getStar());
-                    intent.putExtra("planet", planet);
-                    startActivity(intent);*/
-                })
-                .show();
-    }
-
     public void advanceFast(View view) {
+        TextView textTurn = findViewById(R.id.textTurn);
+        TextView textProyecto = findViewById(R.id.textProyecto);
+        TextView textProyectoTurnos = findViewById(R.id.textEndTurn);
+        Surfaces square = new Surfaces();
+        do {
+            int turn = Game.advanceTurn(view);
+            textTurn.setText(String.valueOf(turn));
+            square.updateSquare(this);
+            List<Surfaces> surfaceList = surface.getTurns(this);
+            if(surfaceList.isEmpty()) return;
+            for(Surfaces val : surfaceList) {
+                endTurn = val.getTurns();
+                textProyectoTurnos.setText(String.format("%s turnos", endTurn));
+                surface = val;
+            }
 
+        } while(surface.getTurns() > 0);
+
+        SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor edit = data.edit();
+        edit.putInt("turn", turn);
+        edit.apply();
+
+        ImageButton buildButton = findViewById(R.id.buildButton);
+        MutableLiveData<Integer> listen = new MutableLiveData<>();
+        listen.setValue(endTurn);
+        listen.observe(this, changedValue -> {
+            if(endTurn == 0){
+                square.updateSquare(this);
+                Log.i("RES", surface.getPlanet() + " , " + surface.getBuild() + " , " + surface.getColor());
+                buildButton.setImageDrawable(null);
+                textProyectoTurnos.setText("");
+                textProyecto.setText(R.string.proyecto);
+                res.increaseRecursos(this, planet, build.getBuildById(this, surface.getBuild()), surface.getColor());
+                Game.buildCompleted(this, surface);
+            }
+        });
     }
 
     private void showRecursos() {
@@ -377,7 +377,7 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
             x += 1;
         }
 
-        // Draw población
+        // Draw workers
         for (int i = 0; i < numPopulation; i++) {
             canvas.drawBitmap(image,
                     (image.getWidth()) + 80*i >> 1,
@@ -397,12 +397,14 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         // Draw Button Proyecto
         List<Surfaces> surfaceList = surface.getTurns(this);
         for(Surfaces val : surfaceList){
-            textProyecto.setText(val.getBuild());
+            Builds build = new Builds();
+            build.getBuildById(this, val.getBuild());
+            textProyecto.setText(build.getName());
             endTurn = val.getTurns();
             textProyectoTurnos.setText(String.format("%s turnos", endTurn));
             message.setText(String.format("Construyendo %s", val.getBuild()));
             message.setTextColor(Color.GREEN);
-            Builds build = new Builds();
+
             String buildImage = build.getImageBuild(this, val.getBuild());
             resImage = getResources().getIdentifier(buildImage, "drawable", getPackageName());
             proyecto.setImageResource(resImage);
@@ -420,7 +422,6 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
 
     public void onResume(){
         super.onResume();
-        Species specie = new Species();
         SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
         turn  = data.getInt("turn", 0);
         TextView textTurn = findViewById(R.id.textTurn);
