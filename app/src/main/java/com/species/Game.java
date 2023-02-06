@@ -25,48 +25,41 @@ public abstract class Game extends AppCompatActivity {
 
     public static int advanceTurn(View view){
         //TODO Insertar en Species Detalle el surface y los recursos -- setNewSquares()
-        //surface.incTurn();
-        //turn = surface.getTurn();
-        //surface.decTurns();
-        //int turns = surface.getTurns();
-        //surface.setCost(this, turns);
-
-        //planet = planet.getPlanetTarget(this, surface.getPlanet());
-        //res = res.getRecursosByPlanet(this, planet);
-        //planet.setPopulation(this, planet, res);
-
         turn += 1;
         return turn;
-
     }
 
+    // Dialog BUILD
     public static void buildCompleted(Context context, Surfaces surface){
         Planets planet = new Planets();
-
+        planet = planet.getPlanetById(context, surface.getPlanet());
+        int starId = planet.getStar();
         Builds build = new Builds();
+        build = build.getBuildById(context, surface.getBuild());
         String buildImage = build.getImageBuild(context, surface.getBuild());
         int res = context.getResources().getIdentifier(buildImage, "drawable", context.getPackageName());
 
+        Planets finalPlanet = planet;
         AlertDialog alertDialog = new AlertDialog.Builder(context, R.style.AlertDialogStyle)
                 .setIcon(res)
-                .setTitle(surface.getBuild())
-                .setMessage("La construcción de " + surface.getBuild() +" se ha completado en " + surface.getPlanet())
+                .setTitle(build.getName())
+                .setMessage("La construcción de " + build.getName() +" se ha completado en\n" + planet.getName())
                 .setNegativeButton("Ignorar", (dialogInterface, i) -> {
                     //set what should happen when negative button is clicked
                     //Toast.makeText(getApplicationContext(),"Acción cancelada",Toast.LENGTH_LONG).show();
                 })
                 .setPositiveButton("Ir a Planeta", (dialogInterface, i) -> {
                     //surface = new Surfaces();
-/*                    Intent intent =  new Intent(this, PlanetManager.class);
-                    intent.putExtra("starId", planet.getStar());
-                    intent.putExtra("planet", planet);
-                    startActivity(intent);*/
+                    Intent intent =  new Intent(context, PlanetManager.class);
+                    intent.putExtra("starId", starId);
+                    intent.putExtra("planet", finalPlanet);
+                    context.startActivity(intent);
                 })
                 .show();
     }
 
     public static List<Point> setAvailables(Context context, Surfaces surface, Planets planet) {
-        List<Surfaces> builds = surface.getBuildings(context, planet.getName());
+        List<Surfaces> builds = surface.getBuildings(context, planet.getId());
         List<Point> availables = new ArrayList<>();
         for(Surfaces val : builds) {
             Point point = new Point(val.getX(), val.getY());

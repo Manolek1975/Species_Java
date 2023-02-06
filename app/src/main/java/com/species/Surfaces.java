@@ -69,12 +69,12 @@ public class Surfaces implements Serializable {
         return coords;
     }
 
-    public List<Surfaces> getBuildings(Context context, String planet){
+    public List<Surfaces> getBuildings(Context context, int id){
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getReadableDatabase();
         //Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE planet='" + planet + "' AND turns=" + 0, null);
         Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE planet=? AND build NOT NULL AND build<>0",
-                new String[] {planet});
+                new String[] {String.valueOf(id)});
         List<Surfaces> buildList = new ArrayList<>();
         while (c.moveToNext()) {
             Surfaces surface = new Surfaces(
@@ -98,17 +98,17 @@ public class Surfaces implements Serializable {
         boolean origin;
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE build='Colonia Base'", null);
+        Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE build=1", null);
         origin = c.moveToFirst() && c.getCount() > 0;
         c.close();
         db.close();
         return origin;
     }
 
-    public List<Surfaces> getSurfaces(Context context, String planet) {
+    public List<Surfaces> getSurfaces(Context context, int id) {
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM surfaces WHERE planet='" + planet + "'", null);
+        Cursor cursor = db.rawQuery("SELECT * FROM surfaces WHERE planet=" + id, null);
         List<Surfaces> surfaceList = new ArrayList<>();
         while(cursor.moveToNext()) {
             Surfaces surface = new Surfaces(
@@ -148,7 +148,7 @@ public class Surfaces implements Serializable {
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(DBSurfaces.COLUMN_BUILD, build.getName());
+        values.put(DBSurfaces.COLUMN_BUILD, build.getId());
         values.put(DBSurfaces.COLUMN_TURNS, build.getCost());
 
         db.update("surfaces", values,"id=" + surface.getId(), null);
