@@ -28,7 +28,6 @@ public class Surfaces implements Serializable {
 
     public Surfaces(){ super();}
 
-    //TODO cambiar String planet y String build por id planets y id builds
     public Surfaces(int id, int planet, int build, int turns, int x, int y, int color) {
         this.id = id;
         this.planet = planet;

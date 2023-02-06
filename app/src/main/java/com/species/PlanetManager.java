@@ -220,7 +220,6 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
                                         buildX - (buildCenter.getWidth() >> 1),
                                         buildY - (buildCenter.getHeight() >> 1) - IMAGE_TOP, new Paint());
                                 // TODO Mostrar squares availables
-                                //res.increaseRecursos(PlanetManager.this, planet, build, surface.getColor());
                                 surface.setBuilding(PlanetManager.this, surface, build);
                                 play();
                                 canBuild = false;
@@ -378,7 +377,7 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
             x += 1;
         }
 
-        // Draw población
+        // Draw workers
         for (int i = 0; i < numPopulation; i++) {
             canvas.drawBitmap(image,
                     (image.getWidth()) + 80*i >> 1,

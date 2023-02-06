@@ -14,19 +14,24 @@ import java.util.List;
 public class Recursos implements Serializable, IRecursos{
 
     int id;
-    String planet;
-    Builds build;
+    int planet;
     int industry = 0;
     int prosperity = 0;
     int research = 0;
     int population = 0;
     int maxPopulation;
+    int shield;
+    int defence;
+    int offence;
+
+    Builds build;
 
     public Recursos() {
         super();
     }
 
-    public Recursos(int id, String planet, int industry, int prosperity, int research, int population, int maxPopulation) {
+    public Recursos(int id, int planet, int industry, int prosperity, int research,
+                    int population, int maxPopulation, int shield, int defence, int offence) {
         this.id = id;
         this.planet = planet;
         this.industry = industry;
@@ -34,6 +39,9 @@ public class Recursos implements Serializable, IRecursos{
         this.research = research;
         this.population = population;
         this.maxPopulation = maxPopulation;
+        this.shield = shield;
+        this.defence = defence;
+        this.offence = offence;
     }
 
     public Recursos(int industry, int prosperity, int research, int population) {
@@ -91,8 +99,8 @@ public class Recursos implements Serializable, IRecursos{
     public List<Recursos> getRecursos(Context context, Planets planet) {
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM recursos WHERE planet=?",
-                new String[] { planet.getName() });
+        Cursor cursor = db.rawQuery("SELECT * FROM recursos WHERE planet=" + planet.getId(), null);
+
         List<Recursos> recursos = new ArrayList<>();
         while (cursor.moveToNext()) {
             Recursos res = new Recursos(
@@ -117,12 +125,15 @@ public class Recursos implements Serializable, IRecursos{
         cursor.moveToFirst();
             Recursos res = new Recursos(
                     cursor.getInt(0),
-                    cursor.getString(1),
+                    cursor.getInt(1),
                     cursor.getInt(2),
                     cursor.getInt(3),
                     cursor.getInt(4),
                     cursor.getInt(5),
-                    cursor.getInt(6)
+                    cursor.getInt(6),
+                    cursor.getInt(7),
+                    cursor.getInt(8),
+                    cursor.getInt(9)
             );
         cursor.close();
         db.close();
@@ -136,12 +147,15 @@ public class Recursos implements Serializable, IRecursos{
 
         int room = getRoom(planet.getSize());
         ContentValues values = new ContentValues();
-        values.put(DBRecursos.COLUMN_PLANET, planet.getName());
+        values.put(DBRecursos.COLUMN_PLANET, planet.getId());
         values.put(DBRecursos.COLUMN_INDUSTRY, 1);
         values.put(DBRecursos.COLUMN_PROSPERITY, 1);
         values.put(DBRecursos.COLUMN_RESEARCH, 0);
         values.put(DBRecursos.COLUMN_POPULATION, 2);
         values.put(DBRecursos.COLUMN_MAXPOPULATION, room);
+        values.put(DBRecursos.COLUMN_SHIELD, 0);
+        values.put(DBRecursos.COLUMN_DEFENCE, 1);
+        values.put(DBRecursos.COLUMN_OFFENCE, 0);
         // Inserta una nueva fila con los valores de la key
         db.insert(DBRecursos.TABLE_NAME, null, values);
         db.close();
@@ -160,8 +174,7 @@ public class Recursos implements Serializable, IRecursos{
     }
 
     public int getId() { return id; }
-    public String getPlanet() { return planet; }
-    //public Builds getBuild() { return build; }
+    public int getPlanet() { return planet; }
     public int getIndustry() {
         return industry;
     }
@@ -171,11 +184,8 @@ public class Recursos implements Serializable, IRecursos{
     public int getMaxPopulation() {
         return maxPopulation;
     }
-    public void setPlanet(String planet) {
+    public void setPlanet(int planet) {
         this.planet = planet;
-    }
-    public void setBuild(Builds build) {
-        this.build = build;
     }
     public void setIndustry(int industry) {
         this.industry = industry;
