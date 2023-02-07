@@ -119,7 +119,7 @@ public class Builds implements Serializable, IBuilds {
         int id = 0;
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE turns>0", null);
+        Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE turns>-1", null);
         if(c.getCount() > 0) {
             c.moveToFirst();
             id = c.getInt(0);
@@ -127,7 +127,7 @@ public class Builds implements Serializable, IBuilds {
 
         ContentValues val = new ContentValues();
         val.put("build", NULL);
-        val.put("turns", 0);
+        val.put("turns", -1);
         db.update("surfaces", val, "id=" + id, null);
         c.close();
         db.close();

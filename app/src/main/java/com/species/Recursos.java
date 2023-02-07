@@ -66,8 +66,7 @@ public class Recursos implements Serializable, IRecursos{
         }
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
-        Cursor c1 = db.rawQuery("SELECT * FROM recursos WHERE planet=?",
-                new String[] { planet.getName() });
+        Cursor c1 = db.rawQuery("SELECT * FROM recursos WHERE planet=" + planet.getId(), null);
         c1.moveToFirst();
         id = c1.getInt(0);
         industry = c1.getInt(2);
