@@ -83,15 +83,16 @@ public abstract class Game extends AppCompatActivity {
         int build = 0;
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE x=? AND y=?",
+        Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE x=? AND y=? AND build NOT NULL",
                 new String[] { String.valueOf(x), String.valueOf(y) });
         c.moveToFirst();
         if(c.getCount() > 0){
-            build = c.getInt(2);
+            return true;
+            //build = c.getInt(2);
         }
         c.close();
         db.close();
-        return build < 0;
+        return false;
     }
 
     public static void hideview(View view) {
