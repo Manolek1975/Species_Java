@@ -149,10 +149,12 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
 
         // Draw squares
         List<Surfaces> squares = surface.getSurfaces(this, planet.getId());
-        List<Surfaces> buildList = surface.getBuildings(this, planet.getId());
+
+/*
         for(Surfaces point : buildList){
             buildPoint = new Point(point.getX(), point.getY());
         }
+*/
         for(Surfaces surface : squares){
             int i = 1;
             List<Point> availables = Game.setAvailables(this, surface, planet);
@@ -181,6 +183,7 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         }
         img.setImageBitmap(bitmap);
 
+        List<Surfaces> buildList = surface.getBuildings(this, planet.getId());
         for(Surfaces val : buildList) {
             // Draw Builds
             Builds newBuild = new Builds();

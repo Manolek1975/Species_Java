@@ -1,5 +1,7 @@
 package com.species;
 
+import static java.sql.Types.NULL;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.res.Resources;
@@ -71,8 +73,7 @@ public class Surfaces implements Serializable {
     public List<Surfaces> getBuildings(Context context, int id){
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getReadableDatabase();
-        //Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE planet='" + planet + "' AND turns=" + 0, null);
-        Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE planet=? AND build NOT NULL AND build<>0",
+        Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE planet=? AND build NOT NULL AND turns=-1",
                 new String[] {String.valueOf(id)});
         List<Surfaces> buildList = new ArrayList<>();
         while (c.moveToNext()) {
@@ -129,7 +130,6 @@ public class Surfaces implements Serializable {
     public void setSquares(Context context, Surfaces surface) {
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
-       // Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE planet='" + surface.planet + "'", null);
         ContentValues values = new ContentValues();
         values.put(DBSurfaces.COLUMN_PLANET, surface.planet );
         values.put(DBSurfaces.COLUMN_BUILD, surface.build );
@@ -139,7 +139,6 @@ public class Surfaces implements Serializable {
         values.put(DBSurfaces.COLUMN_COLOR, surface.color );
 
         db.insert(DBSurfaces.TABLE_NAME, null, values);
-        //c.close();
         db.close();
     }
 
@@ -147,8 +146,11 @@ public class Surfaces implements Serializable {
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(DBSurfaces.COLUMN_BUILD, build.getId());
-        values.put(DBSurfaces.COLUMN_TURNS, build.getCost());
+        if (build.getId() != null){
+            values.put(DBSurfaces.COLUMN_BUILD, build.getId());
+        }
+        values.put("build", build.getId());
+        values.put("turns", build.getCost());
 
         db.update("surfaces", values,"id=" + surface.getId(), null);
         db.close();
@@ -197,6 +199,23 @@ public class Surfaces implements Serializable {
             values.put(DBSurfaces.COLUMN_TURNS, c.getInt(3) - 1);
             db.update("surfaces", values,"id=" + c.getInt(0), null);
         }
+        c.close();
+        db.close();
+    }
+
+    public void buildClear(Context context) {
+        int id = 0;
+        DBHelper helper = new DBHelper(context);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE turns>0", null);
+        if(c.getCount() > 0) {
+            c.moveToFirst();
+            id = c.getInt(0);
+        }
+        ContentValues val = new ContentValues();
+        val.putNull("build");
+        val.put("turns", -1);
+        db.update("surfaces", val, "id=" + id, null);
         c.close();
         db.close();
     }

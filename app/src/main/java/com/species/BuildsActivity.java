@@ -33,7 +33,8 @@ public class BuildsActivity extends AppCompatActivity implements Serializable {
         planet = (Planets)i.getSerializableExtra("planet");
         Recursos res = (Recursos) i.getSerializableExtra("recursos");
 
-        builds.buildClear(this);
+        Surfaces surfaces = new Surfaces();
+        surfaces.buildClear(this);
         drawBuilds();
 
     }

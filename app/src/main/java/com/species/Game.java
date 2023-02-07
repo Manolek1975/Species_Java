@@ -80,18 +80,18 @@ public abstract class Game extends AppCompatActivity {
     }
 
     public static boolean getFill(Context context, int x, int y){
-        String build = null;
+        int build = 0;
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getReadableDatabase();
         Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE x=? AND y=?",
                 new String[] { String.valueOf(x), String.valueOf(y) });
         c.moveToFirst();
         if(c.getCount() > 0){
-            build = c.getString(2);
+            build = c.getInt(2);
         }
         c.close();
         db.close();
-        return build != null;
+        return build < 0;
     }
 
     public static void hideview(View view) {
@@ -104,7 +104,6 @@ public abstract class Game extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
         );
     }
-
 
     public static void hideviewMenu(View view) {
         view.setSystemUiVisibility(
