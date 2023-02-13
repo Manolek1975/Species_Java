@@ -58,27 +58,6 @@ public abstract class Game extends AppCompatActivity {
                 .show();
     }
 
-    public static List<Point> setAvailables(Context context, Surfaces surface, Planets planet) {
-        List<Surfaces> builds = surface.getBuildings(context, planet.getId());
-        List<Point> availables = new ArrayList<>();
-        for(Surfaces val : builds) {
-            Point point = new Point(val.getX(), val.getY());
-            Point c1 = new Point(point.x - 100, point.y - 50);
-            Point c2 = new Point(point.x + 100, point.y - 50);
-            Point c3 = new Point(point.x - 100, point.y + 50);
-            Point c4 = new Point(point.x + 100, point.y + 50);
-            boolean fill1 = Game.getFill(context, c1.x, c1.y);
-            boolean fill2 = Game.getFill(context, c2.x, c2.y);
-            boolean fill3 = Game.getFill(context, c3.x, c3.y);
-            boolean fill4 = Game.getFill(context, c4.x, c4.y);
-            if (!fill1) availables.add(c1);
-            if (!fill2) availables.add(c2);
-            if (!fill3) availables.add(c3);
-            if (!fill4) availables.add(c4);
-        }
-        return availables;
-    }
-
     public static boolean getFill(Context context, int x, int y){
         int build = 0;
         DBHelper helper = new DBHelper(context);

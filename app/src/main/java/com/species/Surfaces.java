@@ -18,26 +18,54 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class Surfaces implements Serializable {
+public class Surfaces implements Serializable, ISurfaces {
 
     private Integer id;
     private Integer planet;
     private Integer build;
-    private Integer x;
-    private Integer y;
-    private Integer color;
-    private int turns;
+    private int cost;
+    private int resource;
 
     public Surfaces(){ super();}
 
-    public Surfaces(int id, int planet, int build, int turns, int x, int y, int color) {
+    public Surfaces(int id, int planet, int build, int cost, int resource) {
         this.id = id;
         this.planet = planet;
         this.build = build;
-        this.turns = turns;
-        this.x = x;
-        this.y = y;
-        this.color = color;
+        this.cost = cost;
+        this.resource = resource;
+    }
+
+    public void insertSurface(Context context, int planet, int build, int cost, int resource) {
+        DBHelper helper = new DBHelper(context);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DBSurfaces.COLUMN_PLANET, planet );
+        values.put(DBSurfaces.COLUMN_BUILD, build );
+        values.put(DBSurfaces.COLUMN_COST, cost );
+        values.put(DBSurfaces.COLUMN_RESOURCE, resource );
+
+        db.insert(DBSurfaces.TABLE_NAME, null, values);
+        db.close();
+    }
+    public List<Surfaces> getSurfaces(Context context, int id) {
+        DBHelper helper = new DBHelper(context);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM surfaces WHERE planet=" + id, null);
+        List<Surfaces> surfaceList = new ArrayList<>();
+        while(cursor.moveToNext()) {
+            Surfaces surface = new Surfaces(
+                    cursor.getInt(0),
+                    cursor.getInt(1),
+                    cursor.getInt(2),
+                    cursor.getInt(3),
+                    cursor.getInt(4)
+            );
+            surfaceList.add(surface);
+        }
+        cursor.close();
+        db.close();
+        return surfaceList;
     }
 
     public List<Point> getSquares(Context context, int size){
@@ -82,9 +110,7 @@ public class Surfaces implements Serializable {
                     c.getInt(1),
                     c.getInt(2),
                     c.getInt(3),
-                    c.getInt(4),
-                    c.getInt(5),
-                    c.getInt(6)
+                    c.getInt(4)
             );
             buildList.add(surface);
         }
@@ -105,27 +131,7 @@ public class Surfaces implements Serializable {
         return origin;
     }
 
-    public List<Surfaces> getSurfaces(Context context, int id) {
-        DBHelper helper = new DBHelper(context);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM surfaces WHERE planet=" + id, null);
-        List<Surfaces> surfaceList = new ArrayList<>();
-        while(cursor.moveToNext()) {
-            Surfaces surface = new Surfaces(
-                cursor.getInt(0),
-                cursor.getInt(1),
-                cursor.getInt(2),
-                cursor.getInt(3),
-                cursor.getInt(4),
-                cursor.getInt(5),
-                cursor.getInt(6)
-            );
-            surfaceList.add(surface);
-        }
-        cursor.close();
-        db.close();
-        return surfaceList;
-    }
+
 
     public void setSquares(Context context, Surfaces surface) {
         DBHelper helper = new DBHelper(context);
@@ -133,10 +139,8 @@ public class Surfaces implements Serializable {
         ContentValues values = new ContentValues();
         values.put(DBSurfaces.COLUMN_PLANET, surface.planet );
         values.put(DBSurfaces.COLUMN_BUILD, surface.build );
-        values.put(DBSurfaces.COLUMN_TURNS, -1 );
-        values.put(DBSurfaces.COLUMN_X, surface.x );
-        values.put(DBSurfaces.COLUMN_Y, surface.y );
-        values.put(DBSurfaces.COLUMN_COLOR, surface.color );
+        values.put(DBSurfaces.COLUMN_COST, -1 );
+        values.put(DBSurfaces.COLUMN_RESOURCE, 0 );
 
         db.insert(DBSurfaces.TABLE_NAME, null, values);
         db.close();
@@ -170,7 +174,7 @@ public class Surfaces implements Serializable {
     public List<Surfaces> getTurns(Context context) {
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE turns > -1", null);
+        Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE cost > -1", null);
         List<Surfaces> surfaceList = new ArrayList<>();
         while(c.moveToNext()) {
                 Surfaces surface = new Surfaces(
@@ -178,9 +182,7 @@ public class Surfaces implements Serializable {
                         c.getInt(1),
                         c.getInt(2),
                         c.getInt(3),
-                        c.getInt(4),
-                        c.getInt(5),
-                        c.getInt(6)
+                        c.getInt(4)
                 );
             surfaceList.add(surface);
         }
@@ -192,11 +194,11 @@ public class Surfaces implements Serializable {
     public void updateSquare(Context context){
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE turns >= 0", null);
+        Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE cost >= 0", null);
         c.moveToFirst();
         if(c.getCount() != 0) {
             ContentValues values = new ContentValues();
-            values.put(DBSurfaces.COLUMN_TURNS, c.getInt(3) - 1);
+            values.put(DBSurfaces.COLUMN_COST, c.getInt(3) - 1);
             db.update("surfaces", values,"id=" + c.getInt(0), null);
         }
         c.close();
@@ -207,14 +209,14 @@ public class Surfaces implements Serializable {
         int id = 0;
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE turns>0", null);
+        Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE cost>0", null);
         if(c.getCount() > 0) {
             c.moveToFirst();
             id = c.getInt(0);
         }
         ContentValues val = new ContentValues();
         val.putNull("build");
-        val.put("turns", -1);
+        val.put("cost", -1);
         db.update("surfaces", val, "id=" + id, null);
         c.close();
         db.close();
@@ -365,23 +367,43 @@ public class Surfaces implements Serializable {
 
     }
 
-    public Integer getId() { return id; }
-    public Integer getPlanet() { return planet; }
-    public Integer getBuild() { return build; }
-    public Integer getX() { return x; }
-    public Integer getY() { return y; }
-    public Integer getColor() { return color; }
-    public void setPlanet(int planet) { this.planet = planet; }
-    public void setBuild(Integer build) { this.build = build; }
-    public void setX(Integer x) { this.x = x; }
-    public void setY(Integer y) { this.y = y; }
-    public void setColor(int color) { this.color = color; }
-
-    public int getTurns() {
-        return turns;
+    public Integer getId() {
+        return id;
     }
 
-    public void setTurns(int turns) {
-        this.turns = turns;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getPlanet() {
+        return planet;
+    }
+
+    public void setPlanet(Integer planet) {
+        this.planet = planet;
+    }
+
+    public Integer getBuild() {
+        return build;
+    }
+
+    public void setBuild(Integer build) {
+        this.build = build;
+    }
+
+    public int getCost() {
+        return cost;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
+
+    public int getResource() {
+        return resource;
+    }
+
+    public void setResource(int resource) {
+        this.resource = resource;
     }
 }

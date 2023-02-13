@@ -164,7 +164,7 @@ public class Planets extends AppCompatActivity implements IPlanets, Serializable
     }
 
     //TODO Asignar imagen según el tipo de planeta
-    protected String getImagePlanet(Context context, Integer type) {
+    public String getImagePlanet(Context context, Integer type) {
         Resources res = context.getResources();
         String[] imagePlanet = res.getStringArray(R.array.image_planet);
         return imagePlanet[type-1];

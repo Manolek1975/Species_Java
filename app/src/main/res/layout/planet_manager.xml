@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/black"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
     <LinearLayout
-        android:id="@+id/idGalaxyLayout"
+        android:id="@+id/PlanetLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="96dp"
@@ -18,8 +17,10 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
+            android:id="@+id/TurnoLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:weightSum="3"
             android:orientation="horizontal">
 
             <TextView
@@ -36,7 +37,7 @@
 
             <Button
                 android:id="@+id/advanceTurn"
-                android:layout_width="wrap_content"
+                android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_weight="1"
                 android:background="@color/black"
@@ -48,7 +49,7 @@
 
             <Button
                 android:id="@+id/advanceFast"
-                android:layout_width="wrap_content"
+                android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_weight="1"
                 android:background="@color/black"
@@ -62,74 +63,84 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:baselineAligned="false"
-            android:orientation="horizontal"
-            android:weightSum="4">
+            android:weightSum="4"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imagePlanet"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_margin="20dp"
+                android:layout_weight="1"
+                android:contentDescription="@string/TODO"
+                android:onClick="runSistem"
+                app:srcCompat="@drawable/icon_planet_congenial" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="3"
+                android:padding="10dp"
                 android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/planetName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:textColor="@color/white"
+                    android:text="PLANETA" />
+
+                <TextView
+                    android:id="@+id/planetType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textSize="14sp"
+                    android:textColor="@color/white"
+                    android:text="Tipo" />
 
                 <TextView
                     android:id="@+id/textIndustry"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
+                    android:textSize="12sp"
                     android:text="@string/text_producion"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
+                    android:textColor="@color/white" />
 
                 <TextView
                     android:id="@+id/textProsperity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
+                    android:textSize="12sp"
                     android:text="@string/text_prosperidad"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
+                    android:textColor="@color/white" />
 
                 <TextView
                     android:id="@+id/textResearch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
+                    android:textSize="12sp"
                     android:text="@string/text_investigación"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
+                    android:textColor="@color/white" />
 
                 <TextView
                     android:id="@+id/textPopulation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
+                    android:textSize="12sp"
                     android:text="@string/text_poblacion"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
+                    android:textColor="@color/white" />
+
+
             </LinearLayout>
 
             <LinearLayout
-
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/viewPopulation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@string/TODO"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/population_view" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:padding="10dp"
                 android:gravity="center_vertical"
                 android:orientation="vertical">
 
@@ -137,14 +148,15 @@
                     android:id="@+id/textProyecto"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:maxWidth="100dp"
                     android:gravity="center_horizontal"
-                    android:paddingBottom="40dp"
+                    android:paddingTop="40dp"
                     android:onClick="runBuilds"
-                    android:text="@string/proyecto"
+                    android:text="@string/sin_proyecto"
                     android:textColor="@color/white" />
 
                 <ImageButton
-                    android:id="@+id/buildButton"
+                    android:id="@+id/proyectoButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -164,66 +176,47 @@
                     android:textColor="@color/white" />
 
             </LinearLayout>
-
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/planetLayout"
+        <TextView
+            android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:textColor="@color/white"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:text="Orbital" />
 
-            <ImageView
-                android:id="@+id/planetView"
-                android:layout_width="wrap_content"
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/black"
-                android:contentDescription="@string/TODO"
-                android:scaleType="centerCrop"
-                tools:ignore="ImageContrastCheck" />
+                android:orientation="horizontal" />
+        </ScrollView>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/messageLayout"
+        <TextView
+            android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:textColor="@color/white"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:text="Superficie" />
 
-            <Button
-                android:id="@+id/planetName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/roundedbutton"
-                android:layout_gravity="center"
-                android:paddingHorizontal="20dp"
-                android:backgroundTint="#0C2030"
-                android:onClick="runSistem"
-                android:text="@string/planeta"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/planetDesc"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/test"
-                android:textColor="@color/teal_700"
-                android:textSize="24sp" />
+                android:orientation="vertical" />
+        </ScrollView>
 
-            <TextView
-                android:id="@+id/textMessage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@color/design_default_color_error"
-                android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/planetView" />
 
-        </LinearLayout>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

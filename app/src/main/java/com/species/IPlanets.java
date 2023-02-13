@@ -12,6 +12,8 @@ public interface IPlanets {
     Planets getPlanetById(Context context, Integer id);
     List<Planets> getOwnPlanets(Context context, int specieId);
 
+    String getImagePlanet(Context context, Integer type);
+
     Planets getPlanetTarget(Context context, String planetName);
 
     void setPlanetXY(int id, int x, int y, Context context);
