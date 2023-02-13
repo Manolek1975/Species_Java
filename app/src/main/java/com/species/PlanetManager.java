@@ -5,23 +5,32 @@ import static com.species.Game.turn;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class PlanetManager extends AppCompatActivity implements Serializable {
     public static final int IMAGE_TOP = 20; // Distancia superior de la imagen
@@ -29,13 +38,8 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
     private Planets planet;
     private Builds build;
     private Surfaces surface;
-    private Recursos res;
-    private Point buildPoint;
-    private int buildX, buildY;
-    private Boolean canBuild;
-    private LinearLayout lin;
-    private ImageView img;
-    int endTurn;
+    private int endTurn;
+    private List<Surfaces> surfaceList;
 
 
     @Override
@@ -45,11 +49,12 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         View view = getWindow().getDecorView();
         Game.hideviewMenu(view);
 
-        surface =  new Surfaces();
         Intent i = getIntent();
         planet = (Planets)i.getSerializableExtra("planet");
         starId = planet.getStar();
         build = (Builds)i.getSerializableExtra("build");
+        surface =  new Surfaces();
+        surfaceList = surface.getBuildings(this, planet.getId());
 
         setPlanet();
     }
@@ -59,6 +64,7 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         TextView textProyectoTurnos = findViewById(R.id.textEndTurn);
         TextView planetName = findViewById(R.id.planetName);
         TextView planetType = findViewById(R.id.planetType);
+        //Draw planet
         planetName.setText(planet.getName());
         String type = planet.getNameType(planet.getType());
         planetType.setText(String.format("Planeta %s", type));
@@ -66,22 +72,22 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         String img = planet.getImagePlanet(this, planet.getType());
         int res = this.getResources().getIdentifier(img, "drawable", this.getPackageName());
         imgPlanet.setImageResource(res);
-
+        //Draw proyecto
         if (build != null){
             ImageButton proyectoButton = findViewById(R.id.proyectoButton);
             String imgBuild = build.getImage();
             int resBuild = this.getResources().getIdentifier(imgBuild, "drawable", this.getPackageName());
-            textProyecto.setText(build.getName());
             proyectoButton.setImageResource(resBuild);
             endTurn = build.getCost();
-            textProyectoTurnos.setText(String.format("%d turnos", endTurn));
-
+            textProyecto.setText(build.getName());
+            textProyectoTurnos.setText(String.format(Locale.US, "%d turnos", endTurn));
             surface.insertSurface(this, planet.getId(), build.getId(), endTurn, 0);
-
-            Log.i("BUILD", build.getName());
         } else {
             textProyecto.setText(R.string.sin_proyecto);
         }
+        //Draw Buildings
+        drawBuild();
+
 
     }
 
@@ -113,7 +119,7 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         listen.setValue(endTurn);
         listen.observe(this, changedValue -> {
             if(endTurn == 0){
-                //Log.i("RES", surface.getPlanet() + " , " + surface.getBuild() + " , " + surface.getColor());
+                square.updateSquare(this);
                 buildButton.setImageDrawable(null);
                 textProyectoTurnos.setText("");
                 textProyecto.setText(R.string.sin_proyecto);
@@ -121,6 +127,66 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
                 Game.buildCompleted(this, surface);
             }
         });
+    }
+
+    public void advanceFast(View view) {
+        TextView textTurn = findViewById(R.id.textTurn);
+        TextView textProyecto = findViewById(R.id.textProyecto);
+        TextView textProyectoTurnos = findViewById(R.id.textEndTurn);
+        Surfaces square = new Surfaces();
+        do {
+            int turn = Game.advanceTurn(view);
+            textTurn.setText(String.valueOf(turn));
+            square.updateSquare(this);
+            List<Surfaces> surfaceList = surface.getTurns(this);
+            if(surfaceList.isEmpty()) return;
+            for(Surfaces val : surfaceList) {
+                endTurn = val.getCost();
+                textProyectoTurnos.setText(String.format("%s turnos", endTurn));
+                surface = val;
+            }
+
+        } while(surface.getCost() > 0);
+
+        SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor edit = data.edit();
+        edit.putInt("turn", turn);
+        edit.apply();
+
+        ImageButton buildButton = findViewById(R.id.proyectoButton);
+        MutableLiveData<Integer> listen = new MutableLiveData<>();
+        listen.setValue(endTurn);
+        listen.observe(this, changedValue -> {
+            if(endTurn == 0){
+                square.updateSquare(this);
+                buildButton.setImageDrawable(null);
+                textProyectoTurnos.setText("");
+                textProyecto.setText(R.string.sin_proyecto);
+                //res.increaseRecursos(this, planet, build.getBuildById(this, surface.getBuild()), surface.getColor());
+                Game.buildCompleted(this, surface);
+            }
+        });
+    }
+
+    private void drawBuild() {
+        LinearLayout surfaceLayout = findViewById(R.id.surfaceLayout);
+        for (Surfaces surface : surfaceList){
+            Builds build = new Builds();
+            Button imgBuild = new Button(this);
+            build = build.getBuildById(this, surface.getBuild());
+            String imgString = build.getImageBuild(this, build.getId());
+            int resBuild = this.getResources().getIdentifier(imgString, "drawable", this.getPackageName());
+            imgBuild.setLayoutParams(new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT));
+            imgBuild.setCompoundDrawablesWithIntrinsicBounds(resBuild, 0, 0, 0);
+            imgBuild.setCompoundDrawablePadding(50);
+            imgBuild.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+            imgBuild.setBackgroundColor(Color.TRANSPARENT);
+            imgBuild.setTextColor(Color.WHITE);
+            imgBuild.setText(build.getName());
+
+            surfaceLayout.addView(imgBuild);
+        }
+
     }
 
     protected void play() {

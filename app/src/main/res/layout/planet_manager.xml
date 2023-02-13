@@ -211,8 +211,11 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
+                android:id="@+id/surfaceLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
                 android:orientation="vertical" />
         </ScrollView>
 
