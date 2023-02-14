@@ -19,6 +19,7 @@ import java.util.List;
 public class BuildsActivity extends AppCompatActivity implements Serializable {
     private Planets planet;
     IBuilds builds = new Builds();
+    ISurfaces surface = new Surfaces();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +32,10 @@ public class BuildsActivity extends AppCompatActivity implements Serializable {
         Species specie = (Species) i.getSerializableExtra("specie");
         Stars star = (Stars) i.getSerializableExtra("star");
         planet = (Planets)i.getSerializableExtra("planet");
-        Recursos res = (Recursos) i.getSerializableExtra("recursos");
+        //Recursos res = (Recursos) i.getSerializableExtra("recursos");
 
-        Surfaces surfaces = new Surfaces();
-        surfaces.buildClear(this);
+/*        Surfaces surfaces = new Surfaces();
+        surfaces.buildClear(this);*/
         drawBuilds();
 
     }
@@ -64,14 +65,13 @@ public class BuildsActivity extends AppCompatActivity implements Serializable {
             btn.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
 
             btn.setOnClickListener(v -> {
-                //Intent i = new Intent(this, PlanetManager.class);
                 Intent i = new Intent(this, PlanetManager.class);
-                //i.putExtra("specie", specie);
                 i.putExtra("starId", planet.getStar());
                 i.putExtra("planet", planet);
                 i.putExtra("build", build);
-                //i.putExtra("recursos", res);
                 i.putExtra("canBuild", true);
+                int endTurn = build.getCost();
+                surface.insertSurface(this, planet.getId(), build.getId(), endTurn, 0);
                 startActivity(i);
             });
             //Log.i("BUILD", build.getName());

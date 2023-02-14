@@ -116,11 +116,11 @@ public class Recursos implements Serializable, IRecursos{
     }
 
     @Override
-    public Recursos getRecursosByPlanet(Context context, Planets planet) {
+    public Recursos getRecursosByPlanet(Context context, int id) {
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM recursos WHERE planet=?",
-                new String[] { planet.getName() });
+                new String[] {String.valueOf(id)});
         cursor.moveToFirst();
             Recursos res = new Recursos(
                     cursor.getInt(0),
@@ -206,5 +206,29 @@ public class Recursos implements Serializable, IRecursos{
     }
     public void setResearch(int research) {
         this.research = research;
+    }
+
+    public int getShield() {
+        return shield;
+    }
+
+    public void setShield(int shield) {
+        this.shield = shield;
+    }
+
+    public int getDefence() {
+        return defence;
+    }
+
+    public void setDefence(int defence) {
+        this.defence = defence;
+    }
+
+    public int getOffence() {
+        return offence;
+    }
+
+    public void setOffence(int offence) {
+        this.offence = offence;
     }
 }

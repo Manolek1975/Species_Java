@@ -31,12 +31,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class PlanetManager extends AppCompatActivity implements Serializable {
     public static final int IMAGE_TOP = 20; // Distancia superior de la imagen
     private int starId;
     private Planets planet;
-    private Builds build;
     private Surfaces surface;
     private int endTurn;
     private List<Surfaces> surfaceList;
@@ -52,9 +52,10 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         Intent i = getIntent();
         planet = (Planets)i.getSerializableExtra("planet");
         starId = planet.getStar();
-        build = (Builds)i.getSerializableExtra("build");
+        //build = (Builds)i.getSerializableExtra("build");
         surface =  new Surfaces();
         surfaceList = surface.getBuildings(this, planet.getId());
+
 
         setPlanet();
     }
@@ -73,20 +74,24 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         int res = this.getResources().getIdentifier(img, "drawable", this.getPackageName());
         imgPlanet.setImageResource(res);
         //Draw proyecto
-        if (build != null){
+        Surfaces proyecto = surface.getProyecto(this, planet.getId());
+        if (proyecto != null){
+            Builds build = new Builds();
+            build = build.getBuildById(this, proyecto.getBuild());
             ImageButton proyectoButton = findViewById(R.id.proyectoButton);
             String imgBuild = build.getImage();
             int resBuild = this.getResources().getIdentifier(imgBuild, "drawable", this.getPackageName());
             proyectoButton.setImageResource(resBuild);
-            endTurn = build.getCost();
+            endTurn = proyecto.getCost();
             textProyecto.setText(build.getName());
             textProyectoTurnos.setText(String.format(Locale.US, "%d turnos", endTurn));
-            surface.insertSurface(this, planet.getId(), build.getId(), endTurn, 0);
+            //surface.insertSurface(this, planet.getId(), build.getId(), endTurn, 0);
         } else {
             textProyecto.setText(R.string.sin_proyecto);
         }
         //Draw Buildings
         drawBuild();
+        showRecursos();
 
 
     }
@@ -125,6 +130,8 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
                 textProyecto.setText(R.string.sin_proyecto);
                 //res.increaseRecursos(this, planet, build.getBuildById(this, surface.getBuild()), surface.getColor());
                 Game.buildCompleted(this, surface);
+                play();
+                showRecursos();
             }
         });
     }
@@ -164,8 +171,26 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
                 textProyecto.setText(R.string.sin_proyecto);
                 //res.increaseRecursos(this, planet, build.getBuildById(this, surface.getBuild()), surface.getColor());
                 Game.buildCompleted(this, surface);
+                play();
+                showRecursos();
             }
         });
+    }
+
+    private void showRecursos() {
+        Locale sp = new Locale("es", "ES");
+        Recursos recursos = new Recursos();
+        recursos = recursos.getRecursosByPlanet(this, planet.getId());
+        TextView textIndustry = findViewById(R.id.textIndustry);
+        TextView textProsperity = findViewById(R.id.textProsperity);
+        TextView textResearch = findViewById(R.id.textResearch);
+        TextView textPopulation = findViewById(R.id.textPopulation);
+        TextView textDefence = findViewById(R.id.textDefence);
+        textIndustry.setText(String.format(sp, "Industria: %s", recursos.getIndustry()));
+        textProsperity.setText(String.format(sp, "Nutrientes: %s", recursos.getProsperity()));
+        textResearch.setText(String.format("Ciencia: %s", recursos.getResearch()));
+        textPopulation.setText(String.format("Población: %s", recursos.getPopulation()));
+        textDefence.setText(String.format("Defensa: %s", recursos.getDefence()));
     }
 
     private void drawBuild() {
@@ -186,7 +211,6 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
 
             surfaceLayout.addView(imgBuild);
         }
-
     }
 
     protected void play() {

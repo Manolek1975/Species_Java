@@ -101,8 +101,8 @@ public class Surfaces implements Serializable, ISurfaces {
     public List<Surfaces> getBuildings(Context context, int id){
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE planet=?",
-                new String[] {String.valueOf(id)});
+        Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE planet=? AND cost=?",
+                new String[] { String.valueOf(id), String.valueOf(-1)});
         List<Surfaces> buildList = new ArrayList<>();
         while (c.moveToNext()) {
             Surfaces surface = new Surfaces(
@@ -188,6 +188,27 @@ public class Surfaces implements Serializable, ISurfaces {
         c.close();
         db.close();
         return surfaceList;
+    }
+
+    public Surfaces getProyecto(Context context, int id){
+        Surfaces surface = null;
+        DBHelper helper = new DBHelper(context);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE planet=? AND cost > -1",
+                new String[] { String.valueOf(id)});
+        c.moveToFirst();
+        if (c.getCount() != 0) {
+            surface = new Surfaces(
+                c.getInt(0),
+                c.getInt(1),
+                c.getInt(2),
+                c.getInt(3),
+                c.getInt(4)
+            );
+        }
+        c.close();
+        db.close();
+        return surface;
     }
 
     public void updateSquare(Context context){

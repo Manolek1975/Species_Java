@@ -79,6 +79,20 @@ public class Species implements ISpecies {
         newVal.put("type", 1);
         newVal.put("star", starId);
         db.update("species", newVal, "id=" + id, null);
+        // inserta colonia base en surfaces del planeta origen
+        newVal.clear();
+        newVal.put("planet", idPlanet);
+        newVal.put("build", 1);
+        newVal.put("cost", -1);
+        newVal.put("resource", 0);
+        db.insert("surfaces", null, newVal);
+        // inserta recursos en el planeta origen
+        newVal.clear();
+        newVal.put("planet", idPlanet);
+        newVal.put("industry", 1);
+        newVal.put("prosperity", 1);
+        newVal.put("defence", 1);
+        db.insert("recursos", null, newVal);
 
         c.close();
         db.close();

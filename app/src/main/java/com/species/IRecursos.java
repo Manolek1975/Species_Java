@@ -10,6 +10,6 @@ public interface IRecursos {
     void increaseRecursos(Context context, Planets planet, Builds build, int color);
 
     List<Recursos> getRecursos(Context context, Planets planet);
-    Recursos getRecursosByPlanet(Context context, Planets planet);
+    Recursos getRecursosByPlanet(Context context, int id);
 
 }

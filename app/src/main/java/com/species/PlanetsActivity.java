@@ -37,20 +37,17 @@ public class PlanetsActivity extends AppCompatActivity implements Serializable {
 
     private void drawPlanets() {
         //Recursos res = new Recursos();
+        LinearLayout planetButtons = findViewById(R.id.planetButtons);
         List<Planets> planets = planetList.getOwnPlanets(this, specieId);
         // Add Planets
-        LinearLayout planetButtons = findViewById(R.id.planetButtons);
         for(Planets planet: planets) {
             Button planetButton = new Button(this);
             String iconPlanet = planet.getIconPlanet(this, planet.getType());
-
             int resImage = this.getResources().getIdentifier(iconPlanet, "drawable", this.getPackageName());
             planetButton.setLayoutParams(new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT));
             planetButton.setCompoundDrawablesWithIntrinsicBounds(resImage, 0, 0, 0);
             planetButton.setCompoundDrawablePadding(50);
-
             planetButton.setPadding(50,20,0,20);
-
             planetButton.setAllCaps(false);
             planetButton.setText(planet.getName());
             planetButton.setBackgroundColor(Color.TRANSPARENT);
