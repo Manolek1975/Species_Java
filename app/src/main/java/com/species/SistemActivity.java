@@ -8,17 +8,23 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Range;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.Serializable;
 import java.util.List;
@@ -65,6 +71,17 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
                 Range<Integer> rangoX = Range.create(x, x + 200);
                 Range<Integer> rangoY = Range.create(y, y + 200);
                 if (rangoX.contains(val.getX() + 150) && rangoY.contains(val.getY() + 400)) {
+                    if (val.getExplore() != 1) {
+                        View customToastroot = View.inflate(this, R.layout.custom_toast, null);
+                        TextView msg = (TextView) customToastroot.findViewById(R.id.toastMsg);
+                        msg.setText(R.string.explore);
+                        Toast customtoast = new Toast(getApplicationContext());
+                        customtoast.setView(customToastroot);
+                        customtoast.setDuration(Toast.LENGTH_LONG);
+                        customtoast.show();
+                        return false;
+                    }
+
                     Intent i = new Intent(this, PlanetManager.class);
                     i.putExtra("starId", star.getId());
                     i.putExtra("planet", val);
