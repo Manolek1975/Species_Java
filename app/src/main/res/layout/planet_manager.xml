@@ -90,7 +90,7 @@
                     android:textAlignment="center"
                     android:textSize="20sp"
                     android:textColor="@color/white"
-                    android:text="PLANETA" />
+                    android:text="@string/planeta" />
 
                 <TextView
                     android:id="@+id/planetType"
@@ -99,7 +99,7 @@
                     android:textAlignment="center"
                     android:textSize="14sp"
                     android:textColor="@color/white"
-                    android:text="Tipo" />
+                    android:text="@string/tipo" />
 
                 <TextView
                     android:id="@+id/textIndustry"
@@ -187,32 +187,36 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/textOrbital"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
-            android:text="Orbital" />
+            android:text="@string/orbital_layout"
+            android:textColor="@color/white" />
 
-        <ScrollView
-            android:layout_width="match_parent"
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:id="@+id/orbitalLayout"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:orientation="horizontal" />
-        </ScrollView>
+
+        </HorizontalScrollView>
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/textSurface"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
-            android:text="Superficie" />
+            android:text="@string/surface_layout"
+            android:textColor="@color/white" />
 
         <ScrollView
             android:layout_width="match_parent"

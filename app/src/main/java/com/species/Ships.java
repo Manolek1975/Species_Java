@@ -1,0 +1,107 @@
+package com.species;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Ships implements IShips{
+
+    private int id;
+    private String name;
+    private String image;
+    private int size;
+    private int type;
+    private int sistema;
+    private int planet;
+    private int jump;
+    private int x;
+    private int y;
+
+    public Ships() {
+        super();
+    }
+
+    public Ships(int id, String name, String image, int size, int type, int sistema, int planet, int jump, int x, int y) {
+        this.id = id;
+        this.name = name;
+        this.image = image;
+        this.size = size;
+        this.type = type;
+        this.sistema = sistema;
+        this.planet = planet;
+        this.jump = jump;
+        this.x = x;
+        this.y = y;
+    }
+
+    @Override
+    public List<Ships> getPlanetShips(Context context, int id) {
+        Ships ship;
+        DBHelper helper = new DBHelper(context);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM ships WHERE planet=" +  id, null);
+        List<Ships> shipList = new ArrayList<>();
+        while(c.moveToNext() && c.getCount() != 0){
+            ship = new Ships(
+                c.getInt(0),
+                c.getString(1),
+                c.getString(2),
+                c.getInt(3),
+                c.getInt(4),
+                c.getInt(5),
+                c.getInt(6),
+                c.getInt(7),
+                c.getInt(8),
+                c.getInt(9)
+            );
+            shipList.add(ship);
+        }
+        c.close();
+        db.close();
+        return shipList;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public int getSistema() {
+        return sistema;
+    }
+
+    public int getPlanet() {
+        return planet;
+    }
+
+    public int getJump() {
+        return jump;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+}

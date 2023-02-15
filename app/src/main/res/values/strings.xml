@@ -18,6 +18,7 @@
 
     <!-- Planet Manager -->
     <string name="planeta">Planeta</string>
+    <string name="tipo">Tipo</string>
     <string name="text_producion">Producción: 0</string>
     <string name="text_prosperidad">Alimentos: 0</string>
     <string name="text_investigación">Ciencia: 0</string>
@@ -30,6 +31,8 @@
     <string name="turno_rapido">Turno</string>
     <string name="dialog_build">PROYECTO FINALIZADO</string>
     <string name="test">TEST</string>
+    <string name="orbital_layout">Orbital</string>
+    <string name="surface_layout">Superficie</string>
 
     <!-- MENSAJES -->
     <string name="planets_mensaje">No tienes Planetas</string>

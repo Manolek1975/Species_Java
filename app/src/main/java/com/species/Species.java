@@ -96,13 +96,12 @@ public class Species implements ISpecies {
         //TODO Insertar nave
         newVal.clear();
         newVal.put("name", "Aurora");
-        newVal.put("image", "shipA4");
+        newVal.put("image", "ship0");
         newVal.put("size", 3);
         newVal.put("type", "Colony");
         newVal.put("sistema", idStar);
         newVal.put("planet", idPlanet);
         db.insert("ships", null, newVal);
-
         c.close();
         db.close();
     }

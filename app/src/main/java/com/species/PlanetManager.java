@@ -71,7 +71,8 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         planetType.setText(String.format("Planeta %s", type));
         ImageView imgPlanet = findViewById(R.id.imagePlanet);
         String img = planet.getImagePlanet(this, planet.getType());
-        int res = this.getResources().getIdentifier(img, "drawable", this.getPackageName());
+        int res = Game.getResId(img, R.drawable.class);
+        //int res = this.getResources().getIdentifier(img, "drawable", this.getPackageName());
         imgPlanet.setImageResource(res);
         //Draw proyecto
         Surfaces proyecto = surface.getProyecto(this, planet.getId());
@@ -80,7 +81,8 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
             build = build.getBuildById(this, proyecto.getBuild());
             ImageButton proyectoButton = findViewById(R.id.proyectoButton);
             String imgBuild = build.getImage();
-            int resBuild = this.getResources().getIdentifier(imgBuild, "drawable", this.getPackageName());
+            int resBuild = Game.getResId(imgBuild, R.drawable.class);
+            //int resBuild = this.getResources().getIdentifier(imgBuild, "drawable", this.getPackageName());
             proyectoButton.setImageResource(resBuild);
             endTurn = proyecto.getCost();
             textProyecto.setText(build.getName());
@@ -89,10 +91,31 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         } else {
             textProyecto.setText(R.string.sin_proyecto);
         }
-        //Draw Buildings
         //TODO Draw Orbitales
+        drawOrbital();
         drawBuilds();
         showRecursos();
+    }
+
+    private void drawOrbital() {
+        Ships ships = new Ships();
+        LinearLayout lin = findViewById(R.id.orbitalLayout);
+        List<Ships> shipList = ships.getPlanetShips(this, planet.getId());
+        for (Ships ship : shipList){
+            Button button =  new Button(this);
+            int res = Game.getResId(ship.getImage(), R.drawable.class);
+            button.setLayoutParams(new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT));
+            button.setCompoundDrawablesWithIntrinsicBounds(res, 0, 0, 0);
+            button.setCompoundDrawablePadding(50);
+            button.setBackgroundColor(Color.TRANSPARENT);
+            //button.setText(ship.getName());
+            //button.setTextColor(Color.WHITE);
+            //button.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+            //button.setOnClickListener(v -> runStars(ship));
+            lin.addView(button);
+
+        }
+
     }
 
     private void drawBuilds() {
@@ -102,7 +125,8 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
             Button imgBuild = new Button(this);
             build = build.getBuildById(this, surface.getBuild());
             String imgString = build.getImageBuild(this, build.getId());
-            int resBuild = this.getResources().getIdentifier(imgString, "drawable", this.getPackageName());
+            int resBuild = Game.getResId(imgString, R.drawable.class);
+            //int resBuild = this.getResources().getIdentifier(imgString, "drawable", this.getPackageName());
             imgBuild.setLayoutParams(new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT));
             imgBuild.setCompoundDrawablesWithIntrinsicBounds(resBuild, 0, 0, 0);
             imgBuild.setCompoundDrawablePadding(50);
