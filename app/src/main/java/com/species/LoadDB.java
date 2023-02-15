@@ -30,6 +30,7 @@ public class LoadDB extends AppCompatActivity implements Serializable {
         db.execSQL("delete from " + DBBuilds.TABLE_NAME);
         db.execSQL("delete from " + DBSurfaces.TABLE_NAME);
         db.execSQL("delete from " + DBRecursos.TABLE_NAME);
+        db.execSQL("delete from " + DBShips.TABLE_NAME);
     }
     protected void insertDB() {
         insertSpecies();

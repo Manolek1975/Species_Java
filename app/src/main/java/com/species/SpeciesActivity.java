@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.io.InputStream;
 import java.util.List;
 
 public class SpeciesActivity extends AppCompatActivity {

@@ -56,7 +56,7 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         surface =  new Surfaces();
         surfaceList = surface.getBuildings(this, planet.getId());
 
-
+        //
         setPlanet();
     }
 
@@ -90,10 +90,29 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
             textProyecto.setText(R.string.sin_proyecto);
         }
         //Draw Buildings
-        drawBuild();
+        //TODO Draw Orbitales
+        drawBuilds();
         showRecursos();
+    }
 
+    private void drawBuilds() {
+        LinearLayout surfaceLayout = findViewById(R.id.surfaceLayout);
+        for (Surfaces surface : surfaceList){
+            Builds build = new Builds();
+            Button imgBuild = new Button(this);
+            build = build.getBuildById(this, surface.getBuild());
+            String imgString = build.getImageBuild(this, build.getId());
+            int resBuild = this.getResources().getIdentifier(imgString, "drawable", this.getPackageName());
+            imgBuild.setLayoutParams(new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT));
+            imgBuild.setCompoundDrawablesWithIntrinsicBounds(resBuild, 0, 0, 0);
+            imgBuild.setCompoundDrawablePadding(50);
+            imgBuild.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+            imgBuild.setBackgroundColor(Color.TRANSPARENT);
+            imgBuild.setTextColor(Color.WHITE);
+            imgBuild.setText(build.getName());
 
+            surfaceLayout.addView(imgBuild);
+        }
     }
 
     public void advanceTurn(View view) {
@@ -191,26 +210,6 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         textResearch.setText(String.format("Ciencia: %s", recursos.getResearch()));
         textPopulation.setText(String.format("Población: %s", recursos.getPopulation()));
         textDefence.setText(String.format("Defensa: %s", recursos.getDefence()));
-    }
-
-    private void drawBuild() {
-        LinearLayout surfaceLayout = findViewById(R.id.surfaceLayout);
-        for (Surfaces surface : surfaceList){
-            Builds build = new Builds();
-            Button imgBuild = new Button(this);
-            build = build.getBuildById(this, surface.getBuild());
-            String imgString = build.getImageBuild(this, build.getId());
-            int resBuild = this.getResources().getIdentifier(imgString, "drawable", this.getPackageName());
-            imgBuild.setLayoutParams(new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT));
-            imgBuild.setCompoundDrawablesWithIntrinsicBounds(resBuild, 0, 0, 0);
-            imgBuild.setCompoundDrawablePadding(50);
-            imgBuild.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
-            imgBuild.setBackgroundColor(Color.TRANSPARENT);
-            imgBuild.setTextColor(Color.WHITE);
-            imgBuild.setText(build.getName());
-
-            surfaceLayout.addView(imgBuild);
-        }
     }
 
     protected void play() {

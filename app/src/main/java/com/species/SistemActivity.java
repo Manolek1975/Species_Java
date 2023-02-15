@@ -42,7 +42,6 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
         setContentView(R.layout.sistem_activity);
         View view = getWindow().getDecorView();
         Game.hideviewMenu(view);
-
         // Calcular medidas del smartphone
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -81,7 +80,6 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
                         customtoast.show();
                         return false;
                     }
-
                     Intent i = new Intent(this, PlanetManager.class);
                     i.putExtra("starId", star.getId());
                     i.putExtra("planet", val);

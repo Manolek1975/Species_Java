@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DBHelper extends SQLiteOpenHelper {
 
     // If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 3;
     public static final String DATABASE_NAME = "species_db";
 
     public DBHelper(Context context) {
@@ -21,6 +21,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(DBBuilds.SQL_CREATE_ENTRIES);
         db.execSQL(DBSurfaces.SQL_CREATE_ENTRIES);
         db.execSQL(DBRecursos.SQL_CREATE_ENTRIES);
+        db.execSQL(DBShips.SQL_CREATE_ENTRIES);
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -32,6 +33,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(DBBuilds.SQL_DELETE_ENTRIES);
         db.execSQL(DBSurfaces.SQL_DELETE_ENTRIES);
         db.execSQL(DBRecursos.SQL_DELETE_ENTRIES);
+        db.execSQL(DBShips.SQL_DELETE_ENTRIES);
         onCreate(db);
     }
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {

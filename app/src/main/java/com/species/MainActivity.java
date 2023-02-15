@@ -7,8 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
-import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -38,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void runSpecies(View view){
+        //TODO Crear dialog borrado de datos
         db.deleteDB();
         db.insertDB();
         SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);

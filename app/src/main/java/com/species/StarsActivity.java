@@ -74,6 +74,7 @@ public class StarsActivity extends AppCompatActivity implements Serializable {
     }
 
     private void drawSector() {
+        //TODO Draw solamente Estrellas exploradas
         ImageView image = findViewById(R.id.fondoView);
         // Crear fondo con medidas
         Bitmap fondo = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
@@ -87,6 +88,7 @@ public class StarsActivity extends AppCompatActivity implements Serializable {
 
         // Draw Stars
         List<Stars> starList = star.getStars(this);
+        //TODO Draw saltos
         //drawJumps(canvas, starList);
         for(Stars star : starList){
             Paint paint = new Paint();

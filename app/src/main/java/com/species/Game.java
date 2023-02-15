@@ -24,7 +24,6 @@ public abstract class Game extends AppCompatActivity {
     static int turn;
 
     public static int advanceTurn(View view){
-        //TODO Insertar en Species Detalle el surface y los recursos -- setNewSquares()
         turn += 1;
         return turn;
     }
