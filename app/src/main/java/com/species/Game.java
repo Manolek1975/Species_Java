@@ -37,7 +37,8 @@ public abstract class Game extends AppCompatActivity {
         Builds build = new Builds();
         build = build.getBuildById(context, surface.getBuild());
         String buildImage = build.getImageBuild(context, surface.getBuild());
-        int res = context.getResources().getIdentifier(buildImage, "drawable", context.getPackageName());
+        int res = Game.getResId(buildImage, R.drawable.class);
+        //int res = context.getResources().getIdentifier(buildImage, "drawable", context.getPackageName());
 
         Planets finalPlanet = planet;
         AlertDialog alertDialog = new AlertDialog.Builder(context, R.style.AlertDialogStyle)
@@ -53,6 +54,26 @@ public abstract class Game extends AppCompatActivity {
                     Intent intent =  new Intent(context, PlanetManager.class);
                     intent.putExtra("starId", starId);
                     intent.putExtra("planet", finalPlanet);
+                    context.startActivity(intent);
+                })
+                .show();
+    }
+
+    public static void leaveOrbit(Context context, Ships ship, int planet) {
+        int res = Game.getResId(ship.getImage(), R.drawable.class);
+        AlertDialog alertDialog = new AlertDialog.Builder(context, R.style.AlertDialogStyle)
+                .setIcon(res)
+                .setTitle(ship.getName())
+                .setMessage("¿Desea abandonar la orbita?")
+                .setNegativeButton("NO", (dialogInterface, i) -> {
+                    //set what should happen when negative button is clicked
+                    //Toast.makeText(getApplicationContext(),"Acción cancelada",Toast.LENGTH_LONG).show();
+                })
+                .setPositiveButton("SI", (dialogInterface, i) -> {
+                    //surface = new Surfaces();
+                    Intent intent =  new Intent(context, SistemActivity.class);
+                    intent.putExtra("starId", ship.getSistema());
+                    intent.putExtra("planet", planet);
                     context.startActivity(intent);
                 })
                 .show();

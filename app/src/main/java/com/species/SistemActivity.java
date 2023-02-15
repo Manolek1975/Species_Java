@@ -57,6 +57,7 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
         starName.setText(String.format("Sistema %s", star.getName()));
         Log.i("Sistem_Activity", star.getName());
         drawSistem();
+        drawShips();
     }
 
     @Override
@@ -72,7 +73,7 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
                 if (rangoX.contains(val.getX() + 150) && rangoY.contains(val.getY() + 400)) {
                     if (val.getExplore() != 1) {
                         View customToastroot = View.inflate(this, R.layout.custom_toast, null);
-                        TextView msg = (TextView) customToastroot.findViewById(R.id.toastMsg);
+                        TextView msg = customToastroot.findViewById(R.id.toastMsg);
                         msg.setText(R.string.explore);
                         Toast customtoast = new Toast(getApplicationContext());
                         customtoast.setView(customToastroot);
@@ -98,14 +99,16 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
         Bitmap bitmap = Bitmap.createBitmap(fondo.getWidth(), fondo.getHeight(), fondo.getConfig());
         Canvas canvas = new Canvas(bitmap);
 
-        int resImageFondo = this.getResources().getIdentifier("fondo_sistema", "drawable", this.getPackageName());
+        int resImageFondo = Game.getResId("fondo_sistema", R.drawable.class);
+        //int resImageFondo = this.getResources().getIdentifier("fondo_sistema", "drawable", this.getPackageName());
         Bitmap fondoView = BitmapFactory.decodeResource(getResources(), resImageFondo);
         canvas.drawBitmap(fondoView, new Matrix(), null);
         image.setImageBitmap(bitmap);
 
         // Draw Star
         String starImage = star.getImage();
-        int resImage = this.getResources().getIdentifier(starImage, "drawable", this.getPackageName());
+        int resImage = Game.getResId(starImage, R.drawable.class);
+        //int resImage = this.getResources().getIdentifier(starImage, "drawable", this.getPackageName());
         Bitmap starCenter = BitmapFactory.decodeResource(getResources(), resImage);
         Bitmap resizeStar = Bitmap.createScaledBitmap(starCenter, 200, 200, true);
         int centerX = width - 200 >> 1;
@@ -131,12 +134,16 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
             }
 
             String imagePlanet = getImagePlanet(planet.getType());
-            resImage = this.getResources().getIdentifier(imagePlanet, "drawable", this.getPackageName());
+            resImage = Game.getResId(imagePlanet, R.drawable.class);
+            //resImage = this.getResources().getIdentifier(imagePlanet, "drawable", this.getPackageName());
             Bitmap drawPlanet = BitmapFactory.decodeResource(getResources(), resImage);
             Bitmap resizePlanet = Bitmap.createScaledBitmap(drawPlanet, 50+size*20, 50+size*20, true);
             canvas.drawBitmap(resizePlanet, planet.getX(), planet.getY(), new Paint());
         }
         sistemView.setImageBitmap(bitmap);
+    }
+
+    private void drawShips() {
     }
 
     private void setPlanetCoord(int id, int x, int y, int numPlanets) {

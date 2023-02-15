@@ -108,10 +108,7 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
             button.setCompoundDrawablesWithIntrinsicBounds(res, 0, 0, 0);
             button.setCompoundDrawablePadding(50);
             button.setBackgroundColor(Color.TRANSPARENT);
-            //button.setText(ship.getName());
-            //button.setTextColor(Color.WHITE);
-            //button.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
-            //button.setOnClickListener(v -> runStars(ship));
+            button.setOnClickListener(v -> Game.leaveOrbit(this, ship, planet.getId()));
             lin.addView(button);
 
         }
