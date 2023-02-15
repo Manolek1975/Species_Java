@@ -15,8 +15,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.io.InputStream;
 import java.util.List;
 
 public class SpeciesActivity extends AppCompatActivity {
@@ -37,10 +35,10 @@ public class SpeciesActivity extends AppCompatActivity {
         List<Species> speciesList = specie.getSpecies(this);
 
         for(Species val : speciesList){
-            int image = getResources().getIdentifier(val.getImage(), "drawable", this.getPackageName());
+            int res = Game.getResId( val.getImage(), R.drawable.class );
             Button button = new Button(this);
             button.setLayoutParams(new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT));
-            button.setCompoundDrawablesWithIntrinsicBounds(image, 0, 0, 0);
+            button.setCompoundDrawablesWithIntrinsicBounds(res, 0, 0, 0);
             button.setCompoundDrawablePadding(50);
             button.setText(val.getName());
             button.setBackgroundColor(Color.TRANSPARENT);
@@ -52,8 +50,7 @@ public class SpeciesActivity extends AppCompatActivity {
     }
 
     public void runStars(Species val){
-        int res = getResources().getIdentifier(val.getImage(), "drawable", this.getPackageName());
-
+        int res = Game.getResId( val.getImage(), R.drawable.class );
         AlertDialog alertDialog = new AlertDialog.Builder(this, R.style.AlertDialogStyle)
             .setIcon(res)
             .setTitle(val.getName())

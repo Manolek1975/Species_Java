@@ -64,7 +64,7 @@ public class Species implements ISpecies {
         // Recoge el primer planeta del rawquery
         //TODO Recoger el primer planeta medio
         int idPlanet = c.getInt(0);
-        int starId = c.getInt(1);
+        int idStar = c.getInt(1);
         // update owner y explore en planetas
         newVal.put("explore", 1);
         newVal.put("owner", id);
@@ -73,11 +73,11 @@ public class Species implements ISpecies {
         newVal.clear();// = new ContentValues();
         newVal.put("type", 1);
         newVal.put("explore", 1);
-        db.update("stars", newVal, "id=" + starId, null);
+        db.update("stars", newVal, "id=" + idStar, null);
         // update species
         newVal.clear();// = new ContentValues();
         newVal.put("type", 1);
-        newVal.put("star", starId);
+        newVal.put("star", idStar);
         db.update("species", newVal, "id=" + id, null);
         // inserta colonia base en surfaces del planeta origen
         newVal.clear();
@@ -93,6 +93,15 @@ public class Species implements ISpecies {
         newVal.put("prosperity", 1);
         newVal.put("defence", 1);
         db.insert("recursos", null, newVal);
+        //TODO Insertar nave
+        newVal.clear();
+        newVal.put("name", "Aurora");
+        newVal.put("image", "shipA4");
+        newVal.put("size", 3);
+        newVal.put("type", "Colony");
+        newVal.put("sistema", idStar);
+        newVal.put("planet", idPlanet);
+        db.insert("ships", null, newVal);
 
         c.close();
         db.close();
@@ -136,25 +145,6 @@ public class Species implements ISpecies {
         specie.setSkill(c.getString(4));
         specie.setType(c.getInt(5));
         specie.setStar(c.getInt(6));
-        c.close();
-        db.close();
-        return specie;
-    }
-
-    public Species getSpecieByName(Context context, String name) {
-        DBHelper helper = new DBHelper(context);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM species WHERE name=?",
-                new String[] { name });
-        c.moveToNext();
-        Species specie = new Species();
-            specie.setId(c.getInt(0));
-            specie.setName(c.getString(1));
-            specie.setDesc(c.getString(2));
-            specie.setImage(c.getString(3));
-            specie.setSkill(c.getString(4));
-            specie.setType(c.getInt(5));
-            specie.setStar(c.getInt(6));
         c.close();
         db.close();
         return specie;

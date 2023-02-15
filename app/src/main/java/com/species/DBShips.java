@@ -7,6 +7,7 @@ public class DBShips {
     public static final String TABLE_NAME = "ships";
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_NAME = "name";
+    public static final String COLUMN_IMAGE = "image";
     public static final String COLUMN_SIZE = "size";
     public static final String COLUMN_TYPE = "type";
     public static final String COLUMN_SISTEMA = "sistema";
@@ -21,6 +22,7 @@ public class DBShips {
             "CREATE TABLE " + DBShips.TABLE_NAME + " (" +
                     DBShips.COLUMN_ID + " INTEGER PRIMARY KEY," +
                     DBShips.COLUMN_NAME + " INTEGER," +
+                    DBShips.COLUMN_IMAGE + " INTEGER," +
                     DBShips.COLUMN_SIZE + " INTEGER," +
                     DBShips.COLUMN_TYPE + " INTEGER," +
                     DBShips.COLUMN_SISTEMA + " INTEGER," +

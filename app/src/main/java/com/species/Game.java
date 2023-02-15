@@ -16,6 +16,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,6 +72,28 @@ public abstract class Game extends AppCompatActivity {
         c.close();
         db.close();
         return false;
+    }
+
+    /**
+     * @author Lonkly
+     * @param variableName - name of drawable, e.g R.drawable.<b>image</b>
+     * @param с - class of resource, e.g R.drawable.class or R.raw.class
+     * @return integer id of resource
+     */
+    public static int getResId(String variableName, Class<?> с) {
+        Field field;
+        int resId = 0;
+        try {
+            field = с.getField(variableName);
+            try {
+                resId = field.getInt(null);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resId;
     }
 
     public static void hideview(View view) {
