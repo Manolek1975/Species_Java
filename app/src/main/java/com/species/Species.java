@@ -99,36 +99,12 @@ public class Species implements ISpecies {
         newVal.put("image", "ship0");
         newVal.put("size", 3);
         newVal.put("type", "Colony");
-        newVal.put("sistema", idStar);
+        newVal.put("star", idStar);
         newVal.put("planet", idPlanet);
         db.insert("ships", null, newVal);
         c.close();
         db.close();
     }
-
-    @Override
-    public Species getMainSpecie(Context context) {
-        return null;
-    }
-
-/*    @Override
-    public Species getMainSpecie(Context context) {
-        DBHelper helper = new DBHelper(context);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM species WHERE type=1",null);
-        c.moveToNext();
-        Species specie = new Species();
-            specie.setId(c.getInt(0));
-            specie.setName(c.getString(1));
-            specie.setDesc(c.getString(2));
-            specie.setImage(c.getString(3));
-            specie.setSkill(c.getString(4));
-            specie.setType(c.getInt(5));
-
-        c.close();
-        db.close();
-        return specie;
-    }*/
 
     @Override
     public Species getSpecieById(Context context, int id) {
@@ -144,6 +120,25 @@ public class Species implements ISpecies {
         specie.setSkill(c.getString(4));
         specie.setType(c.getInt(5));
         specie.setStar(c.getInt(6));
+        c.close();
+        db.close();
+        return specie;
+    }
+
+    @Override
+    public Species getMainSpecie(Context context) {
+        DBHelper helper = new DBHelper(context);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM species WHERE type=1",null);
+        c.moveToNext();
+        Species specie = new Species();
+            specie.setId(c.getInt(0));
+            specie.setName(c.getString(1));
+            specie.setDesc(c.getString(2));
+            specie.setImage(c.getString(3));
+            specie.setSkill(c.getString(4));
+            specie.setType(c.getInt(5));
+
         c.close();
         db.close();
         return specie;

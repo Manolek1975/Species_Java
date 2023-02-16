@@ -38,11 +38,12 @@
             android:id="@+id/systemName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
+            android:layout_gravity="top"
+            android:layout_marginTop="80dp"
             android:gravity="center_horizontal"
             android:text="@string/TODO"
             android:textColor="@color/white"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:typeface="serif" />
 
     </LinearLayout>

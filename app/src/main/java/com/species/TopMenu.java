@@ -48,15 +48,15 @@ public class TopMenu extends AppCompatActivity {
     }
 
     private void runExitMenu() {
-        AlertDialog alertDialog = new AlertDialog.Builder(this.context)
+        AlertDialog alertDialog = new AlertDialog.Builder(context, R.style.AlertDialogStyle)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle(R.string.menu_exit)
                 .setMessage("¿Desea salir de la aplicación?")
-                //set positive button
                 .setPositiveButton("SI", (dialogInterface, i) -> {
-                    //set what would happen when positive button is clicked
-                    finishAndRemoveTask();
-                    System.exit(0);
+                    Intent intent =  new Intent(context, MainActivity.class);
+                    //finishAndRemoveTask();
+                    //System.exit(0);
+                    context.startActivity(intent);
                 })
                 //set negative button
                 .setNegativeButton("No", (dialogInterface, i) -> {

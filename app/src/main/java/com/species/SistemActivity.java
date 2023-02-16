@@ -57,13 +57,14 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
         starName.setText(String.format("Sistema %s", star.getName()));
         Log.i("Sistem_Activity", star.getName());
         drawSistem();
-        drawShips();
+
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int x = (int)event.getRawX();
         int y = (int)event.getRawY();
+
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             Planets planet = new Planets();
             List<Planets> planetsList = planet.getPlanets(this, star);
@@ -88,7 +89,21 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
                     startActivity(i);
                 }
             }
+            Ships ships = new Ships();
+            List<Ships> shipList = ships.getStarShips(this, star.getId());
+            for (Ships ship : shipList) {
+                Range<Integer> rangoX = Range.create(x - 100, x);
+                Range<Integer> rangoY = Range.create(y -100, y);
+                if (rangoX.contains(ship.getX()) && rangoY.contains(ship.getY()+200)) {
+                    Toast.makeText(this, ship.getName()+":"+width+","+height, Toast.LENGTH_SHORT).show();
+                }
+                Log.i("shipXY", ship.getX() + "," + ship.getY());
+                Log.i("rango", rangoX + "," + rangoY);
+            }
+            Log.i("XY", x + "," + y );
         }
+
+
         return false;
     }
 
@@ -100,7 +115,6 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
         Canvas canvas = new Canvas(bitmap);
 
         int resImageFondo = Game.getResId("fondo_sistema", R.drawable.class);
-        //int resImageFondo = this.getResources().getIdentifier("fondo_sistema", "drawable", this.getPackageName());
         Bitmap fondoView = BitmapFactory.decodeResource(getResources(), resImageFondo);
         canvas.drawBitmap(fondoView, new Matrix(), null);
         image.setImageBitmap(bitmap);
@@ -108,7 +122,6 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
         // Draw Star
         String starImage = star.getImage();
         int resImage = Game.getResId(starImage, R.drawable.class);
-        //int resImage = this.getResources().getIdentifier(starImage, "drawable", this.getPackageName());
         Bitmap starCenter = BitmapFactory.decodeResource(getResources(), resImage);
         Bitmap resizeStar = Bitmap.createScaledBitmap(starCenter, 200, 200, true);
         int centerX = width - 200 >> 1;
@@ -135,15 +148,34 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
 
             String imagePlanet = getImagePlanet(planet.getType());
             resImage = Game.getResId(imagePlanet, R.drawable.class);
-            //resImage = this.getResources().getIdentifier(imagePlanet, "drawable", this.getPackageName());
             Bitmap drawPlanet = BitmapFactory.decodeResource(getResources(), resImage);
             Bitmap resizePlanet = Bitmap.createScaledBitmap(drawPlanet, 50+size*20, 50+size*20, true);
             canvas.drawBitmap(resizePlanet, planet.getX(), planet.getY(), new Paint());
         }
+
+        //Draw ships
+        drawShips(canvas);
         sistemView.setImageBitmap(bitmap);
     }
 
-    private void drawShips() {
+    private void drawShips(Canvas canvas) {
+        Planets planet = new Planets();
+        Ships ships = new Ships();
+        List<Ships> shipList = ships.getStarShips(this, star.getId());
+        for (Ships ship : shipList) {
+            planet = planet.getPlanetById(this, ship.getPlanet());
+            int resImage = Game.getResId(ship.getImage(), R.drawable.class);
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), resImage);
+            Bitmap resizeShip = Bitmap.createScaledBitmap(bitmap, 120, 60, true);
+            //Bitmap resizeShip = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+            int x = planet.getX();
+            int y = planet.getY() - 100;
+            Matrix matrix = new Matrix();
+            matrix.postRotate(-45);
+            ship.updateShip(this, x, y, ship.getId());
+            canvas.drawBitmap(resizeShip, x, y, new Paint());
+        }
+
     }
 
     private void setPlanetCoord(int id, int x, int y, int numPlanets) {

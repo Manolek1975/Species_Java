@@ -34,7 +34,6 @@
         android:layout_height="wrap_content"
         android:background="@drawable/roundedbutton"
         android:backgroundTint="#2196F3"
-
         android:onClick="runSector"
         android:text="@string/play_button"
         android:textColor="#212121"

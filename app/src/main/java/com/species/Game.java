@@ -72,7 +72,7 @@ public abstract class Game extends AppCompatActivity {
                 .setPositiveButton("SI", (dialogInterface, i) -> {
                     //surface = new Surfaces();
                     Intent intent =  new Intent(context, SistemActivity.class);
-                    intent.putExtra("starId", ship.getSistema());
+                    intent.putExtra("starId", ship.getStar());
                     intent.putExtra("planet", planet);
                     context.startActivity(intent);
                 })

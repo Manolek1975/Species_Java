@@ -15,7 +15,7 @@ public class Ships implements IShips{
     private String image;
     private int size;
     private int type;
-    private int sistema;
+    private int star;
     private int planet;
     private int jump;
     private int x;
@@ -25,13 +25,13 @@ public class Ships implements IShips{
         super();
     }
 
-    public Ships(int id, String name, String image, int size, int type, int sistema, int planet, int jump, int x, int y) {
+    public Ships(int id, String name, String image, int size, int type, int star, int planet, int jump, int x, int y) {
         this.id = id;
         this.name = name;
         this.image = image;
         this.size = size;
         this.type = type;
-        this.sistema = sistema;
+        this.star = star;
         this.planet = planet;
         this.jump = jump;
         this.x = x;
@@ -65,6 +65,45 @@ public class Ships implements IShips{
         return shipList;
     }
 
+    @Override
+    public List<Ships> getStarShips(Context context, int id) {
+        Ships ship;
+        DBHelper helper = new DBHelper(context);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM ships WHERE star=" +  id, null);
+        List<Ships> shipList = new ArrayList<>();
+        while(c.moveToNext() && c.getCount() != 0){
+            ship = new Ships(
+                    c.getInt(0),
+                    c.getString(1),
+                    c.getString(2),
+                    c.getInt(3),
+                    c.getInt(4),
+                    c.getInt(5),
+                    c.getInt(6),
+                    c.getInt(7),
+                    c.getInt(8),
+                    c.getInt(9)
+            );
+            shipList.add(ship);
+        }
+        c.close();
+        db.close();
+        return shipList;
+    }
+
+    @Override
+    public void updateShip(Context context, int x, int y, int id) {
+        DBHelper helper = new DBHelper(context);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("x", x);
+        values.put("y", y);
+        db.update("ships", values, "id=" + id, null);
+        db.close();
+
+    }
+
     public int getId() {
         return id;
     }
@@ -85,8 +124,8 @@ public class Ships implements IShips{
         return type;
     }
 
-    public int getSistema() {
-        return sistema;
+    public int getStar() {
+        return star;
     }
 
     public int getPlanet() {

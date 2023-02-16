@@ -68,11 +68,11 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         //Draw planet
         planetName.setText(planet.getName());
         String type = planet.getNameType(planet.getType());
-        planetType.setText(String.format("Planeta %s", type));
+        String size = planet.getNameSize(planet.getSize());
+        planetType.setText(String.format("Planeta %s", type + " " + size));
         ImageView imgPlanet = findViewById(R.id.imagePlanet);
         String img = planet.getImagePlanet(this, planet.getType());
         int res = Game.getResId(img, R.drawable.class);
-        //int res = this.getResources().getIdentifier(img, "drawable", this.getPackageName());
         imgPlanet.setImageResource(res);
         //Draw proyecto
         Surfaces proyecto = surface.getProyecto(this, planet.getId());
@@ -82,12 +82,10 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
             ImageButton proyectoButton = findViewById(R.id.proyectoButton);
             String imgBuild = build.getImage();
             int resBuild = Game.getResId(imgBuild, R.drawable.class);
-            //int resBuild = this.getResources().getIdentifier(imgBuild, "drawable", this.getPackageName());
             proyectoButton.setImageResource(resBuild);
             endTurn = proyecto.getCost();
             textProyecto.setText(build.getName());
             textProyectoTurnos.setText(String.format(Locale.US, "%d turnos", endTurn));
-            //surface.insertSurface(this, planet.getId(), build.getId(), endTurn, 0);
         } else {
             textProyecto.setText(R.string.sin_proyecto);
         }

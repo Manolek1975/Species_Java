@@ -10,7 +10,7 @@ public class DBShips {
     public static final String COLUMN_IMAGE = "image";
     public static final String COLUMN_SIZE = "size";
     public static final String COLUMN_TYPE = "type";
-    public static final String COLUMN_SISTEMA = "sistema";
+    public static final String COLUMN_STAR = "star";
     public static final String COLUMN_PLANET = "planet";
     public static final String COLUMN_JUMP = "jump";
     public static final String COLUMN_X = "x";
@@ -25,7 +25,7 @@ public class DBShips {
                     DBShips.COLUMN_IMAGE + " INTEGER," +
                     DBShips.COLUMN_SIZE + " INTEGER," +
                     DBShips.COLUMN_TYPE + " INTEGER," +
-                    DBShips.COLUMN_SISTEMA + " INTEGER," +
+                    DBShips.COLUMN_STAR + " INTEGER," +
                     DBShips.COLUMN_PLANET + " INTEGER," +
                     DBShips.COLUMN_JUMP + " INTEGER," +
                     DBShips.COLUMN_X + " INTEGER," +
