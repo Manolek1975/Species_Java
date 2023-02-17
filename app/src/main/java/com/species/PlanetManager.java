@@ -128,6 +128,7 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
             imgBuild.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
             imgBuild.setBackgroundColor(Color.TRANSPARENT);
             imgBuild.setTextColor(Color.WHITE);
+            imgBuild.setAllCaps(false);
             imgBuild.setText(build.getName());
 
             surfaceLayout.addView(imgBuild);

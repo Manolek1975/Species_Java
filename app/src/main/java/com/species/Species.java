@@ -99,8 +99,10 @@ public class Species implements ISpecies {
         newVal.put("image", "ship0");
         newVal.put("size", 3);
         newVal.put("type", "Colony");
+        newVal.put("specie", id);
         newVal.put("star", idStar);
         newVal.put("planet", idPlanet);
+        newVal.put("location", 1);
         db.insert("ships", null, newVal);
         c.close();
         db.close();
