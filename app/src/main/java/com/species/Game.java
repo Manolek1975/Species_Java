@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Point;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -137,9 +139,5 @@ public abstract class Game extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
         );
     }
-
-
-
-
 
 }

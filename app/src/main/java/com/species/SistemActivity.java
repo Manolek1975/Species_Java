@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -89,13 +90,15 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
                     startActivity(i);
                 }
             }
+            LinearLayout menu = findViewById(R.id.menu_ships_layout);
             Ships ships = new Ships();
             List<Ships> shipList = ships.getStarShips(this, star.getId());
             for (Ships ship : shipList) {
                 Range<Integer> rangoX = Range.create(x - 100, x);
                 Range<Integer> rangoY = Range.create(y -100, y);
                 if (rangoX.contains(ship.getX()) && rangoY.contains(ship.getY()+200)) {
-                    Toast.makeText(this, ship.getName()+":"+width+","+height, Toast.LENGTH_SHORT).show();
+                    menu.setVisibility(View.VISIBLE);
+                    //Toast.makeText(this, ship.getName()+":"+width+","+height, Toast.LENGTH_SHORT).show();
                 }
                 Log.i("shipXY", ship.getX() + "," + ship.getY());
                 Log.i("rango", rangoX + "," + rangoY);
@@ -203,6 +206,11 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
         Resources res = this.getResources();
         String[] imagePlanet = res.getStringArray(R.array.image_planet);
         return imagePlanet[type-1];
+    }
+
+    public void runExit(View view){
+        LinearLayout menu = findViewById(R.id.menu_ships_layout);
+        menu.setVisibility(View.INVISIBLE);
     }
 
     @Override
