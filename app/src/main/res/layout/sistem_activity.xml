@@ -69,40 +69,52 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageButton
-                android:id="@+id/mover"
+                android:id="@+id/move"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:layout_margin="8dp"
-                android:background="@drawable/icon_mover"
-                android:contentDescription="@string/TODO"/>
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/TODO"
+                android:onClick="runMove"
+                android:scaleType="fitXY"
+                android:src="@drawable/icon_move" />
 
             <ImageButton
-                android:id="@+id/disparar"
+                android:id="@+id/fire"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:layout_margin="8dp"
-                android:background="@drawable/icon_diana"
-                android:contentDescription="@string/TODO"/>
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/TODO"
+                android:onClick="runFire"
+                android:scaleType="fitXY"
+                android:src="@drawable/icon_fire"/>
 
             <ImageButton
-                android:id="@+id/escudos"
+                android:id="@+id/shield"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:layout_margin="8dp"
-                android:background="@drawable/icon_escudo"
-                android:contentDescription="@string/TODO"/>
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/TODO"
+                android:onClick="runShield"
+                android:scaleType="fitXY"
+                android:src="@drawable/icon_shield"/>
 
             <ImageButton
-                android:id="@+id/varios"
+                android:id="@+id/tecno"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:layout_margin="8dp"
-                android:background="@drawable/icon_tecno"
-                android:contentDescription="@string/TODO"/>
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/TODO"
+                android:onClick="runTecno"
+                android:scaleType="fitXY"
+                android:src="@drawable/icon_tecno"/>
 
             <ImageButton
                 android:id="@+id/exit"

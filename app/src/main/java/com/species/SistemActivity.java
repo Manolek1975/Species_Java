@@ -1,11 +1,14 @@
 package com.species;
 
 
+import static android.graphics.Color.alpha;
+
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Typeface;
@@ -18,6 +21,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -116,7 +121,6 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
         Bitmap fondo = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Bitmap bitmap = Bitmap.createBitmap(fondo.getWidth(), fondo.getHeight(), fondo.getConfig());
         Canvas canvas = new Canvas(bitmap);
-
         int resImageFondo = Game.getResId("fondo_sistema", R.drawable.class);
         Bitmap fondoView = BitmapFactory.decodeResource(getResources(), resImageFondo);
         canvas.drawBitmap(fondoView, new Matrix(), null);
@@ -170,12 +174,11 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
             int resImage = Game.getResId(ship.getImage(), R.drawable.class);
             Bitmap bitmap = BitmapFactory.decodeResource(getResources(), resImage);
             Bitmap resizeShip = Bitmap.createScaledBitmap(bitmap, 120, 60, true);
-            //Bitmap resizeShip = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
             int x = planet.getX();
             int y = planet.getY() - 100;
             Matrix matrix = new Matrix();
             matrix.postRotate(-45);
-            ship.updateShip(this, x, y, ship.getId());
+            ship.updateShipXY(this, x, y, ship.getId());
             canvas.drawBitmap(resizeShip, x, y, new Paint());
         }
 
@@ -208,9 +211,51 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
         return imagePlanet[type-1];
     }
 
+    public void runMove(View view){
+        disableButtons();
+        ImageButton move = findViewById(R.id.move);
+        move.setBackgroundResource(R.drawable.border);
+
+    }
+
+    public void runFire(View view){
+        disableButtons();
+        ImageButton fire = findViewById(R.id.fire);
+        fire.setBackgroundResource(R.drawable.border);
+
+    }
+    public void runShield(View view){
+        disableButtons();
+        ImageButton shield = findViewById(R.id.shield);
+        shield.setBackgroundResource(R.drawable.border);
+
+    }
+
+    public void runTecno(View view){
+        disableButtons();
+        ImageButton tecno = findViewById(R.id.tecno);
+        tecno.setBackgroundResource(R.drawable.border);
+
+    }
+
     public void runExit(View view){
         LinearLayout menu = findViewById(R.id.menu_ships_layout);
         menu.setVisibility(View.INVISIBLE);
+    }
+
+    public void disableButtons(){
+        ImageButton move = findViewById(R.id.move);
+        ImageButton fire = findViewById(R.id.fire);
+        ImageButton shield = findViewById(R.id.shield);
+        ImageButton tecno = findViewById(R.id.tecno);
+        move.setBackgroundResource(alpha(0));
+        fire.setBackgroundResource(alpha(0));
+        shield.setBackgroundResource(alpha(0));
+        tecno.setBackgroundResource(alpha(0));
+
+
+
+
     }
 
     @Override

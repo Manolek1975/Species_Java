@@ -64,22 +64,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:weightSum="4"
+            android:baselineAligned="false"
             android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/imagePlanet"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_margin="20dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:contentDescription="@string/TODO"
-                android:onClick="runSistem"
-                app:srcCompat="@drawable/icon_planet_congenial" />
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/imagePlanet"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal"
+                    android:contentDescription="@string/TODO"
+                    android:onClick="runSistem"
+                    app:srcCompat="@drawable/icon_planet_congenial" />
+
+            </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
                 android:padding="10dp"
                 android:orientation="vertical">
 
@@ -91,15 +100,6 @@
                     android:textSize="20sp"
                     android:textColor="@color/white"
                     android:text="@string/planeta" />
-
-                <TextView
-                    android:id="@+id/planetType"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:textSize="14sp"
-                    android:textColor="@color/white"
-                    android:text="@string/tipo" />
 
                 <TextView
                     android:id="@+id/textIndustry"
@@ -147,9 +147,9 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:padding="10dp"
-                android:gravity="center_vertical"
+
                 android:orientation="vertical">
 
                 <TextView
@@ -185,6 +185,16 @@
 
             </LinearLayout>
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/planetType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:text="@string/tipo" />
 
         <TextView
             android:id="@+id/textOrbital"

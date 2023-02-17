@@ -77,7 +77,8 @@ public class Ships implements IShips{
         Ships ship;
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM ships WHERE planet=" +  id, null);
+        Cursor c = db.rawQuery("SELECT * FROM ships WHERE planet=? AND location=1",
+                new String[] { String.valueOf(id) });
         List<Ships> shipList = new ArrayList<>();
         while(c.moveToNext() && c.getCount() != 0){
             ship = new Ships(
@@ -106,7 +107,8 @@ public class Ships implements IShips{
         Ships ship;
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM ships WHERE star=" +  id, null);
+        Cursor c = db.rawQuery("SELECT * FROM ships WHERE star=? AND location=2",
+                new String[] { String.valueOf(id) });
         List<Ships> shipList = new ArrayList<>();
         while(c.moveToNext() && c.getCount() != 0){
             ship = new Ships(
@@ -131,7 +133,7 @@ public class Ships implements IShips{
     }
 
     @Override
-    public void updateShip(Context context, int x, int y, int id) {
+    public void updateShipXY(Context context, int x, int y, int id) {
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -139,7 +141,16 @@ public class Ships implements IShips{
         values.put("y", y);
         db.update("ships", values, "id=" + id, null);
         db.close();
+    }
 
+    @Override
+    public void updateShipLocation(Context context, int id, int location) {
+        DBHelper helper = new DBHelper(context);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("location", location);
+        db.update("ships", values, "id=" + id, null);
+        db.close();
     }
 
     public String getTextLocation(Context context, int loc){
@@ -194,5 +205,9 @@ public class Ships implements IShips{
 
     public int getLocation() {
         return location;
+    }
+
+    public int getSpecie() {
+        return specie;
     }
 }

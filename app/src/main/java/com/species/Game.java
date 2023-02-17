@@ -68,33 +68,16 @@ public abstract class Game extends AppCompatActivity {
                 .setTitle(ship.getName())
                 .setMessage("¿Desea abandonar la orbita?")
                 .setNegativeButton("NO", (dialogInterface, i) -> {
-                    //set what should happen when negative button is clicked
                     //Toast.makeText(getApplicationContext(),"Acción cancelada",Toast.LENGTH_LONG).show();
                 })
                 .setPositiveButton("SI", (dialogInterface, i) -> {
-                    //surface = new Surfaces();
+                    ship.updateShipLocation(context, ship.getId(), 2);
                     Intent intent =  new Intent(context, SistemActivity.class);
                     intent.putExtra("starId", ship.getStar());
                     intent.putExtra("planet", planet);
                     context.startActivity(intent);
                 })
                 .show();
-    }
-
-    public static boolean getFill(Context context, int x, int y){
-        int build = 0;
-        DBHelper helper = new DBHelper(context);
-        SQLiteDatabase db = helper.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM surfaces WHERE x=? AND y=? AND build NOT NULL",
-                new String[] { String.valueOf(x), String.valueOf(y) });
-        c.moveToFirst();
-        if(c.getCount() > 0){
-            return true;
-            //build = c.getInt(2);
-        }
-        c.close();
-        db.close();
-        return false;
     }
 
     /**

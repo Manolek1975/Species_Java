@@ -100,15 +100,17 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         LinearLayout lin = findViewById(R.id.orbitalLayout);
         List<Ships> shipList = ships.getPlanetShips(this, planet.getId());
         for (Ships ship : shipList){
-            Button button =  new Button(this);
-            int res = Game.getResId(ship.getImage(), R.drawable.class);
-            button.setLayoutParams(new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT));
-            button.setCompoundDrawablesWithIntrinsicBounds(res, 0, 0, 0);
-            button.setCompoundDrawablePadding(50);
-            button.setBackgroundColor(Color.TRANSPARENT);
-            button.setOnClickListener(v -> Game.leaveOrbit(this, ship, planet.getId()));
-            lin.addView(button);
-
+            if (ship.getLocation() == 1) {
+                Button button = new Button(this);
+                int res = Game.getResId(ship.getImage(), R.drawable.class);
+                button.setLayoutParams(new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT));
+                button.setCompoundDrawablesWithIntrinsicBounds(res, 0, 0, 0);
+                button.setCompoundDrawablePadding(50);
+                button.setBackgroundColor(Color.TRANSPARENT);
+                button.setOnClickListener(v ->
+                        Game.leaveOrbit(this, ship, planet.getId()));
+                lin.addView(button);
+            }
         }
 
     }

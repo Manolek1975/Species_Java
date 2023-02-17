@@ -53,9 +53,8 @@ public class TopMenu extends AppCompatActivity {
                 .setTitle(R.string.menu_exit)
                 .setMessage("¿Desea salir de la aplicación?")
                 .setPositiveButton("SI", (dialogInterface, i) -> {
+                    finish();
                     Intent intent =  new Intent(context, MainActivity.class);
-                    //finishAndRemoveTask();
-                    //System.exit(0);
                     context.startActivity(intent);
                 })
                 //set negative button
