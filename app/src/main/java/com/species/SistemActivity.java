@@ -230,7 +230,6 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
         shield.setBackgroundResource(R.drawable.border);
 
     }
-
     public void runTecno(View view){
         disableButtons();
         ImageButton tecno = findViewById(R.id.tecno);

@@ -24,7 +24,10 @@
     <string name="text_prosperidad">Alimentos: 0</string>
     <string name="text_investigación">Ciencia: 0</string>
     <string name="text_poblacion">Población: 0</string>
+    <string name="text_shields">Escudos: 0</string>
     <string name="text_defence">Defensa: 0</string>
+    <string name="text_offence">Ofensa: 0</string>
+
     <string name="message_type_planet">Planeta Medio Rico</string>
     <string name="sin_proyecto">Sin Proyecto</string>
     <string name="turno">Turno</string>

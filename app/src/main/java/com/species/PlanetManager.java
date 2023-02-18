@@ -124,7 +124,7 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
             String imgString = build.getImageBuild(this, build.getId());
             int resBuild = Game.getResId(imgString, R.drawable.class);
             //int resBuild = this.getResources().getIdentifier(imgString, "drawable", this.getPackageName());
-            imgBuild.setLayoutParams(new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT));
+            //imgBuild.setLayoutParams(new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT));
             imgBuild.setCompoundDrawablesWithIntrinsicBounds(resBuild, 0, 0, 0);
             imgBuild.setCompoundDrawablePadding(50);
             imgBuild.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
