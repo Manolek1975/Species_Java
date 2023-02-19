@@ -8,20 +8,16 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Range;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,8 +25,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.android.material.snackbar.Snackbar;
 
 import java.io.Serializable;
 import java.util.List;
@@ -214,26 +208,26 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
     public void runMove(View view){
         disableButtons();
         ImageButton move = findViewById(R.id.move);
-        move.setBackgroundResource(R.drawable.border);
+        move.setBackgroundResource(R.drawable.border_yellow);
 
     }
 
     public void runFire(View view){
         disableButtons();
         ImageButton fire = findViewById(R.id.fire);
-        fire.setBackgroundResource(R.drawable.border);
+        fire.setBackgroundResource(R.drawable.border_yellow);
 
     }
     public void runShield(View view){
         disableButtons();
         ImageButton shield = findViewById(R.id.shield);
-        shield.setBackgroundResource(R.drawable.border);
+        shield.setBackgroundResource(R.drawable.border_yellow);
 
     }
     public void runTecno(View view){
         disableButtons();
         ImageButton tecno = findViewById(R.id.tecno);
-        tecno.setBackgroundResource(R.drawable.border);
+        tecno.setBackgroundResource(R.drawable.border_yellow);
 
     }
 

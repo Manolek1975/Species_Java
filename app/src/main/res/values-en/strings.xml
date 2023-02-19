@@ -22,7 +22,7 @@
     <string name="tipo">Type</string>
     <string name="size">Size</string>
     <string name="text_producion">Production: 0</string>
-    <string name="text_prosperidad">Foods: 0</string>
+    <string name="text_cultivos">Foods: 0</string>
     <string name="text_investigación">Science: 0</string>
     <string name="text_poblacion">Population: 0</string>
     <string name="text_shields">Shields: 0</string>

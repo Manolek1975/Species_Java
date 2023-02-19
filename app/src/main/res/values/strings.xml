@@ -21,7 +21,7 @@
     <string name="tipo">Tipo</string>
     <string name="size">Tamaño</string>
     <string name="text_producion">Producción: 0</string>
-    <string name="text_prosperidad">Alimentos: 0</string>
+    <string name="text_cultivos">Alimentos: 0</string>
     <string name="text_investigación">Ciencia: 0</string>
     <string name="text_poblacion">Población: 0</string>
     <string name="text_shields">Escudos: 0</string>

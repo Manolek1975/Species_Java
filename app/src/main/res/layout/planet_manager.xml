@@ -65,7 +65,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:background="@drawable/border_manager"
+            android:background="@drawable/border_blue"
             android:textSize="20sp"
             android:textColor="@color/white"
             android:text="@string/planeta" />
@@ -80,7 +80,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:background="@drawable/border_manager"
+                android:background="@drawable/border_blue"
                 android:layout_weight="1"
                 android:paddingStart="20dp"
                 android:paddingEnd="0dp"
@@ -100,7 +100,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:background="@drawable/border_manager"
+                android:background="@drawable/border_blue"
                 android:layout_weight="2"
                 android:padding="10dp"
                 android:orientation="vertical">
@@ -114,11 +114,11 @@
                     android:textColor="@color/white" />
 
                 <TextView
-                    android:id="@+id/textProsperity"
+                    android:id="@+id/textCultivos"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
-                    android:text="@string/text_prosperidad"
+                    android:text="@string/text_cultivos"
                     android:textColor="@color/white" />
 
                 <TextView
@@ -169,7 +169,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:padding="10dp"
-                android:background="@drawable/border_manager"
+                android:background="@drawable/border_blue"
                 android:orientation="vertical">
 
                 <TextView
@@ -211,7 +211,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/border_manager"
+            android:background="@drawable/border_blue"
             android:textAlignment="center"
             android:textSize="14sp"
             android:textColor="@color/green"
@@ -221,7 +221,7 @@
             android:id="@+id/textOrbital"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/border_manager"
+            android:background="@drawable/border_blue"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
             android:text="@string/orbital_layout"
@@ -245,7 +245,7 @@
             android:id="@+id/textSurface"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/border_manager"
+            android:background="@drawable/border_blue"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
             android:text="@string/surface_layout"

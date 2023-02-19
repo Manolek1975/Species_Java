@@ -132,6 +132,7 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
             imgBuild.setTextColor(Color.WHITE);
             imgBuild.setAllCaps(false);
             imgBuild.setText(build.getName());
+            //imgBuild.setBackgroundResource(R.drawable.border_blue);
 
             surfaceLayout.addView(imgBuild);
         }
@@ -223,12 +224,12 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         Recursos recursos = new Recursos();
         recursos = recursos.getRecursosByPlanet(this, planet.getId());
         TextView textIndustry = findViewById(R.id.textIndustry);
-        TextView textProsperity = findViewById(R.id.textProsperity);
+        TextView textProsperity = findViewById(R.id.textCultivos);
         TextView textResearch = findViewById(R.id.textResearch);
         TextView textPopulation = findViewById(R.id.textPopulation);
         TextView textDefence = findViewById(R.id.textDefence);
         textIndustry.setText(String.format(sp, "Industria: %s", recursos.getIndustry()));
-        textProsperity.setText(String.format(sp, "Nutrientes: %s", recursos.getProsperity()));
+        textProsperity.setText(String.format(sp, "Cultivos: %s", recursos.getProsperity()));
         textResearch.setText(String.format("Ciencia: %s", recursos.getResearch()));
         textPopulation.setText(String.format("Población: %s", recursos.getPopulation()));
         textDefence.setText(String.format("Defensa: %s", recursos.getDefence()));
