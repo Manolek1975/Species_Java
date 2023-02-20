@@ -5,11 +5,14 @@ import static com.species.Game.turn;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Layout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -24,7 +27,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.MutableLiveData;
 
 import java.io.Serializable;
@@ -117,25 +123,37 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
 
     private void drawBuilds() {
         LinearLayout surfaceLayout = findViewById(R.id.surfaceLayout);
+
         for (Surfaces surface : surfaceList){
+            LinearLayout lin = new LinearLayout(this);
+            TextView nivel = new TextView(this);
+            nivel.setPadding(0,60,40,0);
+            nivel.setTextSize(24);
+            nivel.setTextColor(Color.GREEN);
+            nivel.setText("1");
+            lin.addView(nivel);
+
             Builds build = new Builds();
-            Button imgBuild = new Button(this);
+            ImageButton imgBuild = new ImageButton(this);
             build = build.getBuildById(this, surface.getBuild());
             String imgString = build.getImageBuild(this, build.getId());
             int resBuild = Game.getResId(imgString, R.drawable.class);
-            //int resBuild = this.getResources().getIdentifier(imgString, "drawable", this.getPackageName());
-            //imgBuild.setLayoutParams(new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT));
-            imgBuild.setCompoundDrawablesWithIntrinsicBounds(resBuild, 0, 0, 0);
-            imgBuild.setCompoundDrawablePadding(50);
-            imgBuild.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+            lin.setLayoutParams(new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT));
+            lin.setOrientation(LinearLayout.HORIZONTAL);
+            Drawable d = ResourcesCompat.getDrawable(getResources(), resBuild, null);
+            imgBuild.setImageDrawable(d);
             imgBuild.setBackgroundColor(Color.TRANSPARENT);
-            imgBuild.setTextColor(Color.WHITE);
-            imgBuild.setAllCaps(false);
-            imgBuild.setText(build.getName());
-            //imgBuild.setBackgroundResource(R.drawable.border_blue);
+            lin.addView(imgBuild);
 
-            surfaceLayout.addView(imgBuild);
+            TextView name = new TextView(this);
+            name.setPadding(40,60,40,0);
+            name.setTextColor(Color.WHITE);
+            name.setText(build.getName());
+            lin.addView(name);
+
+            surfaceLayout.addView(lin);
         }
+
     }
 
     public void advanceTurn(View view) {
