@@ -8,10 +8,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Point;
 import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -25,6 +27,7 @@ import java.util.List;
 public abstract class Game extends AppCompatActivity {
 
     static int turn;
+    static int width, height;
 
     public static int advanceTurn(View view){
         turn += 1;
@@ -100,6 +103,16 @@ public abstract class Game extends AppCompatActivity {
             e.printStackTrace();
         }
         return resId;
+    }
+
+    public static Point getMetrics(Context context){
+        // Calcular medidas del smartphone
+        Point point = new Point();
+        WindowManager window = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        window.getDefaultDisplay().getMetrics(displaymetrics);
+        point.set(displaymetrics.widthPixels, displaymetrics.heightPixels);
+        return point;
     }
 
     public static void hideview(View view) {

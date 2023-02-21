@@ -24,8 +24,6 @@
             app:srcCompat="@drawable/fondo_sistema"
             tools:ignore="ImageContrastCheck" />
 
-
-
     </LinearLayout>
 
     <LinearLayout
@@ -72,8 +70,8 @@
                 android:id="@+id/move"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_weight="1"
                 android:layout_margin="8dp"
+                android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/TODO"
                 android:onClick="runMove"

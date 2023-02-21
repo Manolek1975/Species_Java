@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -32,9 +33,8 @@ import java.util.List;
 
 public class SistemActivity extends AppCompatActivity implements Serializable {
     private Stars star = new Stars();
-    private ImageView sistemView;
-    int width, height;
-
+    private MoveShip move;
+    private String state;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,25 +42,17 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
         setContentView(R.layout.sistem_activity);
         View view = getWindow().getDecorView();
         Game.hideviewMenu(view);
-        // Calcular medidas del smartphone
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        width = metrics.widthPixels;
-        height = metrics.heightPixels;
 
         Intent i = getIntent();
         int starId = (int)i.getSerializableExtra("starId");
         star = star.getStarById(this, starId);
 
         TextView starName = findViewById(R.id.systemName);
-        sistemView = findViewById(R.id.sistemView);
         starName.setText(String.format("Sistema %s", star.getName()));
-        Log.i("Sistem_Activity", star.getName());
+        move = new MoveShip(this);
+        state = "order";
         drawSistem();
 
-    }
-
-    private void moveShip() {
     }
 
     @Override
@@ -102,8 +94,17 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
                     menu.setVisibility(View.VISIBLE);
                     //Toast.makeText(this, ship.getName()+":"+width+","+height, Toast.LENGTH_SHORT).show();
                 }
-                Log.i("shipXY", ship.getX() + "," + ship.getY());
-                Log.i("rango", rangoX + "," + rangoY);
+                if (state.equals("move")){
+                    move.destino(x,y);
+                    ship.setX(x);
+                    ship.setY(y);
+                    ship.updateShipXY(this, x, y, ship.getId());
+
+                    drawSistem();
+                    Log.i("shipXY", ship.getX() + "," + ship.getY());
+                    Log.i("rango", rangoX + "," + rangoY);
+                }
+
             }
             Log.i("XY", x + "," + y );
         }
@@ -113,15 +114,19 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
     }
 
     private void drawSistem() {
-        ImageView image = findViewById(R.id.sistemView);
+        ImageView sistemView = findViewById(R.id.sistemView);
+        Point medidas = Game.getMetrics(this);
+        int width = medidas.x;
+        int height = medidas.y;
         // Crear fondo con medidas
-        Bitmap fondo = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Bitmap bitmap = Bitmap.createBitmap(fondo.getWidth(), fondo.getHeight(), fondo.getConfig());
+        Bitmap metrics = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Bitmap bitmap = Bitmap.createBitmap(metrics.getWidth(), metrics.getHeight(), metrics.getConfig());
         Canvas canvas = new Canvas(bitmap);
         int resImageFondo = Game.getResId("fondo_sistema", R.drawable.class);
-        Bitmap fondoView = BitmapFactory.decodeResource(getResources(), resImageFondo);
-        canvas.drawBitmap(fondoView, new Matrix(), null);
-        image.setImageBitmap(bitmap);
+        Bitmap fondoRes = BitmapFactory.decodeResource(getResources(), resImageFondo);
+        Bitmap fondo = Bitmap.createScaledBitmap(fondoRes, width, height, false);
+        canvas.drawBitmap(fondo, new Matrix(), null);
+        //sistemView.setImageBitmap(bitmap);
 
         // Draw Star
         String starImage = star.getImage();
@@ -216,6 +221,8 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
         disableButtons();
         ImageButton move = findViewById(R.id.move);
         move.setBackgroundResource(R.drawable.border_yellow);
+        state = "move";
+        Log.i("MOVE", state);
 
     }
 
@@ -252,10 +259,6 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
         fire.setBackgroundResource(alpha(0));
         shield.setBackgroundResource(alpha(0));
         tecno.setBackgroundResource(alpha(0));
-
-
-
-
     }
 
     @Override
