@@ -62,7 +62,6 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         surface =  new Surfaces();
         surfaceList = surface.getBuildings(this, planet.getId());
 
-        //
         setPlanet();
     }
 
@@ -127,8 +126,8 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
         for (Surfaces surface : surfaceList){
             LinearLayout lin = new LinearLayout(this);
             TextView nivel = new TextView(this);
-            nivel.setPadding(0,60,40,0);
-            nivel.setTextSize(24);
+            nivel.setPadding(0,80,40,0);
+            nivel.setTextSize(16);
             nivel.setTextColor(Color.GREEN);
             nivel.setText("1");
             lin.addView(nivel);
@@ -147,7 +146,7 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
 
             TextView name = new TextView(this);
             name.setPadding(40,60,40,0);
-            name.setTextColor(Color.WHITE);
+            name.setTextColor(Color.YELLOW);
             name.setText(build.getName());
             lin.addView(name);
 

@@ -60,6 +60,9 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
 
     }
 
+    private void moveShip() {
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int x = (int)event.getRawX();
@@ -164,7 +167,7 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
         Ships ships = new Ships();
         List<Ships> shipList = ships.getStarShips(this, star.getId());
         for (Ships ship : shipList) {
-            planet = planet.getPlanetById(this, ship.getPlanet());
+/*            planet = planet.getPlanetById(this, ship.getPlanet());
             int resImage = Game.getResId(ship.getImage(), R.drawable.class);
             Bitmap bitmap = BitmapFactory.decodeResource(getResources(), resImage);
             Bitmap resizeShip = Bitmap.createScaledBitmap(bitmap, 120, 60, true);
@@ -173,7 +176,11 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
             Matrix matrix = new Matrix();
             matrix.postRotate(-45);
             ship.updateShipXY(this, x, y, ship.getId());
-            canvas.drawBitmap(resizeShip, x, y, new Paint());
+            canvas.drawBitmap(resizeShip, x, y, new Paint());*/
+
+            MoveShip move = new MoveShip(this, ship);
+            move.draw(canvas);
+
         }
 
     }
