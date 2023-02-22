@@ -8,6 +8,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
@@ -57,16 +58,22 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        int x = (int)event.getRawX();
-        int y = (int)event.getRawY();
+        int x = (int)event.getRawX()-150;
+        int y = (int)event.getRawY()-300;
+
 
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            Log.i("-", "--------------");
+            Log.i("XY", x + "," + y );
+
             Planets planet = new Planets();
             List<Planets> planetsList = planet.getPlanets(this, star);
             for (Planets val : planetsList) {
-                Range<Integer> rangoX = Range.create(x, x + 200);
-                Range<Integer> rangoY = Range.create(y, y + 200);
-                if (rangoX.contains(val.getX() + 150) && rangoY.contains(val.getY() + 400)) {
+
+                Range<Integer> rangoX = Range.create(x, x+150);
+                Range<Integer> rangoY = Range.create(y, y+150);
+
+                if (rangoX.contains(val.getX()) && rangoY.contains(val.getY())) {
                     if (val.getExplore() != 1) {
                         View customToastroot = View.inflate(this, R.layout.custom_toast, null);
                         TextView msg = customToastroot.findViewById(R.id.toastMsg);
@@ -77,21 +84,29 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
                         customtoast.show();
                         return false;
                     }
+                    Log.i("rango", rangoX + "," + rangoY);
+                    Log.i("PlanetXY", val.getX() + "," + val.getY());
                     Intent i = new Intent(this, PlanetManager.class);
                     i.putExtra("starId", star.getId());
                     i.putExtra("planet", val);
                     i.putExtra("canBuild", false);
                     startActivity(i);
+
+
                 }
             }
             LinearLayout menu = findViewById(R.id.menu_ships_layout);
             Ships ships = new Ships();
             List<Ships> shipList = ships.getStarShips(this, star.getId());
             for (Ships ship : shipList) {
-                Range<Integer> rangoX = Range.create(x - 100, x);
-                Range<Integer> rangoY = Range.create(y -100, y);
-                if (rangoX.contains(ship.getX()) && rangoY.contains(ship.getY()+200)) {
+                Range<Integer> rangoX = Range.create(x-75, x + 75);
+                Range<Integer> rangoY = Range.create(y-50, y + 50);
+                Log.i("rango(x,xMax)(y,yMax)", rangoX + "," + rangoY);
+                Log.i("shipXY", ship.getX() + "," + ship.getY());
+                if (rangoX.contains(ship.getX()) && rangoY.contains(ship.getY())) {
                     menu.setVisibility(View.VISIBLE);
+
+
                     //Toast.makeText(this, ship.getName()+":"+width+","+height, Toast.LENGTH_SHORT).show();
                 }
                 if (state.equals("move")){
@@ -99,14 +114,14 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
                     ship.setX(x);
                     ship.setY(y);
                     ship.updateShipXY(this, x, y, ship.getId());
-
                     drawSistem();
+                    state = "orders";
+                    runExit(new View(this));
                     Log.i("shipXY", ship.getX() + "," + ship.getY());
-                    Log.i("rango", rangoX + "," + rangoY);
                 }
 
             }
-            Log.i("XY", x + "," + y );
+
         }
 
 
@@ -155,12 +170,16 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
                 planet.setY(xy.getY());
             }
 
+
+
             String imagePlanet = getImagePlanet(planet.getType());
             resImage = Game.getResId(imagePlanet, R.drawable.class);
             Bitmap drawPlanet = BitmapFactory.decodeResource(getResources(), resImage);
             Bitmap resizePlanet = Bitmap.createScaledBitmap(drawPlanet, 50+size*20, 50+size*20, true);
             canvas.drawBitmap(resizePlanet, planet.getX(), planet.getY(), new Paint());
         }
+
+
 
         //Draw ships
         drawShips(canvas);
@@ -183,8 +202,20 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
             ship.updateShipXY(this, x, y, ship.getId());
             canvas.drawBitmap(resizeShip, x, y, new Paint());*/
 
+
+
             MoveShip move = new MoveShip(this, ship);
             move.draw(canvas);
+
+/*            planet = planet.getPlanetById(this, ship.getPlanet());
+            int x = ship.getX();
+            int y = ship.getY();
+            //Canvas canvas = new Canvas();
+            Paint p = new Paint();
+            p.setStyle(Paint.Style.STROKE);
+            p.setStrokeWidth(4);
+            p.setColor(Color.YELLOW);
+            canvas.drawRect(x+100, y+75, x+250, y+150, p);*/
 
         }
 
@@ -246,6 +277,7 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
     }
 
     public void runExit(View view){
+        disableButtons();
         LinearLayout menu = findViewById(R.id.menu_ships_layout);
         menu.setVisibility(View.INVISIBLE);
     }

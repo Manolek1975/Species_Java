@@ -19,19 +19,18 @@ public class MoveShip extends AppCompatImageView {
 
     Bitmap nave, fondo;
     private int x, y;
-    private int width, heigth;
 
     public MoveShip(Context context) { super(context); }
     public MoveShip(Context context, Ships ship) {
         super(context);
-        WindowManager window = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+/*        WindowManager window = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics displaymetrics = new DisplayMetrics();
         window.getDefaultDisplay().getMetrics(displaymetrics);
-        width = displaymetrics.widthPixels;
-        heigth = displaymetrics.heightPixels;
+        int width = displaymetrics.widthPixels;
+        int heigth = displaymetrics.heightPixels;
         BitmapDrawable imageFondo = (BitmapDrawable) ContextCompat.getDrawable(context, R.drawable.fondo_test);
         fondo = Objects.requireNonNull(imageFondo).getBitmap();
-        fondo = Bitmap.createScaledBitmap(fondo, width, heigth, false);
+        fondo = Bitmap.createScaledBitmap(fondo, width, heigth, false);*/
         BitmapDrawable imageShip = (BitmapDrawable) ContextCompat.getDrawable(context, R.drawable.ship0);
         nave = Objects.requireNonNull(imageShip).getBitmap();
         nave = Bitmap.createScaledBitmap(nave, 50, 25, false);
@@ -39,12 +38,10 @@ public class MoveShip extends AppCompatImageView {
         y = ship.getY();
     }
 
-    public boolean destino(int posX, int posY){
+    public void destino(int posX, int posY){
         x = posX;
         y = posY;
-
         Log.i("DESTINO", x + "," + y);
-        return false;
     }
 
     public boolean move(){
@@ -52,8 +49,8 @@ public class MoveShip extends AppCompatImageView {
     }
 
     protected void onDraw(Canvas canvas){
-        canvas.drawBitmap(fondo, width, heigth, null);
-        canvas.drawBitmap(nave, x, y, null);
+        //canvas.drawBitmap(fondo, width, heigth, null);
+        canvas.drawBitmap(nave, x+100, y+75, null);
     }
 
 }

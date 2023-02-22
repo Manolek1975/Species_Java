@@ -115,8 +115,15 @@ public class PlanetManager extends AppCompatActivity implements Serializable {
                 button.setOnClickListener(v ->
                         Game.leaveOrbit(this, ship, planet.getId()));
                 lin.addView(button);
+
+                planet = planet.getPlanetById(this, ship.getPlanet());
+                int x = planet.getX();
+                int y = planet.getY() - 100;
+                ship.updateShipXY(this, x, y, ship.getId());
             }
         }
+
+
 
     }
 
