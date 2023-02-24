@@ -43,8 +43,8 @@ public class SpeciesActivity extends AppCompatActivity {
             button.setText(val.getName());
             button.setBackgroundColor(Color.TRANSPARENT);
             button.setTextColor(Color.WHITE);
-            button.setOnClickListener(v -> runStars(val));
             button.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+            button.setOnClickListener(v -> runStars(val));
             lin.addView(button);
         }
     }

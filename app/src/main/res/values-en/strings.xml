@@ -43,6 +43,5 @@
     <string name="ship_mensaje">You have not built any ships yet</string>
     <string name="sciencie_mensaje">You have not investigated any science yet</string>
     <string name="diplomacy_mensaje">You have not contacted any alien yet</string>
-    <string name="explore">You have not explored this planet
-         Build a ship with a sensor to scan the surface</string>
+    <string name="explore">You have not explored this planet</string>
 </resources>
