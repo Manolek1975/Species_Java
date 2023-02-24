@@ -23,7 +23,7 @@ public class SpeciesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.species_activity);
+        setContentView(R.layout.activity_species);
         View view = getWindow().getDecorView();
         Game.hideview(view);
 

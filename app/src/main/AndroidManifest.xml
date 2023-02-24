@@ -8,27 +8,39 @@
         android:label=""
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Species" >
-
+        android:theme="@style/Theme.Species">
+        <activity
+            android:name=".SistemActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar" >
+            android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".SpeciesActivity" android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
-        <activity android:name=".StarsActivity" android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
-        <activity android:name=".SistemActivity" android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
-        <activity android:name=".PlanetsActivity" android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
-        <activity android:name=".PlanetManager" android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
-        <activity android:name=".BuildsActivity" android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
-        <activity android:name=".ShipsActivity" android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
-
+        <activity
+            android:name=".SpeciesActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
+        <activity
+            android:name=".StarsActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
+        <activity
+            android:name=".PlanetsActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
+        <activity
+            android:name=".PlanetManager"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
+        <activity
+            android:name=".BuildsActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
+        <activity
+            android:name=".ShipsActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
     </application>
-
 
 </manifest>

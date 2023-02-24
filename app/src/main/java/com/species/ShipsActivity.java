@@ -23,7 +23,7 @@ public class ShipsActivity extends AppCompatActivity implements Serializable {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ships_activity);
+        setContentView(R.layout.activity_ships);
         View view = getWindow().getDecorView();
         Game.hideviewMenu(view);
 

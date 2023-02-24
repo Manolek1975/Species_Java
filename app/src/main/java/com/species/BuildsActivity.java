@@ -24,7 +24,7 @@ public class BuildsActivity extends AppCompatActivity implements Serializable {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.builds_activity);
+        setContentView(R.layout.activity_buils);
         View view = getWindow().getDecorView();
         Game.hideviewMenu(view);
 

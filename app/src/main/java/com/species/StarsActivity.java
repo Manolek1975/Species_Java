@@ -31,7 +31,7 @@ public class StarsActivity extends AppCompatActivity implements Serializable {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.stars_activity);
+        setContentView(R.layout.activity_stars);
         View view = getWindow().getDecorView();
         Game.hideviewMenu(view);
         // Calcular medidas del smartphone

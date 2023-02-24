@@ -1,46 +1,33 @@
 package com.species;
 
+import androidx.appcompat.app.AppCompatActivity;
 
-import static android.graphics.Color.alpha;
-
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.Point;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.Range;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.Serializable;
-import java.util.List;
 
-
-public class SistemActivity extends AppCompatActivity implements Serializable {
+public class SistemActivity extends AppCompatActivity {
     private Stars star = new Stars();
-    private MoveShip move;
-    private String state;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sistem_activity);
+        setContentView(R.layout.activity_sistem);
         View view = getWindow().getDecorView();
         Game.hideviewMenu(view);
 
@@ -48,249 +35,60 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
         int starId = (int)i.getSerializableExtra("starId");
         star = star.getStarById(this, starId);
 
-        TextView starName = findViewById(R.id.systemName);
-        starName.setText(String.format("Sistema %s", star.getName()));
-        move = new MoveShip(this);
-        state = "order";
-        drawSistem();
+        drawStar();
+        drawPlanets();
+        drawShip();
+    }
+
+    private void drawStar() {
+        LinearLayout fondo = findViewById(R.id.sistemLayout);
+        TextView sistemName = findViewById(R.id.sistemName);
+        sistemName.setText(star.getName());
+        ImageButton img = new ImageButton(this);
+        img.setImageResource(R.drawable.star1);
+        img.setBackgroundColor(Color.TRANSPARENT);
+
+        fondo.addView(img);
+    }
+
+    private void drawPlanets() {
+        LinearLayout fondo = findViewById(R.id.sistemLayout);
+        ImageButton img = new ImageButton(this);
+        //img.setImageResource(R.drawable.icon_planet_congenial);
+        img.setBackgroundColor(Color.TRANSPARENT);
+        int resImage = Game.getResId("icon_planet_congenial", R.drawable.class);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), resImage);
+        Bitmap resizeShip = Bitmap.createScaledBitmap(bitmap, 100, 100, true);
+        img.setImageBitmap(resizeShip);
+        img.setX(-300);
+        img.setY(-400);
+        fondo.addView(img);
 
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        int x = (int)event.getRawX()-150;
-        int y = (int)event.getRawY()-300;
+    private void drawShip() {
+        LinearLayout fondo = findViewById(R.id.sistemLayout);
+        ImageButton img = new ImageButton(this);
+        img.setImageResource(R.drawable.ship0);
+        img.setBackgroundColor(Color.TRANSPARENT);
+        int resImage = Game.getResId("ship0", R.drawable.class);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), resImage);
+        Bitmap resizeShip = Bitmap.createScaledBitmap(bitmap, 160, 80, true);
+        img.setImageBitmap(resizeShip);
+        img.setX(-200);
+        img.setY(200);
+        fondo.addView(img);
 
+        ObjectAnimator animX = ObjectAnimator.ofFloat(img, "translationX", 300f);
+        ObjectAnimator animY = ObjectAnimator.ofFloat(img, "translationY", -300f);
+        AnimatorSet animSetXY = new AnimatorSet();
+        animSetXY.playTogether(animX, animY);
+        animSetXY.setDuration(3000);
+        animSetXY.start();
 
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            Log.i("-", "--------------");
-            Log.i("XY", x + "," + y );
-
-            Planets planet = new Planets();
-            List<Planets> planetsList = planet.getPlanets(this, star);
-            for (Planets val : planetsList) {
-
-                Range<Integer> rangoX = Range.create(x, x+150);
-                Range<Integer> rangoY = Range.create(y, y+150);
-
-                if (rangoX.contains(val.getX()) && rangoY.contains(val.getY())) {
-                    if (val.getExplore() != 1) {
-                        View customToastroot = View.inflate(this, R.layout.custom_toast, null);
-                        TextView msg = customToastroot.findViewById(R.id.toastMsg);
-                        msg.setText(R.string.explore);
-                        Toast customtoast = new Toast(getApplicationContext());
-                        customtoast.setView(customToastroot);
-                        customtoast.setDuration(Toast.LENGTH_LONG);
-                        customtoast.show();
-                        return false;
-                    }
-                    Log.i("rango", rangoX + "," + rangoY);
-                    Log.i("PlanetXY", val.getX() + "," + val.getY());
-                    Intent i = new Intent(this, PlanetManager.class);
-                    i.putExtra("starId", star.getId());
-                    i.putExtra("planet", val);
-                    i.putExtra("canBuild", false);
-                    startActivity(i);
-
-
-                }
-            }
-            LinearLayout menu = findViewById(R.id.menu_ships_layout);
-            Ships ships = new Ships();
-            List<Ships> shipList = ships.getStarShips(this, star.getId());
-            for (Ships ship : shipList) {
-                Range<Integer> rangoX = Range.create(x-75, x + 75);
-                Range<Integer> rangoY = Range.create(y-50, y + 50);
-                Log.i("rango(x,xMax)(y,yMax)", rangoX + "," + rangoY);
-                Log.i("shipXY", ship.getX() + "," + ship.getY());
-                if (rangoX.contains(ship.getX()) && rangoY.contains(ship.getY())) {
-                    menu.setVisibility(View.VISIBLE);
-
-
-                    //Toast.makeText(this, ship.getName()+":"+width+","+height, Toast.LENGTH_SHORT).show();
-                }
-                if (state.equals("move")){
-                    move.destino(x,y);
-                    ship.setX(x);
-                    ship.setY(y);
-                    ship.updateShipXY(this, x, y, ship.getId());
-                    drawSistem();
-                    state = "orders";
-                    runExit(new View(this));
-                    Log.i("shipXY", ship.getX() + "," + ship.getY());
-                }
-
-            }
-
-        }
-
-
-        return false;
-    }
-
-    private void drawSistem() {
-        ImageView sistemView = findViewById(R.id.sistemView);
-        Point medidas = Game.getMetrics(this);
-        int width = medidas.x;
-        int height = medidas.y;
-        // Crear fondo con medidas
-        Bitmap metrics = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Bitmap bitmap = Bitmap.createBitmap(metrics.getWidth(), metrics.getHeight(), metrics.getConfig());
-        Canvas canvas = new Canvas(bitmap);
-        int resImageFondo = Game.getResId("fondo_sistema", R.drawable.class);
-        Bitmap fondoRes = BitmapFactory.decodeResource(getResources(), resImageFondo);
-        Bitmap fondo = Bitmap.createScaledBitmap(fondoRes, width, height, false);
-        canvas.drawBitmap(fondo, new Matrix(), null);
-        //sistemView.setImageBitmap(bitmap);
-
-        // Draw Star
-        String starImage = star.getImage();
-        int resImage = Game.getResId(starImage, R.drawable.class);
-        Bitmap starCenter = BitmapFactory.decodeResource(getResources(), resImage);
-        Bitmap resizeStar = Bitmap.createScaledBitmap(starCenter, 200, 200, true);
-        int centerX = width - 200 >> 1;
-        int centerY = height - 200 >> 1;
-        canvas.drawBitmap(resizeStar, centerX, centerY, new Paint());
-
-        // Draw Planets
-        int numPlanets = 0;
-        Planets planets = new Planets();
-        List<Planets> planetList = planets.getPlanets(this, star);
-        for(Planets planet: planetList){
-            numPlanets += 1;
-            int size = planet.getSize();
-            centerX = width >> 1;
-            centerY = height >> 1;
-
-            if (planet.getX() == 0){
-                Planets xy = new Planets();
-                setPlanetCoord(planet.getId(), centerX, centerY, numPlanets);
-                xy = xy.getPlanetById(this, planet.getId());
-                planet.setX(xy.getX());
-                planet.setY(xy.getY());
-            }
-
-
-
-            String imagePlanet = getImagePlanet(planet.getType());
-            resImage = Game.getResId(imagePlanet, R.drawable.class);
-            Bitmap drawPlanet = BitmapFactory.decodeResource(getResources(), resImage);
-            Bitmap resizePlanet = Bitmap.createScaledBitmap(drawPlanet, 50+size*20, 50+size*20, true);
-            canvas.drawBitmap(resizePlanet, planet.getX(), planet.getY(), new Paint());
-        }
-
-
-
-        //Draw ships
-        drawShips(canvas);
-        sistemView.setImageBitmap(bitmap);
-    }
-
-    private void drawShips(Canvas canvas) {
-        Planets planet = new Planets();
-        Ships ships = new Ships();
-        List<Ships> shipList = ships.getStarShips(this, star.getId());
-        for (Ships ship : shipList) {
-/*            planet = planet.getPlanetById(this, ship.getPlanet());
-            int resImage = Game.getResId(ship.getImage(), R.drawable.class);
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), resImage);
-            Bitmap resizeShip = Bitmap.createScaledBitmap(bitmap, 120, 60, true);
-            int x = planet.getX();
-            int y = planet.getY() - 100;
-            Matrix matrix = new Matrix();
-            matrix.postRotate(-45);
-            ship.updateShipXY(this, x, y, ship.getId());
-            canvas.drawBitmap(resizeShip, x, y, new Paint());*/
-
-
-
-            MoveShip move = new MoveShip(this, ship);
-            move.draw(canvas);
-
-/*            planet = planet.getPlanetById(this, ship.getPlanet());
-            int x = ship.getX();
-            int y = ship.getY();
-            //Canvas canvas = new Canvas();
-            Paint p = new Paint();
-            p.setStyle(Paint.Style.STROKE);
-            p.setStrokeWidth(4);
-            p.setColor(Color.YELLOW);
-            canvas.drawRect(x+100, y+75, x+250, y+150, p);*/
-
-        }
-
-    }
-
-    private void setPlanetCoord(int id, int x, int y, int numPlanets) {
-        Planets planet = new Planets();
-            if (numPlanets == 1) {
-                x = x - 350;
-                y = y - 300;
-            }
-            if (numPlanets == 2) {
-                x = x + 300;
-                y = y + 350;
-            }
-            if (numPlanets == 3) {
-                x = x + 300;
-                y = y - 200;
-            }
-            if (numPlanets == 4) {
-                x = x - 400;
-                y = y + 300;
-            }
-        planet.setPlanetXY(id, x, y, this);
-    }
-
-    private String getImagePlanet(Integer type) {
-        Resources res = this.getResources();
-        String[] imagePlanet = res.getStringArray(R.array.image_planet);
-        return imagePlanet[type-1];
-    }
-
-    public void runMove(View view){
-        disableButtons();
-        ImageButton move = findViewById(R.id.move);
-        move.setBackgroundResource(R.drawable.border_yellow);
-        state = "move";
-        Log.i("MOVE", state);
-
-    }
-
-    public void runFire(View view){
-        disableButtons();
-        ImageButton fire = findViewById(R.id.fire);
-        fire.setBackgroundResource(R.drawable.border_yellow);
-
-    }
-    public void runShield(View view){
-        disableButtons();
-        ImageButton shield = findViewById(R.id.shield);
-        shield.setBackgroundResource(R.drawable.border_yellow);
-
-    }
-    public void runTecno(View view){
-        disableButtons();
-        ImageButton tecno = findViewById(R.id.tecno);
-        tecno.setBackgroundResource(R.drawable.border_yellow);
-
-    }
-
-    public void runExit(View view){
-        disableButtons();
-        LinearLayout menu = findViewById(R.id.menu_ships_layout);
-        menu.setVisibility(View.INVISIBLE);
-    }
-
-    public void disableButtons(){
-        ImageButton move = findViewById(R.id.move);
-        ImageButton fire = findViewById(R.id.fire);
-        ImageButton shield = findViewById(R.id.shield);
-        ImageButton tecno = findViewById(R.id.tecno);
-        move.setBackgroundResource(alpha(0));
-        fire.setBackgroundResource(alpha(0));
-        shield.setBackgroundResource(alpha(0));
-        tecno.setBackgroundResource(alpha(0));
+        img.setOnClickListener(v -> {
+            Log.i("XY", fondo.getWidth() + "," + fondo.getHeight());
+        });
     }
 
     @Override
@@ -304,5 +102,4 @@ public class SistemActivity extends AppCompatActivity implements Serializable {
         menu.onOptionsItemSelected(option);
         return false;
     }
-
 }

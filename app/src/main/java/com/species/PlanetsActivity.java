@@ -24,7 +24,7 @@ public class PlanetsActivity extends AppCompatActivity implements Serializable {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.planets_activity);
+        setContentView(R.layout.activity_planets);
         View view = getWindow().getDecorView();
         Game.hideviewMenu(view);
 
