@@ -21,9 +21,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class SistemActivity extends AppCompatActivity {
     private Stars star = new Stars();
+    LinearLayout fondo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +33,7 @@ public class SistemActivity extends AppCompatActivity {
         View view = getWindow().getDecorView();
         Game.hideviewMenu(view);
 
+        fondo = findViewById(R.id.sistemLayout);
         Intent i = getIntent();
         int starId = (int)i.getSerializableExtra("starId");
         star = star.getStarById(this, starId);
@@ -41,33 +44,41 @@ public class SistemActivity extends AppCompatActivity {
     }
 
     private void drawStar() {
-        LinearLayout fondo = findViewById(R.id.sistemLayout);
         TextView sistemName = findViewById(R.id.sistemName);
         sistemName.setText(star.getName());
         ImageButton img = new ImageButton(this);
-        img.setImageResource(R.drawable.star1);
+        int resImage = Game.getResId(star.getImage(), R.drawable.class);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), resImage);
+        Bitmap resizeStar = Bitmap.createScaledBitmap(bitmap, 150, 150, true);
+        img.setImageBitmap(resizeStar);
         img.setBackgroundColor(Color.TRANSPARENT);
-
+        img.setX(0);
+        img.setY(300);
         fondo.addView(img);
     }
 
     private void drawPlanets() {
-        LinearLayout fondo = findViewById(R.id.sistemLayout);
-        ImageButton img = new ImageButton(this);
-        //img.setImageResource(R.drawable.icon_planet_congenial);
-        img.setBackgroundColor(Color.TRANSPARENT);
-        int resImage = Game.getResId("icon_planet_congenial", R.drawable.class);
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), resImage);
-        Bitmap resizeShip = Bitmap.createScaledBitmap(bitmap, 100, 100, true);
-        img.setImageBitmap(resizeShip);
-        img.setX(-300);
-        img.setY(-400);
-        fondo.addView(img);
+        Planets planet = new Planets();
+        for(int i=0; i < star.getPlanets(); i++){
+            List<Planets> planetList = planet.getStarPlanets(this, star.getId());
+            ImageButton img = new ImageButton(this);
+            planet = planetList.get(i);
+            int type = planet.getType();
+            String image = planet.getImagePlanet(this, type);
+            img.setBackgroundColor(Color.TRANSPARENT);
+            int resImage = Game.getResId(image, R.drawable.class);
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), resImage);
+            Bitmap resizeShip = Bitmap.createScaledBitmap(bitmap, 100, 100, true);
+            img.setImageBitmap(resizeShip);
+            setPlanetPosition(img, i);
+            fondo.addView(img);
+
+        }
 
     }
 
     private void drawShip() {
-        LinearLayout fondo = findViewById(R.id.sistemLayout);
+
         ImageButton img = new ImageButton(this);
         img.setImageResource(R.drawable.ship0);
         img.setBackgroundColor(Color.TRANSPARENT);
@@ -89,6 +100,30 @@ public class SistemActivity extends AppCompatActivity {
         img.setOnClickListener(v -> {
             Log.i("XY", fondo.getWidth() + "," + fondo.getHeight());
         });
+    }
+
+    private void setPlanetPosition(ImageButton img, int numPlanet) {
+        int x=0, y =0;
+        if (numPlanet == 0) {
+            x = -300;
+            y = -100;
+        }
+        if (numPlanet == 1) {
+            x = 300;
+            y = 200;
+        }
+        if (numPlanet == 2) {
+            x = 300;
+            y = -400;
+        }
+        if (numPlanet == 3) {
+            x = -300;
+            y = -100;
+        }
+        img.setX(x);
+        img.setY(y);
+
+        //planet.setPlanetXY(id, x, y, this);
     }
 
     @Override

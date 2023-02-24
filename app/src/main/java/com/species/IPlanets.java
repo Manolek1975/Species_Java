@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface IPlanets {
 
-    List<Planets> getPlanets(Context context, Stars star);
+    List<Planets> getStarPlanets(Context context, int star);
 
     Planets getPlanetById(Context context, Integer id);
     List<Planets> getOwnPlanets(Context context, int specieId);

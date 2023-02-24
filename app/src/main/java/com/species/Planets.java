@@ -46,10 +46,10 @@ public class Planets extends AppCompatActivity implements IPlanets, Serializable
         this.origin = origin;
     }
 
-    public List<Planets> getPlanets(Context context, Stars star) {
+    public List<Planets> getStarPlanets(Context context, int star) {
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM planets WHERE star='" + star.getId() + "'", null);
+        Cursor c = db.rawQuery("SELECT * FROM planets WHERE star=" + star, null);
         List<Planets> planetsList = new ArrayList<>();
         while (c.moveToNext()) {
             Planets planet = new Planets(
