@@ -17,7 +17,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_margin="8dp"
-
             android:backgroundTint="#2196F3"
             android:padding="10dp"
             android:text="@string/explore"

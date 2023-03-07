@@ -20,15 +20,15 @@ public class Ships implements IShips{
     private int planet;
     private int jump;
     private int location;
-    private int x;
-    private int y;
+    private float x;
+    private float y;
 
     public Ships() {
         super();
     }
 
     public Ships(int id, String name, String image, int size, String type, int specie,
-                 int star, int planet, int jump, int location, int x, int y) {
+                 int star, int planet, int jump, int location, float x, float y) {
         this.id = id;
         this.name = name;
         this.image = image;
@@ -103,7 +103,7 @@ public class Ships implements IShips{
     }
 
     @Override
-    public List<Ships> getStarShips(Context context, int id) {
+    public List<Ships> getSistemShips(Context context, int id) {
         Ships ship;
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
@@ -133,7 +133,7 @@ public class Ships implements IShips{
     }
 
     @Override
-    public void updateShipXY(Context context, int x, int y, int id) {
+    public void updateShipXY(Context context, float x, float y, int id) {
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -195,11 +195,11 @@ public class Ships implements IShips{
         return jump;
     }
 
-    public int getX() {
+    public float getX() {
         return x;
     }
 
-    public int getY() {
+    public float getY() {
         return y;
     }
 

@@ -22,8 +22,8 @@ public class Planets extends AppCompatActivity implements IPlanets, Serializable
     private String name;
     private Integer size;
     private Integer type;
-    private Integer x;
-    private Integer y;
+    private float x;
+    private float y;
     private int population;
     private String owner;
     private int explore;
@@ -32,7 +32,7 @@ public class Planets extends AppCompatActivity implements IPlanets, Serializable
     public Planets(){super();}
 
     public Planets(Integer id, Integer star, String name, Integer size, Integer type,
-                   Integer x, Integer y,int population, String owner, int explore, int origin) {
+                   float x, float y,int population, String owner, int explore, int origin) {
         this.id = id;
         this.star = star;
         this.name = name;
@@ -152,7 +152,7 @@ public class Planets extends AppCompatActivity implements IPlanets, Serializable
     }
 
     @Override
-    public void setPlanetXY(int id, int x, int y, Context context) {
+    public void setPlanetXY(int id, float x, float y, Context context) {
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getReadableDatabase();
         ContentValues values = new ContentValues();
@@ -270,11 +270,11 @@ public class Planets extends AppCompatActivity implements IPlanets, Serializable
         this.owner = owner;
     }
 
-    public Integer getX() {
+    public float getX() {
         return x;
     }
 
-    public Integer getY() {
+    public float getY() {
         return y;
     }
 

@@ -16,7 +16,7 @@ public interface IPlanets {
 
     Planets getPlanetTarget(Context context, String planetName);
 
-    void setPlanetXY(int id, int x, int y, Context context);
+    void setPlanetXY(int id, float x, float y, Context context);
 
 
 }
