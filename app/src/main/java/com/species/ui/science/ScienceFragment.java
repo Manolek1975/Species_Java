@@ -1,36 +1,21 @@
-package com.species.ui.stars;
+package com.species.ui.science;
 
-import static android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-
-import android.app.Activity;
-import android.content.Context;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.species.Game;
-import com.species.MainActivity;
 import com.species.R;
-import com.species.SidebarActivity;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link StarsFragment#newInstance} factory method to
+ * Use the {@link ScienceFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class StarsFragment extends Fragment {
+public class ScienceFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -41,7 +26,7 @@ public class StarsFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public StarsFragment() {
+    public ScienceFragment() {
         // Required empty public constructor
     }
 
@@ -51,11 +36,11 @@ public class StarsFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment StarsFragment.
+     * @return A new instance of fragment ScienceFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static StarsFragment newInstance(String param1, String param2) {
-        StarsFragment fragment = new StarsFragment();
+    public static ScienceFragment newInstance(String param1, String param2) {
+        ScienceFragment fragment = new ScienceFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -66,7 +51,6 @@ public class StarsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -74,13 +58,9 @@ public class StarsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Game.hideview(container);
-        //View decorView = requireActivity().getWindow().getDecorView();
-        //requireActivity().getWindow().setStatusBarColor(Color.TRANSPARENT);
-        //requireActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_stars, container, false);
+        return inflater.inflate(R.layout.fragment_science, container, false);
     }
-
 }

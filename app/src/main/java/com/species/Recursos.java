@@ -6,6 +6,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 
+import com.species.database.DBHelper;
+import com.species.database.DBRecursos;
+import com.species.ui.builds.Builds;
+import com.species.ui.planets.Planets;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;

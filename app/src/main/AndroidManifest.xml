@@ -39,16 +39,16 @@
             android:name=".SistemActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".PlanetManager"
+            android:name=".ui.planets.PlanetManager"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".PlanetsActivity"
+            android:name=".ui.planets.PlanetsActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".BuildsActivity"
+            android:name=".ui.builds.BuildsActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".ShipsActivity"
+            android:name=".ui.ships.ShipsActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
     </application>
 

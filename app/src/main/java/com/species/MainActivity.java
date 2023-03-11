@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.species.database.LoadDB;
 import com.species.ui.stars.StarsActivity;
 
 public class MainActivity extends AppCompatActivity {

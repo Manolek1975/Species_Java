@@ -1,33 +1,25 @@
 package com.species;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Point;
-import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.MutableLiveData;
+
+import com.species.ui.builds.Builds;
+import com.species.ui.planets.PlanetManager;
+import com.species.ui.planets.Planets;
+import com.species.ui.ships.Ships;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
 
 public abstract class Game extends AppCompatActivity {
 
-    static int turn;
+    public static int turn;
     static int width, height;
 
     public static int advanceTurn(View view){

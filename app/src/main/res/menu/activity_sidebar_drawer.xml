@@ -13,16 +13,26 @@
             android:icon="@drawable/icon_planet"
             android:title="@string/menu_planets" />
         <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="@string/menu_home" />
+            android:id="@+id/nav_ships"
+            android:icon="@drawable/icon_ship"
+            android:title="@string/menu_ships" />
+        <item
+            android:id="@+id/nav_science"
+            android:icon="@drawable/icon_ciencia"
+            android:title="@string/menu_science" />
+        <item
+            android:id="@+id/nav_diplomacy"
+            android:icon="@drawable/icon_diplo"
+            android:title="@string/menu_diplomacy" />
+        <item
+            android:id="@+id/nav_builds"
+            android:icon="@drawable/icon_rayo"
+            android:title="@string/menu_builds" />
         <item
             android:id="@+id/nav_gallery"
             android:icon="@drawable/ic_menu_gallery"
             android:title="@string/menu_gallery" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
+
+
     </group>
 </menu>

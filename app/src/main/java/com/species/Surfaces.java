@@ -1,20 +1,19 @@
 package com.species;
 
-import static java.sql.Types.NULL;
-
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.util.Range;
+
+import com.species.database.DBHelper;
+import com.species.database.DBSurfaces;
+import com.species.ui.builds.Builds;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 

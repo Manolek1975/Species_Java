@@ -13,8 +13,6 @@ import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Range;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,7 +23,6 @@ import com.species.Game;
 import com.species.R;
 import com.species.SistemActivity;
 import com.species.Species;
-import com.species.Stars;
 
 import java.io.Serializable;
 import java.util.List;

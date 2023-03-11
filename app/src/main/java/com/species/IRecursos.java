@@ -2,6 +2,9 @@ package com.species;
 
 import android.content.Context;
 
+import com.species.ui.builds.Builds;
+import com.species.ui.planets.Planets;
+
 import java.util.List;
 
 public interface IRecursos {

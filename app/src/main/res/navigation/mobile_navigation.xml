@@ -6,29 +6,41 @@
     app:startDestination="@id/nav_stars">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="com.species.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
-    <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.species.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
-    <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.species.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
-    <fragment
         android:id="@+id/nav_stars"
         android:name="com.species.ui.stars.StarsFragment"
         android:label="fragment_stars"
         tools:layout="@layout/fragment_stars" />
     <fragment
         android:id="@+id/nav_planets"
-        android:name="com.species.PlanetsFragment"
+        android:name="com.species.ui.planets.PlanetsFragment"
         android:label="fragment_planets"
         tools:layout="@layout/fragment_planets" />
+    <fragment
+        android:id="@+id/nav_ships"
+        android:name="com.species.ui.ships.ShipsFragment"
+        android:label="fragment_ships"
+        tools:layout="@layout/fragment_ships" />
+    <fragment
+        android:id="@+id/nav_science"
+        android:name="com.species.ui.science.ScienceFragment"
+        android:label="fragment_science"
+        tools:layout="@layout/fragment_science" />
+    <fragment
+        android:id="@+id/nav_diplomacy"
+        android:name="com.species.ui.diplomacy.DiplomacyFragment"
+        android:label="fragment_diplomacy"
+        tools:layout="@layout/fragment_diplomacy" />
+    <fragment
+        android:id="@+id/nav_builds"
+        android:name="com.species.ui.builds.BuildsFragment"
+        android:label="fragment_builds"
+        tools:layout="@layout/fragment_builds" />
+
+    <fragment
+        android:id="@+id/nav_gallery"
+        android:name="com.species.ui.gallery.GalleryFragment"
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/fragment_gallery" />
+
 
 </navigation>
