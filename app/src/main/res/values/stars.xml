@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string-array name="name_stars">
+        <item>Alpha Centauri</item>
+        <item>Barnard</item>
+        <item>Luhman</item>
+        <item>Wise</item>
+        <item>Wolf</item>
+
+        <item>Lalande</item>
+        <item>Sirio</item>
+        <item>Luyten</item>
+        <item>Ross 128</item>
+        <item>Ross 154</item>
+
+        <item>Ross 248</item>
+        <item>Eridani</item>
+        <item>Lacaille</item>
+        <item>Aquari</item>
+        <item>Procyon</item>
+
+        <item>Cygni</item>
+        <item>Struve</item>
+        <item>Groombridge</item>
+        <item>Indi</item>
+        <item>Cancri</item>
+    </string-array>
+
+    <string-array name="image_stars">
+        <item>star2</item>
+        <item>star3</item>
+        <item>star4</item>
+        <item>star9</item>
+        <item>star6</item>
+
+        <item>star8</item>
+        <item>star7</item>
+        <item>star4</item>
+        <item>star6</item>
+        <item>star6</item>
+
+        <item>star6</item>
+        <item>star2</item>
+        <item>star12</item>
+        <item>star8</item>
+        <item>star5</item>
+
+        <item>star10</item>
+        <item>star5</item>
+        <item tools:ignore="Typos">star11</item>
+        <item tools:ignore="Typos">star1</item>
+        <item>star4</item>
+    </string-array>
+
+    Planet
+</resources>

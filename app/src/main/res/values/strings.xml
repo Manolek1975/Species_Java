@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">Species</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -7,7 +6,43 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
+    <string name="menu_stars">Estrellas</string>
+    <string name="menu_planets">Planetas</string>
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+
+    <string name="app_name">Species</string>
+    <string name="start_button">Nuevo</string>
+    <string name="play_button">Jugar</string>
+    <string name="TODO">TODO</string>
+    <string name="string_todo" />
+
+    <string name="sector_centauri">SECTOR CENTAURI</string>
+
+    <!-- MENU -->
+
+    <!-- Planet Manager -->
+    <string name="planeta">Planeta</string>
+    <string name="tipo">Tipo</string>
+    <string name="text_producion">Producción: 0</string>
+    <string name="text_cultivos">Alimentos: 0</string>
+    <string name="text_investigación">Ciencia: 0</string>
+    <string name="text_poblacion">Población: 0</string>
+    <string name="text_shields">Escudos: 0</string>
+    <string name="text_defence">Defensa: 0</string>
+    <string name="text_offence">Ofensa: 0</string>
+
+    <string name="sin_proyecto">Sin Proyecto</string>
+    <string name="turno">Turno</string>
+    <string name="orbital_layout">Orbital</string>
+    <string name="surface_layout">Superficie</string>
+
+    <!-- MENSAJES -->
+    <string name="explore">No has explorado este planeta</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

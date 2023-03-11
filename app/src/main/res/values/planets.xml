@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="image_planet">
+        <item>planet_cathedral</item>
+        <item>planet_chapel</item>
+        <item>planet_congenial</item>
+        <item>planet_cornucopia</item>
+        <item>planet_eden</item>
+        <item>planet_especial</item>
+        <item>planet_husk</item>
+        <item>planet_mineral</item>
+        <item>planet_primordial</item>
+        <item>planet_rich</item>
+        <item>planet_supermineral</item>
+    </string-array>
+    <string-array name="icon_planet">
+        <item>icon_planet_cathedral</item>
+        <item>icon_planet_chapel</item>
+        <item>icon_planet_congenial</item>
+        <item>icon_planet_cornucopia</item>
+        <item>icon_planet_eden</item>
+        <item>icon_planet_especial</item>
+        <item>icon_planet_husk</item>
+        <item>icon_planet_mineral</item>
+        <item>icon_planet_primordial</item>
+        <item>icon_planet_rich</item>
+        <item>icon_planet_supermineral</item>
+    </string-array>
+</resources>

@@ -3,23 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@id/nav_stars">
 
     <fragment
         android:id="@+id/nav_home"
         android:name="com.species.ui.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
-
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.species.ui.gallery.GalleryFragment"
+        android:name="com.species.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_gallery"
         tools:layout="@layout/fragment_gallery" />
-
     <fragment
         android:id="@+id/nav_slideshow"
         android:name="com.species.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+    <fragment
+        android:id="@+id/nav_stars"
+        android:name="com.species.ui.stars.StarsFragment"
+        android:label="fragment_stars"
+        tools:layout="@layout/fragment_stars" />
+    <fragment
+        android:id="@+id/nav_planets"
+        android:name="com.species.PlanetsFragment"
+        android:label="fragment_planets"
+        tools:layout="@layout/fragment_planets" />
+
 </navigation>

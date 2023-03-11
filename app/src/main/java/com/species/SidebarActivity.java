@@ -1,12 +1,16 @@
 package com.species;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
+import android.view.WindowManager;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -24,10 +28,8 @@ public class SidebarActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivitySidebarBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         //setSupportActionBar(binding.appBarSidebar.toolbar); // Quitar ActionBar
 /*        binding.appBarSidebar.fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +49,7 @@ public class SidebarActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_sidebar);
         //NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration); // Quitar actionBar
         NavigationUI.setupWithNavController(navigationView, navController);
+
     }
 
     @Override

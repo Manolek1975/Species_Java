@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="builds_name">
+        <item>Colonia Base</item>
+        <item>Factoría</item>
+        <item>Agriplot</item>
+        <item>Laboratorio</item>
+        <item>Outpost</item>
+
+        <item>Tuberías de Transporte</item>
+        <item>Metroplex</item>
+        <item>Megafactoría</item>
+        <item>Hidroproductora</item>
+        <item>Campo de investigación</item>
+
+        <item>Refugio ecológico</item>
+        <item>Retiro de Ingeniería</item>
+        <item>Capa de superficie</item>
+        <item>Planta de Hiperpotencia</item>
+        <item>Planta Fertilizadora</item>
+
+        <item>Internet</item>
+        <item>Planta de Clonaje</item>
+        <item>Observatorio</item>
+        <item>Habitat</item>
+        <item>Rayo Tractor</item>
+
+        <item>Escudo de superficie</item>
+        <item>Mega Escudo de superficie</item>
+        <item>Terraformación</item>
+        <item>Excavación Xenoarcológica</item>
+        <item>Hospitalidad Alienígena</item>
+
+        <item>Fiesta Inagotable</item>
+        <item>Poder Científico</item>
+        <item>Bomba de Crecimiento</item>
+        <item>Automatización</item>
+        <item>Astillero Espacial</item>
+        <item>Hangar Orbital</item>
+        <item>Escudo Orbital</item>
+        <item>Mega Escudo Orbital</item>
+        <item>Capa Orbital</item>
+        <item>Base Orbital de Misiles</item>
+        <item>Paralizador Orbital Corto</item>
+        <item>Paralizador Orbital Largo</item>
+    </string-array>
+
+    <string-array name="builds_image">
+        <item>build1</item>
+        <item>build2</item>
+        <item>build3</item>
+        <item>build4</item>
+        <item>build5</item>
+        <item>build6</item>
+        <item>build7</item>
+        <item>build8</item>
+        <item>build9</item>
+        <item>build10</item>
+        <item>build11</item>
+        <item>build12</item>
+        <item>build13</item>
+        <item>build14</item>
+        <item>build15</item>
+        <item>build16</item>
+        <item>build17</item>
+        <item>build18</item>
+        <item>build19</item>
+        <item>build20</item>
+        <item>build21</item>
+        <item>build22</item>
+        <item>build23</item>
+        <item>build24</item>
+        <item>build25</item>
+        <item>build26</item>
+        <item>build27</item>
+        <item>build28</item>
+        <item>build29</item>
+        <item>build30</item>
+        <item>build31</item>
+        <item>build32</item>
+        <item>build33</item>
+        <item>build34</item>
+        <item>build35</item>
+        <item>build36</item>
+        <item>build37</item>
+        <item>build38</item>
+    </string-array>
+
+    <string-array name="builds_description">
+        <item>Establece colonia base</item>
+        <item>Incrementa producción</item>
+        <item>Incrementa prosperidad</item>
+        <item>Incrementa investigación</item>
+        <item>Incrementa máximo de población</item>
+        <item>Permite unir cuadrados negros</item>
+        <item>Incrementa producción, prosperidad e investigación</item>
+        <item>Incrementa producción</item>
+        <item>Incrementa prosperidad</item>
+        <item>Incrementa investigación</item>
+        <item>Incrementa prosperidad e investigación</item>
+        <item>Incrementa producción e investigación</item>
+        <item>Esconde las estructuras de superficie al enemigo</item>
+        <item>Aumenta en 50% la producción</item>
+        <item>Aumenta en 50% la prosperidad</item>
+        <item>Aumenta en 50% la investigación</item>
+        <item>Genera dos habitantes en un lugar de uno</item>
+        <item>Permite ver el contenido de las naves enemigas</item>
+        <item>Incrementa máximo de población</item>
+        <item>Atrae las naves a tu planeta</item>
+        <item>Defensa contra invasores</item>
+        <item>Defensa contra invasores</item>
+        <item>Cambia un cuadrado negros por uno blanco</item>
+        <item>Descubre tecnologías alienígenas avanzadas</item>
+        <item>Cambia la industris por diplomacia</item>
+        <item>Aumenta en 100% la prosperidad</item>
+        <item>Aumenta en 100% la investigación</item>
+        <item>Incrementa en 10 el máximo de población</item>
+        <item>Automatiza estructuras con robots y libera los trabajadores.</item>
+        <item>Permite construir naves</item>
+        <item>Permite reparar y modificar naves</item>
+        <item>Defensa planetaria</item>
+        <item>Defensa planetaria</item>
+        <item>Esconde las estructuras orbitales al enemigo</item>
+        <item>Arma de corto alcance</item>
+        <item>Arma de corto alcance de gran potencia</item>
+        <item>Arma de largo alcance de gran potencia</item>
+    </string-array>
+
+    <string-array name="builds_cost">
+        <item>35</item>
+        <item>30</item>
+        <item>30</item>
+        <item>50</item>
+        <item>120</item>
+        <item>10</item>
+        <item>200</item>
+        <item>110</item>
+        <item>100</item>
+        <item>160</item>
+        <item>80</item>
+        <item>80</item>
+        <item>40</item>
+        <item>200</item>
+        <item>200</item>
+        <item>250</item>
+        <item>250</item>
+        <item>40</item>
+        <item>160</item>
+        <item>50</item>
+        <item>100</item>
+        <item>180</item>
+        <item>50</item>
+        <item>50</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>200</item>
+        <item>200</item>
+        <item>240</item>
+        <item>170</item>
+        <item>60</item>
+        <item>120</item>
+        <item>40</item>
+        <item>60</item>
+        <item>90</item>
+        <item>180</item>
+    </string-array>
+
+    <string-array name="builds_technology">
+        <item>1</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>0</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="builds_industry">
+        <item>1</item>
+        <item>1</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>1</item>
+        <item>3</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>1</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>1</item>
+        <item>1</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+    </string-array>
+
+    <string-array name="builds_prosperity">
+        <item>1</item>
+        <item>0</item>
+        <item>1</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>1</item>
+        <item>0</item>
+        <item>3</item>
+        <item>0</item>
+        <item>1</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+    </string-array>
+
+    <string-array name="builds_research">
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>1</item>
+        <item>0</item>
+        <item>0</item>
+        <item>1</item>
+        <item>0</item>
+        <item>0</item>
+        <item>3</item>
+        <item>1</item>
+        <item>1</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+    </string-array>
+
+    <string-array name="builds_max_population">
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>1</item>
+        <item>0</item>
+        <item>2</item>
+        <item>0</item>
+        <item>0</item>
+        <item>3</item>
+        <item>1</item>
+        <item>1</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>3</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>9</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+    </string-array>
+
+
+</resources>
