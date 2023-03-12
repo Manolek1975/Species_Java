@@ -1,4 +1,4 @@
-package com.species;
+package com.species.ui.sistem;
 
 import static android.graphics.Color.alpha;
 
@@ -28,6 +28,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.species.Game;
+import com.species.R;
 import com.species.ui.planets.PlanetManager;
 import com.species.ui.planets.Planets;
 import com.species.ui.ships.Ships;

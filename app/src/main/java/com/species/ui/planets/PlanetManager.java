@@ -27,7 +27,7 @@ import com.species.Game;
 import com.species.R;
 import com.species.Recursos;
 import com.species.ui.ships.Ships;
-import com.species.SistemActivity;
+import com.species.ui.sistem.SistemActivity;
 import com.species.Surfaces;
 
 import java.io.Serializable;

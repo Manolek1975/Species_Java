@@ -21,7 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.species.Game;
 import com.species.R;
-import com.species.SistemActivity;
+import com.species.ui.sistem.SistemActivity;
 import com.species.Species;
 
 import java.io.Serializable;

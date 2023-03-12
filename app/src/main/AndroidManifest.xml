@@ -36,7 +36,7 @@
             android:name=".ui.stars.StarsActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".SistemActivity"
+            android:name=".ui.sistem.SistemActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".ui.planets.PlanetManager"
@@ -50,6 +50,7 @@
         <activity
             android:name=".ui.ships.ShipsActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
+
     </application>
 
 </manifest>
