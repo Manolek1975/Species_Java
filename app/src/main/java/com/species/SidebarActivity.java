@@ -30,6 +30,8 @@ public class SidebarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         View decorView = getWindow().getDecorView();
         Game.hideview(decorView);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        //requireActivity().getWindow().setStatusBarColor(Color.TRANSPARENT);
         binding = ActivitySidebarBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         //setSupportActionBar(binding.appBarSidebar.toolbar); // Quitar ActionBar
