@@ -53,5 +53,30 @@
         <item>star4</item>
     </string-array>
 
-    Planet
+    <string-array name="coords_stars">
+        <item>150,1770</item>
+        <item>307,1633</item>
+        <item>665,1499</item>
+        <item>607,1686</item>
+        <item>504,1597</item>
+
+        <item>484,1331</item>
+        <item>566,907</item>
+        <item>432,1130</item>
+        <item>150,542</item>
+        <item>141,382</item>
+
+        <item>219,695</item>
+        <item>249,1284</item>
+        <item>767,673</item>
+        <item>830,1739</item>
+        <item>864,1346</item>
+
+        <item>783,1086</item>
+        <item>343,850</item>
+        <item>794,245</item>
+        <item>167,163</item>
+        <item>607,524</item>
+    </string-array>
+
 </resources>

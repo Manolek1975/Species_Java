@@ -60,27 +60,29 @@ public class Species implements ISpecies {
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues newVal = new ContentValues();
-        // Busca planetas tipo Agradable
-        Cursor c = db.rawQuery("SELECT * FROM planets WHERE type=? AND size>?", new String[] { "3", "2" });
-        c.moveToFirst();
+        // Busca estrella de la specie
+        Cursor c1 = db.rawQuery("SELECT * FROM species WHERE id=" + id,null);
+        c1.moveToFirst();
+        int idStar = c1.getInt(6);
+        c1.close();
+        // Busca planetas
+        Cursor c2 = db.rawQuery("SELECT * FROM planets WHERE star=" + idStar,null);
+        c2.moveToFirst();
         // Recoge el primer planeta del rawquery
-        //TODO Recoger el primer planeta medio
-        int idPlanet = c.getInt(0);
-        int idStar = c.getInt(1);
-        // update owner y explore en planetas
+        int idPlanet = c2.getInt(0);
+        c2.close();
+        // Update planeta
+        newVal.put("size", 3);
+        newVal.put("type", 3);
         newVal.put("explore", 1);
         newVal.put("owner", id);
+        newVal.put("origin", id);
         db.update("planets", newVal, "id=" + idPlanet, null);
         // update explore en estrellas en la especie
         newVal.clear();// = new ContentValues();
         newVal.put("type", 1);
         newVal.put("explore", 1);
         db.update("stars", newVal, "id=" + idStar, null);
-        // update species
-        newVal.clear();// = new ContentValues();
-        newVal.put("type", 1);
-        newVal.put("star", idStar);
-        db.update("species", newVal, "id=" + id, null);
         // inserta colonia base en surfaces del planeta origen
         newVal.clear();
         newVal.put("planet", idPlanet);
@@ -95,18 +97,16 @@ public class Species implements ISpecies {
         newVal.put("prosperity", 1);
         newVal.put("defence", 1);
         db.insert("recursos", null, newVal);
-        //TODO Insertar nave
         newVal.clear();
         newVal.put("name", "Aurora");
         newVal.put("image", "ship0");
         newVal.put("size", 3);
-        newVal.put("type", "Colony");
+        newVal.put("type", "Explorer");
         newVal.put("specie", id);
         newVal.put("star", idStar);
         newVal.put("planet", idPlanet);
         newVal.put("location", 1);
         db.insert("ships", null, newVal);
-        c.close();
         db.close();
     }
 

@@ -19,7 +19,7 @@
             android:layout_height="match_parent"
             android:contentDescription="@string/string_todo"
             android:scaleType="fitXY"
-            android:src="@drawable/fondo_sector" />
+            />
 
     </LinearLayout>
 

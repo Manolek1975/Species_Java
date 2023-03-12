@@ -4,7 +4,15 @@ import static android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -14,16 +22,27 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.util.Range;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.species.Game;
 import com.species.MainActivity;
 import com.species.R;
 import com.species.SidebarActivity;
+import com.species.SistemActivity;
+import com.species.Species;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,14 +82,25 @@ public class StarsFragment extends Fragment {
         return fragment;
     }
 
+    private Context context;
+    private Species specie = new Species();
+    private Stars star = new Stars();
+    private View rootView;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        context = getContext();
+        SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(context);
+        int specieId = data.getInt("specieId", 0);
+        specie = specie.getSpecieById(context, specieId);
+        star = star.getMainStar(context);
+        Log.i("StarActivity", specie.getName() + ", " +star.getName());
+
     }
 
     @Override
@@ -80,7 +110,90 @@ public class StarsFragment extends Fragment {
         //requireActivity().getWindow().setStatusBarColor(Color.TRANSPARENT);
         //requireActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_stars, container, false);
+        rootView = inflater.inflate(R.layout.fragment_stars, container, false);
+        drawSector();
+
+            rootView.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    int x = (int)event.getRawX();
+                    int y = (int)event.getRawY();
+
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        Stars star = new Stars();
+                        List<Stars> starList = star.getStars(context);
+                        for (Stars val : starList) {
+                            Range<Integer> rangoX = Range.create(x-100, x + 50);
+                            Range<Integer> rangoY = Range.create(y-100, y + 50);
+                            Log.i("XY", x + "," + y);
+                            if (rangoX.contains(val.getX()) && rangoY.contains(val.getY())) { //getY+250 AVD
+                                Intent i = new Intent(getContext(), SistemActivity.class);
+                                i.putExtra("starId", val.getId());
+                                startActivity(i);
+                            }
+                        }
+                    }
+                    return false;
+                }
+            });
+
+
+
+        return rootView;
+    }
+
+
+/*    public boolean onTouchEvent(MotionEvent event) {
+        int x = (int)event.getRawX();
+        int y = (int)event.getRawY();
+        Log.i("XY", x + "," + y);
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            Stars star = new Stars();
+            List<Stars> starList = star.getStars(context);
+
+            for (Stars val : starList) {
+                Range<Integer> rangoX = Range.create(x, x + 50);
+                Range<Integer> rangoY = Range.create(y, y + 50);
+                if (rangoX.contains(val.getX() + 80) && rangoY.contains(val.getY() + 300)) { //getY+250 AVD
+                    Intent i = new Intent(getContext(), SistemActivity.class);
+                    i.putExtra("starId", val.getId());
+                    startActivity(i);
+                }
+            }
+        }
+        return false;
+    }*/
+
+    private void drawSector() {
+        //TODO Draw solamente Estrellas exploradas
+        ImageView image = (ImageView) rootView.findViewById(R.id.fondoView);
+        // Crear fondo con medidas
+        Point dimen = Game.getMetrics(context);
+        Bitmap fondo = Bitmap.createBitmap(dimen.x, dimen.y, Bitmap.Config.ARGB_8888);
+        Bitmap bitmap = Bitmap.createBitmap(fondo.getWidth(), fondo.getHeight(), fondo.getConfig());
+        Canvas canvas = new Canvas(bitmap);
+        int resImageFondo = Game.getResId("fondo_sector", R.drawable.class);
+        Bitmap fondoView = BitmapFactory.decodeResource(getResources(), resImageFondo);
+        canvas.drawBitmap(fondoView, new Matrix(), null);
+        image.setImageBitmap(bitmap);
+        // Draw Stars
+        List<Stars> starList = star.getStars(context);
+        //TODO Draw saltos
+        //drawJumps(canvas, starList);
+        for(Stars star : starList){
+            Paint paint = new Paint();
+            if (star.getId() == specie.getStar()){
+                paint.setColor(Color.GREEN);
+            } else {
+                paint.setColor(Color.WHITE);
+            }
+            paint.setTextSize(24);
+            int resImage = Game.getResId(star.getImage(), R.drawable.class);
+            Bitmap drawStar = BitmapFactory.decodeResource(getResources(), resImage);
+            Bitmap resizeStar = Bitmap.createScaledBitmap(drawStar, 100 , 100, true);
+            canvas.drawBitmap(resizeStar, (star.getX()), (star.getY()), new Paint());
+            canvas.drawText(star.getName(), star.getX() - star.getName().length(), star.getY(), paint);
+        }
+        image.setImageBitmap(bitmap);
     }
 
 }

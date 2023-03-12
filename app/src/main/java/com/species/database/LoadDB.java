@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Point;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.species.R;
@@ -43,6 +45,7 @@ public class LoadDB extends AppCompatActivity implements Serializable {
         String[] name = res.getStringArray(R.array.name_species);
         String[] image = res.getStringArray(R.array.image_species);
         String[] description = res.getStringArray(R.array.description_species);
+        String[] star = res.getStringArray(R.array.origin_species);
 
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
@@ -53,7 +56,7 @@ public class LoadDB extends AppCompatActivity implements Serializable {
             values.put(DBSpecies.COLUMN_IMAGE, image[i]);
             //values.put(DBSpecies.COLUMN_SKILL, hability[i]);
             values.put(DBSpecies.COLUMN_TYPE, 0);
-            values.put(DBSpecies.COLUMN_STAR, 0);
+            values.put(DBSpecies.COLUMN_STAR, star[i]);
 
             db.insert(DBSpecies.TABLE_NAME, null, values);
         }
@@ -64,36 +67,35 @@ public class LoadDB extends AppCompatActivity implements Serializable {
         Resources res = context.getResources();
         String[] name = res.getStringArray(R.array.name_stars);
         String[] image = res.getStringArray(R.array.image_stars);
+        String[] coords = res.getStringArray(R.array.coords_stars);
 
         DBHelper helper = new DBHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        List<String> xy = new ArrayList<>();
+/*        List<String> xy = new ArrayList<>();
         for (int n=50; n < w-50; n+=200){
             for (int m=100; m<h-200; m+=200){
                 xy.add(n + "," + m);
             }
         }
-        Collections.shuffle(xy);
+        Collections.shuffle(xy);*/
 
         for (int i = 0; i < name.length; i++) {
             Random rand = new Random();
-            int xC = rand.nextInt(50) + 1;
-            int yC = rand.nextInt(100) + 1;
             int planets = rand.nextInt(4) + 1;
 
-            String[] split = xy.get(i).split(",");
-            int x = Integer.parseInt(split[0]);
-            int y = Integer.parseInt(split[1]);
+            String[] split = coords[i].split(",");
+            Integer x = Integer.parseInt(split[0]);
+            Integer y = Integer.parseInt(split[1]);
 
             values.put(DBStars.COLUMN_NAME, name[i]);
             values.put(DBStars.COLUMN_SECTOR, 1);
             values.put(DBStars.COLUMN_IMAGE, image[i]);
             values.put(DBStars.COLUMN_PLANETS, planets);
             values.put(DBStars.COLUMN_JUMPS, 1);
-            values.put(DBStars.COLUMN_X, x + xC);
-            values.put(DBStars.COLUMN_Y, y + yC);
+            values.put(DBStars.COLUMN_X, x);
+            values.put(DBStars.COLUMN_Y, y);
             values.put(DBStars.COLUMN_TYPE, 0);
             values.put(DBStars.COLUMN_EXPLORE, 0);
 
@@ -142,10 +144,10 @@ public class LoadDB extends AppCompatActivity implements Serializable {
 
     private String roman(Integer n){
         switch(n){
-            case 1: return "I";
-            case 2: return "II";
-            case 3: return "III";
-            case 4: return "IV";
+            case 1: return "A";
+            case 2: return "B";
+            case 3: return "C";
+            case 4: return "D";
             default:
                 return null;
         }

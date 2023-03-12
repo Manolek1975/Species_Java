@@ -42,4 +42,15 @@
             a cualquier civilización que sea su objetivo, afortunadamente no son muy numerosos y dependen de los pueblos conquistados</item>
     </string-array>
 
+    <string-array name="origin_species">
+        <item>0</item>
+        <item>0</item>
+        <item>1</item>
+        <item>0</item>
+        <item>0</item>
+        <item>8</item>
+        <item>0</item>
+        <item>0</item>
+    </string-array>
+
 </resources>
