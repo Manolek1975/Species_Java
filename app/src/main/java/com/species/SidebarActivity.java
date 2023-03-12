@@ -28,6 +28,8 @@ public class SidebarActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        View decorView = getWindow().getDecorView();
+        Game.hideview(decorView);
         binding = ActivitySidebarBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         //setSupportActionBar(binding.appBarSidebar.toolbar); // Quitar ActionBar
