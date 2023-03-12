@@ -27,18 +27,18 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="horizontal"
+        android:padding="20dp">
 
         <TextView
             android:id="@+id/sistemName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
-            android:layout_marginTop="80dp"
             android:gravity="center_horizontal"
             android:text="ESTRELLA"
             android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:typeface="serif" />
 
     </LinearLayout>

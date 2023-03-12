@@ -11,6 +11,7 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -19,11 +20,15 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.Range;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.Toolbar;
 
 import com.species.Game;
 import com.species.R;
@@ -49,6 +54,7 @@ public class StarsFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private android.view.MenuItem MenuItem;
 
     public StarsFragment() {
         // Required empty public constructor
@@ -77,6 +83,7 @@ public class StarsFragment extends Fragment {
     private Stars star = new Stars();
     private View rootView;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,10 +98,21 @@ public class StarsFragment extends Fragment {
         star = star.getMainStar(context);
         Log.i("StarActivity", specie.getName() + ", " +star.getName());
 
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Game.hideview(container);
+
+        setHasOptionsMenu(true);
+
+/*        View decorView = requireActivity().getWindow().getDecorView();
+        Game.hideview(decorView);
+        requireActivity().getWindow().setStatusBarColor(Color.TRANSPARENT);
+        requireActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);*/
+        // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_stars, container, false);
         drawSector();
 
@@ -173,27 +191,13 @@ public class StarsFragment extends Fragment {
         }
     }
 
-    private void hideSystemUI() {
-        // Enables regular immersive mode.
-        // For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
-        // Or for "sticky immersive," replace it with SYSTEM_UI_FLAG_IMMERSIVE
-        View decorView = requireActivity().getWindow().getDecorView();
-        decorView.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LOW_PROFILE
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                        // Set the content to appear under the system bars so that the
-                        // content doesn't resize when the system bars hide and show.
-                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        // Hide the nav bar and status bar
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
-
-
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
+        inflater.inflate(R.menu.sidebar, menu);
+        MenuItem item  = menu.findItem(R.id.sistemFragment);
+        item.setChecked(true);
+        super.onCreateOptionsMenu(menu, inflater);
     }
-
 
 
 
