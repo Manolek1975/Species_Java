@@ -15,6 +15,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -30,6 +35,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toolbar;
 
+import com.google.android.material.navigation.NavigationView;
 import com.species.Game;
 import com.species.R;
 import com.species.SistemFragment;
@@ -97,23 +103,20 @@ public class StarsFragment extends Fragment {
         specie = specie.getSpecieById(context, specieId);
         star = star.getMainStar(context);
         Log.i("StarActivity", specie.getName() + ", " +star.getName());
-
-
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Game.hideview(container);
-
-        setHasOptionsMenu(true);
-
+        //View decorView = requireActivity().getWindow().getDecorView();
+        //Game.hideview(decorView);
+        //requireActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 /*        View decorView = requireActivity().getWindow().getDecorView();
         Game.hideview(decorView);
         requireActivity().getWindow().setStatusBarColor(Color.TRANSPARENT);
         requireActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);*/
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_stars, container, false);
+
         drawSector();
 
         return rootView;
@@ -164,7 +167,13 @@ public class StarsFragment extends Fragment {
                         Range<Integer> rangoX = Range.create(x-50, x + 50);
                         Range<Integer> rangoY = Range.create(y-50, y + 50);
                         if (rangoX.contains(val.getX()) && rangoY.contains(val.getY())) {
-                            changeFragment(new SistemFragment());
+                            final NavHostFragment navHostFragment = (NavHostFragment) requireActivity()
+                                    .getSupportFragmentManager()
+                                    .findFragmentById(R.id.nav_host_fragment_content_sidebar);
+                            final NavController navController = navHostFragment.getNavController();
+                            NavigationView nv = requireActivity().findViewById(R.id.nav_view);
+                            MenuItem item = nv.getMenu().getItem(0);
+                            NavigationUI.onNavDestinationSelected(item, navController);
                             Log.i("CHANGE", "OK");
                         }
                         Paint myPaint = new Paint();
@@ -180,25 +189,5 @@ public class StarsFragment extends Fragment {
             }
         });
     }
-
-    public void changeFragment(Fragment fragment){
-        if(null != fragment){
-            FragmentManager fm = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.replace(R.id.fragment_stars, fragment);
-            ft.addToBackStack(null);
-            ft.commit();
-        }
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
-        inflater.inflate(R.menu.sidebar, menu);
-        MenuItem item  = menu.findItem(R.id.sistemFragment);
-        item.setChecked(true);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-
 
 }

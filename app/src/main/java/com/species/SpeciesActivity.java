@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -15,6 +16,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
+import androidx.viewpager.widget.ViewPager;
 
 import com.species.database.LoadDB;
 
@@ -26,9 +32,9 @@ public class SpeciesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Game.hideview(getWindow().getDecorView());
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         setContentView(R.layout.activity_species);
-        View view = getWindow().getDecorView();
-        Game.hideview(view);
 
         drawButtons();
     }
@@ -88,5 +94,8 @@ public class SpeciesActivity extends AppCompatActivity {
         edit.putInt("turn", 0);
         edit.apply();
     }
+
+
+
 
 }

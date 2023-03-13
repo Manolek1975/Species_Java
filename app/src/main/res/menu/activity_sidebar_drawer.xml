@@ -5,7 +5,11 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/fragment_stars"
+            android:id="@+id/nav_sistem"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="@string/menu_origen" />
+        <item
+            android:id="@+id/nav_stars"
             android:icon="@drawable/icon_estrella"
             android:title="@string/menu_stars" />
         <item
@@ -32,10 +36,6 @@
             android:id="@+id/nav_gallery"
             android:icon="@drawable/ic_menu_gallery"
             android:title="@string/menu_gallery" />
-        <item
-            android:id="@+id/sistemFragment"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Origen" />
 
 
     </group>

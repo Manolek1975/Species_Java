@@ -23,7 +23,6 @@ import com.species.databinding.ActivitySidebarBinding;
 public class SidebarActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-    private ActivitySidebarBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +31,7 @@ public class SidebarActivity extends AppCompatActivity {
         Game.hideview(decorView);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         //requireActivity().getWindow().setStatusBarColor(Color.TRANSPARENT);
-        binding = ActivitySidebarBinding.inflate(getLayoutInflater());
+        com.species.databinding.ActivitySidebarBinding binding = ActivitySidebarBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         //setSupportActionBar(binding.appBarSidebar.toolbar); // Quitar ActionBar
 /*        binding.appBarSidebar.fab.setOnClickListener(new View.OnClickListener() {
@@ -47,7 +46,7 @@ public class SidebarActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.fragment_stars, R.id.fragment_planets, R.id.nav_gallery)
+                R.id.nav_stars, R.id.nav_sistem, R.id.fragment_planets, R.id.nav_gallery )
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_sidebar);

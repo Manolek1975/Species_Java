@@ -3,13 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/fragment_stars">
+    app:startDestination="@id/nav_stars">
 
     <fragment
-        android:id="@+id/fragment_stars"
+        android:id="@+id/nav_stars"
         android:name="com.species.ui.stars.StarsFragment"
         android:label="fragment_stars"
         tools:layout="@layout/fragment_stars" />
+    <fragment
+        android:id="@+id/nav_sistem"
+        android:name="com.species.SistemFragment"
+        android:label="fragment_sistem"
+        tools:layout="@layout/fragment_sistem" />
     <fragment
         android:id="@+id/fragment_planets"
         android:name="com.species.ui.planets.PlanetsFragment"
@@ -41,11 +46,7 @@
         android:name="com.species.ui.gallery.GalleryFragment"
         android:label="@string/menu_gallery"
         tools:layout="@layout/fragment_gallery" />
-    <fragment
-        android:id="@+id/sistemFragment"
-        android:name="com.species.SistemFragment"
-        android:label="fragment_sistem"
-        tools:layout="@layout/fragment_sistem" />
+
 
 
 </navigation>

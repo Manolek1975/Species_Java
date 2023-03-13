@@ -22,10 +22,10 @@
         </activity>
         <activity
             android:name=".SidebarActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.Species.NoActionBar" />
         <activity
             android:name=".SpeciesActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.Species.NoActionBar" />
         <activity
             android:name=".ui.stars.StarsActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />

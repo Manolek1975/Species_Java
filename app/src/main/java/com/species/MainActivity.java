@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.view.WindowManager;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.species.database.LoadDB;
@@ -19,9 +21,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        Game.hideview(getWindow().getDecorView());
+
         setContentView(R.layout.activity_main);
-        View view = getWindow().getDecorView();
-        Game.hideview(view);
     }
 
     public void onResume(){
