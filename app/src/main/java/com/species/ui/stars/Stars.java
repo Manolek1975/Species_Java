@@ -4,6 +4,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
+
 import com.species.database.DBHelper;
 
 import java.util.ArrayList;

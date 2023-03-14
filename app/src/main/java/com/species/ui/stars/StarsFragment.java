@@ -11,39 +11,29 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
-import androidx.navigation.NavOptions;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.Range;
+import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.Toolbar;
 
 import com.google.android.material.navigation.NavigationView;
+import com.species.Draw;
 import com.species.Game;
 import com.species.R;
-import com.species.SistemFragment;
 import com.species.Species;
-import com.species.ui.planets.PlanetsFragment;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -75,6 +65,7 @@ public class StarsFragment extends Fragment {
      * @return A new instance of fragment StarsFragment.
      */
     // TODO: Rename and change types and number of parameters
+
     public static StarsFragment newInstance(String param1, String param2) {
         StarsFragment fragment = new StarsFragment();
         Bundle args = new Bundle();
@@ -110,10 +101,7 @@ public class StarsFragment extends Fragment {
         //View decorView = requireActivity().getWindow().getDecorView();
         //Game.hideview(decorView);
         //requireActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-/*        View decorView = requireActivity().getWindow().getDecorView();
-        Game.hideview(decorView);
-        requireActivity().getWindow().setStatusBarColor(Color.TRANSPARENT);
-        requireActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);*/
+        //requireActivity().getWindow().setStatusBarColor(Color.TRANSPARENT);
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_stars, container, false);
 
@@ -139,7 +127,16 @@ public class StarsFragment extends Fragment {
         //TODO Draw saltos
         //drawJumps(canvas, starList);
         for(Stars star : starList){
+            Draw draw = new Draw(requireActivity(), star);
+            draw.draw(canvas);
             Paint paint = new Paint();
+            paint.setTextSize(18);
+            paint.setTextAlign(Paint.Align.LEFT);
+            paint.setColor(Color.WHITE);
+            canvas.drawText(star.getName(), star.getX(), star.getY(), paint);
+
+
+/*            Paint paint = new Paint();
             if (star.getId() == specie.getStar()){
                 paint.setColor(Color.GREEN);
             } else {
@@ -150,7 +147,7 @@ public class StarsFragment extends Fragment {
             Bitmap drawStar = BitmapFactory.decodeResource(getResources(), resImage);
             Bitmap resizeStar = Bitmap.createScaledBitmap(drawStar, 100 , 100, true);
             canvas.drawBitmap(resizeStar, (star.getX()), (star.getY()), new Paint());
-            canvas.drawText(star.getName(), star.getX() - star.getName().length(), star.getY(), paint);
+            canvas.drawText(star.getName(), star.getX() - star.getName().length(), star.getY(), paint);*/
         }
         image.setImageBitmap(bitmap);
 
@@ -167,6 +164,11 @@ public class StarsFragment extends Fragment {
                         Range<Integer> rangoX = Range.create(x-50, x + 50);
                         Range<Integer> rangoY = Range.create(y-50, y + 50);
                         if (rangoX.contains(val.getX()) && rangoY.contains(val.getY())) {
+                            Bundle i = new Bundle();
+                            i.putInt("starId", val.getId());
+                            StarsFragment frag = new StarsFragment();
+                            frag.setArguments(i);
+
                             final NavHostFragment navHostFragment = (NavHostFragment) requireActivity()
                                     .getSupportFragmentManager()
                                     .findFragmentById(R.id.nav_host_fragment_content_sidebar);
